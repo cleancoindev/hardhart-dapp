@@ -1,5 +1,5 @@
 // Only need to import waffle, it epends on hardhart-ethers.
-require("@nomiclabs/hardhat-waffle");
+import "@nomiclabs/hardhat-waffle";
 
 const fs = require('fs');
 const privateKey = fs.readFileSync(".secret").toString().trim();
@@ -8,7 +8,7 @@ const privateKey = fs.readFileSync(".secret").toString().trim();
 /**
  * @type import('hardhat/config').HardhatUserConfig
  */
-module.exports = {
+export default {
   defaultNetwork: "matic",
   networks: {
     hardhat: {},

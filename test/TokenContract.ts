@@ -1,6 +1,6 @@
 // Import Chai to use asserting functions
-const { expect } = require("chai");
-const { ethers } = require("hardhat");
+import { ethers } from "hardhat";
+import { expect } from "chai";
 
 
 
