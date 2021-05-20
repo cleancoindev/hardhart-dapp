@@ -4,7 +4,7 @@ import { ethers } from "ethers";
 
 
 // Imports for the contracts artifacts(ABI) and address here
-import TokenArtifact from "../../artifacts/contracts/polybread.sol/PolyBread.json"
+import TokenArtifact from "../../../artifacts/contracts/polybread.sol/PolyBread.json"
 import contractAddress from "" // need to import contract-address.json
 
 
