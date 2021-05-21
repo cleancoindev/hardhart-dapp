@@ -1,5 +1,7 @@
+// TOKEN.SOL IS  A DEMO, JUST FOR TESTING PURPOSES.
+
 // compiler pragma
-pragma solidity ^0.8.0;
+pragma solidity ^0.7.3;
 
 // debugging in hardhat
 import "hardhat/console.sol";
