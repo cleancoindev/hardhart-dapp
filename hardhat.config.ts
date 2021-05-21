@@ -4,7 +4,7 @@ import "@nomiclabs/hardhat-ethers";
 import "hardhat-deploy-ethers";
 import "hardhat-deploy";
 import "@symfoni/hardhat-react";
-import "hardhat-typechain";
+import '@typechain/hardhat'
 import "@typechain/ethers-v5";
 import 'tsconfig-paths/register'; // adds support for typescript paths mappings
 
