@@ -41,10 +41,16 @@ const config: HardhatUserConfig = {
         mnemonic: "test test test test test test test test test test test junk", // test test test test test test test test test test test junk
       },
     },
-    matic: {
+    matic_testnet: {
       url: "https://rpc-mumbai.maticvigil.com",
       accounts: [privateKey]
     },
+    bsc_testnet: {
+      url: "https://data-seed-prebsc-1-s1.binance.org:8545",
+      chainId: 97,
+      gasPrice: 20000000000,
+      accounts: [privateKey]
+    }
   },
 
   solidity: {

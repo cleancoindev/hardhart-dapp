@@ -1,3 +1,5 @@
+// TOKEN.SOL IS  A DEMO, JUST FOR TESTING PURPOSES.
+
 // compiler pragma
 pragma solidity ^0.8.0;
 
