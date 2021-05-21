@@ -9,17 +9,16 @@ import {
   BigNumber,
   BigNumberish,
   PopulatedTransaction,
-} from "ethers";
-import {
-  Contract,
+  BaseContract,
   ContractTransaction,
   Overrides,
   PayableOverrides,
   CallOverrides,
-} from "@ethersproject/contracts";
+} from "ethers";
 import { BytesLike } from "@ethersproject/bytes";
 import { Listener, Provider } from "@ethersproject/providers";
 import { FunctionFragment, EventFragment, Result } from "@ethersproject/abi";
+import { TypedEventFilter, TypedEvent, TypedListener } from "./commons";
 
 interface SampleBreadInterface extends ethers.utils.Interface {
   functions: {
@@ -78,64 +77,67 @@ interface SampleBreadInterface extends ethers.utils.Interface {
   getEvent(nameOrSignatureOrTopic: "NewSample"): EventFragment;
 }
 
-export class SampleBread extends Contract {
+export class SampleBread extends BaseContract {
   connect(signerOrProvider: Signer | Provider | string): this;
   attach(addressOrName: string): this;
   deployed(): Promise<this>;
 
-  on(event: EventFilter | string, listener: Listener): this;
-  once(event: EventFilter | string, listener: Listener): this;
-  addListener(eventName: EventFilter | string, listener: Listener): this;
-  removeAllListeners(eventName: EventFilter | string): this;
-  removeListener(eventName: any, listener: Listener): this;
+  listeners<EventArgsArray extends Array<any>, EventArgsObject>(
+    eventFilter?: TypedEventFilter<EventArgsArray, EventArgsObject>
+  ): Array<TypedListener<EventArgsArray, EventArgsObject>>;
+  off<EventArgsArray extends Array<any>, EventArgsObject>(
+    eventFilter: TypedEventFilter<EventArgsArray, EventArgsObject>,
+    listener: TypedListener<EventArgsArray, EventArgsObject>
+  ): this;
+  on<EventArgsArray extends Array<any>, EventArgsObject>(
+    eventFilter: TypedEventFilter<EventArgsArray, EventArgsObject>,
+    listener: TypedListener<EventArgsArray, EventArgsObject>
+  ): this;
+  once<EventArgsArray extends Array<any>, EventArgsObject>(
+    eventFilter: TypedEventFilter<EventArgsArray, EventArgsObject>,
+    listener: TypedListener<EventArgsArray, EventArgsObject>
+  ): this;
+  removeListener<EventArgsArray extends Array<any>, EventArgsObject>(
+    eventFilter: TypedEventFilter<EventArgsArray, EventArgsObject>,
+    listener: TypedListener<EventArgsArray, EventArgsObject>
+  ): this;
+  removeAllListeners<EventArgsArray extends Array<any>, EventArgsObject>(
+    eventFilter: TypedEventFilter<EventArgsArray, EventArgsObject>
+  ): this;
+
+  listeners(eventName?: string): Array<Listener>;
+  off(eventName: string, listener: Listener): this;
+  on(eventName: string, listener: Listener): this;
+  once(eventName: string, listener: Listener): this;
+  removeListener(eventName: string, listener: Listener): this;
+  removeAllListeners(eventName?: string): this;
+
+  queryFilter<EventArgsArray extends Array<any>, EventArgsObject>(
+    event: TypedEventFilter<EventArgsArray, EventArgsObject>,
+    fromBlockOrBlockhash?: string | number | undefined,
+    toBlock?: string | number | undefined
+  ): Promise<Array<TypedEvent<EventArgsArray & EventArgsObject>>>;
 
   interface: SampleBreadInterface;
 
   functions: {
-    bookingId(overrides?: CallOverrides): Promise<{
-      0: BigNumber;
-    }>;
-
-    "bookingId()"(overrides?: CallOverrides): Promise<{
-      0: BigNumber;
-    }>;
+    bookingId(overrides?: CallOverrides): Promise<[BigNumber]>;
 
     bookings(
       arg0: BigNumberish,
       overrides?: CallOverrides
-    ): Promise<{
-      sampleId: BigNumber;
-      checkInDate: BigNumber;
-      checkOutDate: BigNumber;
-      user: string;
-      0: BigNumber;
-      1: BigNumber;
-      2: BigNumber;
-      3: string;
-    }>;
-
-    "bookings(uint256)"(
-      arg0: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<{
-      sampleId: BigNumber;
-      checkInDate: BigNumber;
-      checkOutDate: BigNumber;
-      user: string;
-      0: BigNumber;
-      1: BigNumber;
-      2: BigNumber;
-      3: string;
-    }>;
+    ): Promise<
+      [BigNumber, BigNumber, BigNumber, string] & {
+        sampleId: BigNumber;
+        checkInDate: BigNumber;
+        checkOutDate: BigNumber;
+        user: string;
+      }
+    >;
 
     markSampleAsInactive(
       _sampleId: BigNumberish,
-      overrides?: Overrides
-    ): Promise<ContractTransaction>;
-
-    "markSampleAsInactive(uint256)"(
-      _sampleId: BigNumberish,
-      overrides?: Overrides
+      overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
     rentOutSample(
@@ -143,116 +145,50 @@ export class SampleBread extends Contract {
       description: string,
       metadata: string,
       price: BigNumberish,
-      overrides?: Overrides
-    ): Promise<ContractTransaction>;
-
-    "rentOutSample(string,string,string,uint256)"(
-      name: string,
-      description: string,
-      metadata: string,
-      price: BigNumberish,
-      overrides?: Overrides
+      overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
     rentSample(
       _sampleId: BigNumberish,
       checkInDate: BigNumberish,
       checkOutDate: BigNumberish,
-      overrides?: PayableOverrides
+      overrides?: PayableOverrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
-    "rentSample(uint256,uint256,uint256)"(
-      _sampleId: BigNumberish,
-      checkInDate: BigNumberish,
-      checkOutDate: BigNumberish,
-      overrides?: PayableOverrides
-    ): Promise<ContractTransaction>;
-
-    sampleId(overrides?: CallOverrides): Promise<{
-      0: BigNumber;
-    }>;
-
-    "sampleId()"(overrides?: CallOverrides): Promise<{
-      0: BigNumber;
-    }>;
+    sampleId(overrides?: CallOverrides): Promise<[BigNumber]>;
 
     samples(
       arg0: BigNumberish,
       overrides?: CallOverrides
-    ): Promise<{
-      name: string;
-      description: string;
-      metadata: string;
-      isActive: boolean;
-      price: BigNumber;
-      owner: string;
-      0: string;
-      1: string;
-      2: string;
-      3: boolean;
-      4: BigNumber;
-      5: string;
-    }>;
-
-    "samples(uint256)"(
-      arg0: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<{
-      name: string;
-      description: string;
-      metadata: string;
-      isActive: boolean;
-      price: BigNumber;
-      owner: string;
-      0: string;
-      1: string;
-      2: string;
-      3: boolean;
-      4: BigNumber;
-      5: string;
-    }>;
+    ): Promise<
+      [string, string, string, boolean, BigNumber, string] & {
+        name: string;
+        description: string;
+        metadata: string;
+        isActive: boolean;
+        price: BigNumber;
+        owner: string;
+      }
+    >;
   };
 
   bookingId(overrides?: CallOverrides): Promise<BigNumber>;
 
-  "bookingId()"(overrides?: CallOverrides): Promise<BigNumber>;
-
   bookings(
     arg0: BigNumberish,
     overrides?: CallOverrides
-  ): Promise<{
-    sampleId: BigNumber;
-    checkInDate: BigNumber;
-    checkOutDate: BigNumber;
-    user: string;
-    0: BigNumber;
-    1: BigNumber;
-    2: BigNumber;
-    3: string;
-  }>;
-
-  "bookings(uint256)"(
-    arg0: BigNumberish,
-    overrides?: CallOverrides
-  ): Promise<{
-    sampleId: BigNumber;
-    checkInDate: BigNumber;
-    checkOutDate: BigNumber;
-    user: string;
-    0: BigNumber;
-    1: BigNumber;
-    2: BigNumber;
-    3: string;
-  }>;
+  ): Promise<
+    [BigNumber, BigNumber, BigNumber, string] & {
+      sampleId: BigNumber;
+      checkInDate: BigNumber;
+      checkOutDate: BigNumber;
+      user: string;
+    }
+  >;
 
   markSampleAsInactive(
     _sampleId: BigNumberish,
-    overrides?: Overrides
-  ): Promise<ContractTransaction>;
-
-  "markSampleAsInactive(uint256)"(
-    _sampleId: BigNumberish,
-    overrides?: Overrides
+    overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
   rentOutSample(
@@ -260,123 +196,53 @@ export class SampleBread extends Contract {
     description: string,
     metadata: string,
     price: BigNumberish,
-    overrides?: Overrides
-  ): Promise<ContractTransaction>;
-
-  "rentOutSample(string,string,string,uint256)"(
-    name: string,
-    description: string,
-    metadata: string,
-    price: BigNumberish,
-    overrides?: Overrides
+    overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
   rentSample(
     _sampleId: BigNumberish,
     checkInDate: BigNumberish,
     checkOutDate: BigNumberish,
-    overrides?: PayableOverrides
-  ): Promise<ContractTransaction>;
-
-  "rentSample(uint256,uint256,uint256)"(
-    _sampleId: BigNumberish,
-    checkInDate: BigNumberish,
-    checkOutDate: BigNumberish,
-    overrides?: PayableOverrides
+    overrides?: PayableOverrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
   sampleId(overrides?: CallOverrides): Promise<BigNumber>;
 
-  "sampleId()"(overrides?: CallOverrides): Promise<BigNumber>;
-
   samples(
     arg0: BigNumberish,
     overrides?: CallOverrides
-  ): Promise<{
-    name: string;
-    description: string;
-    metadata: string;
-    isActive: boolean;
-    price: BigNumber;
-    owner: string;
-    0: string;
-    1: string;
-    2: string;
-    3: boolean;
-    4: BigNumber;
-    5: string;
-  }>;
-
-  "samples(uint256)"(
-    arg0: BigNumberish,
-    overrides?: CallOverrides
-  ): Promise<{
-    name: string;
-    description: string;
-    metadata: string;
-    isActive: boolean;
-    price: BigNumber;
-    owner: string;
-    0: string;
-    1: string;
-    2: string;
-    3: boolean;
-    4: BigNumber;
-    5: string;
-  }>;
+  ): Promise<
+    [string, string, string, boolean, BigNumber, string] & {
+      name: string;
+      description: string;
+      metadata: string;
+      isActive: boolean;
+      price: BigNumber;
+      owner: string;
+    }
+  >;
 
   callStatic: {
     bookingId(overrides?: CallOverrides): Promise<BigNumber>;
 
-    "bookingId()"(overrides?: CallOverrides): Promise<BigNumber>;
-
     bookings(
       arg0: BigNumberish,
       overrides?: CallOverrides
-    ): Promise<{
-      sampleId: BigNumber;
-      checkInDate: BigNumber;
-      checkOutDate: BigNumber;
-      user: string;
-      0: BigNumber;
-      1: BigNumber;
-      2: BigNumber;
-      3: string;
-    }>;
-
-    "bookings(uint256)"(
-      arg0: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<{
-      sampleId: BigNumber;
-      checkInDate: BigNumber;
-      checkOutDate: BigNumber;
-      user: string;
-      0: BigNumber;
-      1: BigNumber;
-      2: BigNumber;
-      3: string;
-    }>;
+    ): Promise<
+      [BigNumber, BigNumber, BigNumber, string] & {
+        sampleId: BigNumber;
+        checkInDate: BigNumber;
+        checkOutDate: BigNumber;
+        user: string;
+      }
+    >;
 
     markSampleAsInactive(
       _sampleId: BigNumberish,
       overrides?: CallOverrides
     ): Promise<void>;
 
-    "markSampleAsInactive(uint256)"(
-      _sampleId: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<void>;
-
     rentOutSample(
-      name: string,
-      description: string,
-      metadata: string,
-      price: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<void>;
-
-    "rentOutSample(string,string,string,uint256)"(
       name: string,
       description: string,
       metadata: string,
@@ -391,83 +257,45 @@ export class SampleBread extends Contract {
       overrides?: CallOverrides
     ): Promise<void>;
 
-    "rentSample(uint256,uint256,uint256)"(
-      _sampleId: BigNumberish,
-      checkInDate: BigNumberish,
-      checkOutDate: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<void>;
-
     sampleId(overrides?: CallOverrides): Promise<BigNumber>;
-
-    "sampleId()"(overrides?: CallOverrides): Promise<BigNumber>;
 
     samples(
       arg0: BigNumberish,
       overrides?: CallOverrides
-    ): Promise<{
-      name: string;
-      description: string;
-      metadata: string;
-      isActive: boolean;
-      price: BigNumber;
-      owner: string;
-      0: string;
-      1: string;
-      2: string;
-      3: boolean;
-      4: BigNumber;
-      5: string;
-    }>;
-
-    "samples(uint256)"(
-      arg0: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<{
-      name: string;
-      description: string;
-      metadata: string;
-      isActive: boolean;
-      price: BigNumber;
-      owner: string;
-      0: string;
-      1: string;
-      2: string;
-      3: boolean;
-      4: BigNumber;
-      5: string;
-    }>;
+    ): Promise<
+      [string, string, string, boolean, BigNumber, string] & {
+        name: string;
+        description: string;
+        metadata: string;
+        isActive: boolean;
+        price: BigNumber;
+        owner: string;
+      }
+    >;
   };
 
   filters: {
     NewBooking(
-      propertyId: BigNumberish | null,
-      bookingId: BigNumberish | null
-    ): EventFilter;
+      propertyId?: BigNumberish | null,
+      bookingId?: BigNumberish | null
+    ): TypedEventFilter<
+      [BigNumber, BigNumber],
+      { propertyId: BigNumber; bookingId: BigNumber }
+    >;
 
-    NewSample(sampleId: BigNumberish | null): EventFilter;
+    NewSample(
+      sampleId?: BigNumberish | null
+    ): TypedEventFilter<[BigNumber], { sampleId: BigNumber }>;
   };
 
   estimateGas: {
     bookingId(overrides?: CallOverrides): Promise<BigNumber>;
 
-    "bookingId()"(overrides?: CallOverrides): Promise<BigNumber>;
-
     bookings(arg0: BigNumberish, overrides?: CallOverrides): Promise<BigNumber>;
-
-    "bookings(uint256)"(
-      arg0: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
 
     markSampleAsInactive(
       _sampleId: BigNumberish,
-      overrides?: Overrides
-    ): Promise<BigNumber>;
-
-    "markSampleAsInactive(uint256)"(
-      _sampleId: BigNumberish,
-      overrides?: Overrides
+      overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
     rentOutSample(
@@ -475,66 +303,32 @@ export class SampleBread extends Contract {
       description: string,
       metadata: string,
       price: BigNumberish,
-      overrides?: Overrides
-    ): Promise<BigNumber>;
-
-    "rentOutSample(string,string,string,uint256)"(
-      name: string,
-      description: string,
-      metadata: string,
-      price: BigNumberish,
-      overrides?: Overrides
+      overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
     rentSample(
       _sampleId: BigNumberish,
       checkInDate: BigNumberish,
       checkOutDate: BigNumberish,
-      overrides?: PayableOverrides
-    ): Promise<BigNumber>;
-
-    "rentSample(uint256,uint256,uint256)"(
-      _sampleId: BigNumberish,
-      checkInDate: BigNumberish,
-      checkOutDate: BigNumberish,
-      overrides?: PayableOverrides
+      overrides?: PayableOverrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
     sampleId(overrides?: CallOverrides): Promise<BigNumber>;
 
-    "sampleId()"(overrides?: CallOverrides): Promise<BigNumber>;
-
     samples(arg0: BigNumberish, overrides?: CallOverrides): Promise<BigNumber>;
-
-    "samples(uint256)"(
-      arg0: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
   };
 
   populateTransaction: {
     bookingId(overrides?: CallOverrides): Promise<PopulatedTransaction>;
-
-    "bookingId()"(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     bookings(
       arg0: BigNumberish,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
-    "bookings(uint256)"(
-      arg0: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
     markSampleAsInactive(
       _sampleId: BigNumberish,
-      overrides?: Overrides
-    ): Promise<PopulatedTransaction>;
-
-    "markSampleAsInactive(uint256)"(
-      _sampleId: BigNumberish,
-      overrides?: Overrides
+      overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
     rentOutSample(
@@ -542,41 +336,19 @@ export class SampleBread extends Contract {
       description: string,
       metadata: string,
       price: BigNumberish,
-      overrides?: Overrides
-    ): Promise<PopulatedTransaction>;
-
-    "rentOutSample(string,string,string,uint256)"(
-      name: string,
-      description: string,
-      metadata: string,
-      price: BigNumberish,
-      overrides?: Overrides
+      overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
     rentSample(
       _sampleId: BigNumberish,
       checkInDate: BigNumberish,
       checkOutDate: BigNumberish,
-      overrides?: PayableOverrides
-    ): Promise<PopulatedTransaction>;
-
-    "rentSample(uint256,uint256,uint256)"(
-      _sampleId: BigNumberish,
-      checkInDate: BigNumberish,
-      checkOutDate: BigNumberish,
-      overrides?: PayableOverrides
+      overrides?: PayableOverrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
     sampleId(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
-    "sampleId()"(overrides?: CallOverrides): Promise<PopulatedTransaction>;
-
     samples(
-      arg0: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
-    "samples(uint256)"(
       arg0: BigNumberish,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
