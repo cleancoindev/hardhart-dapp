@@ -10,6 +10,7 @@ const Content: React.FC<IContentProps> = (props) => {
   // const [address, setAddress] = React.useState("");
   // const history = useHistory();
   return (
+      
     <VStack spacing={4} textAlign="left" width={["auto", "auto", "auto", "543px"]}>
       <Heading
         as="h2"

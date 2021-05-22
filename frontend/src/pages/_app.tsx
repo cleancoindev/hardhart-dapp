@@ -1,14 +1,15 @@
 // import App from "next/app"
+import { ChakraProvider } from "@chakra-ui/react";
+
 import type { AppProps /*, app context */ } from 'next/app';
 
 // import '../../styles/globals.css'
-import { ChakraProvider } from "@chakra-ui/react";
 import { Layout } from '../components/Layout';
-import { SymfoniContext } from "../hardhat/SymfoniContext";
+import { Symfoni } from "../hardhat/SymfoniContext";
 
 // @ts-ignore-next
 import Head from 'next/head';
-import '../../styles/globals.css'
+import '../../styles/App.css';
 import ErrorBoundary from '../components/Error/errorboundary';
 import { useEffect } from 'react';
 import { useRouter } from 'next/router';
@@ -31,9 +32,11 @@ function MyApp({ Component, pageProps, router }: AppProps) {
     };
   }, []);
 
+  //TODO: fix symfoni context, it throws react prop errors
+
   return (
     <ChakraProvider>
-      {/* <SymfoniContext> */}
+      <Symfoni>
         <Layout>
           <ErrorBoundary key={router.asPath}>
             <Head>
@@ -43,10 +46,10 @@ function MyApp({ Component, pageProps, router }: AppProps) {
 
           </ErrorBoundary>
         </Layout>
-      {/* </SymfoniContext> */}
+      </Symfoni>
     </ChakraProvider>
 
-  )
+  );
 }
 
 export default MyApp

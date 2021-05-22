@@ -6,13 +6,18 @@ import "hardhat-deploy";
 import "@symfoni/hardhat-react";
 import '@typechain/hardhat'
 import "@typechain/ethers-v5";
+import "typechain-target-ethers-v5";
 import 'tsconfig-paths/register'; // adds support for typescript paths mappings
 
 import { HardhatUserConfig, task } from "hardhat/config";
+import * as chainstack from './chainstack.json';
 
 
 const fs = require('fs');
 const privateKey = fs.readFileSync(".secret").toString().trim();
+
+const CS_USERNAME = chainstack.CS_USERNAME;
+const CS_PASSWORD = chainstack.CS_PASSWORD;
 
 // This is a sample Hardhat task. To learn how to create your own go to
 // https://hardhat.org/guides/create-task.html
@@ -41,8 +46,18 @@ const config: HardhatUserConfig = {
         mnemonic: "test test test test test test test test test test test junk", // test test test test test test test test test test test junk
       },
     },
+    ropsten: {
+      url: "https://ropsten.infura.io/v3/490519a8c6374fbeb1fbe2fd2ca39e1c",
+      accounts: [`0x${privateKey}`]
+    },
     matic_testnet: {
       url: "https://rpc-mumbai.maticvigil.com",
+      accounts: [privateKey]
+    },
+    chainstack: {
+      url: `https://${CS_USERNAME}:${CS_PASSWORD}@nd-075-619-162.p2pify.com`,
+      chainId: 80001,
+      gasPrice: 20000000000,
       accounts: [privateKey]
     },
     bsc_testnet: {

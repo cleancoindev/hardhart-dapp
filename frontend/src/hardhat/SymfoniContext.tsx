@@ -8,8 +8,6 @@ import { PolyBread } from "./typechain/PolyBread";
 import { PolyBread__factory } from "./typechain/factories/PolyBread__factory";
 import { SampleBread } from "./typechain/SampleBread";
 import { SampleBread__factory } from "./typechain/factories/SampleBread__factory";
-import { Token } from "./typechain/Token";
-import { Token__factory } from "./typechain/factories/Token__factory";
 import { ERC20 } from "./typechain/ERC20";
 import { ERC20__factory } from "./typechain/factories/ERC20__factory";
 
@@ -33,7 +31,6 @@ const defaultSymfoniContext: SymfoniContextInterface = {
 export const SymfoniContext = React.createContext<SymfoniContextInterface>(defaultSymfoniContext);
 export const PolyBreadContext = React.createContext<SymfoniPolyBread>(emptyContract);
 export const SampleBreadContext = React.createContext<SymfoniSampleBread>(emptyContract);
-export const TokenContext = React.createContext<SymfoniToken>(emptyContract);
 export const ERC20Context = React.createContext<SymfoniERC20>(emptyContract);
 
 export interface SymfoniContextInterface {
@@ -60,11 +57,6 @@ export interface SymfoniSampleBread {
     factory?: SampleBread__factory;
 }
 
-export interface SymfoniToken {
-    instance?: Token;
-    factory?: Token__factory;
-}
-
 export interface SymfoniERC20 {
     instance?: ERC20;
     factory?: ERC20__factory;
@@ -86,7 +78,6 @@ export const Symfoni: React.FC<SymfoniProps> = ({
     const [providerPriority, setProviderPriority] = useState<string[]>(["web3modal", "hardhat"]);
     const [PolyBread, setPolyBread] = useState<SymfoniPolyBread>(emptyContract);
     const [SampleBread, setSampleBread] = useState<SymfoniSampleBread>(emptyContract);
-    const [Token, setToken] = useState<SymfoniToken>(emptyContract);
     const [ERC20, setERC20] = useState<SymfoniERC20>(emptyContract);
     useEffect(() => {
         if (messages.length > 0)
@@ -169,7 +160,6 @@ export const Symfoni: React.FC<SymfoniProps> = ({
             const finishWithContracts = (text: string) => {
                 setPolyBread(getPolyBread(_provider, _signer))
                 setSampleBread(getSampleBread(_provider, _signer))
-                setToken(getToken(_provider, _signer))
                 setERC20(getERC20(_provider, _signer))
                 finish(text)
             }
@@ -217,15 +207,6 @@ export const Symfoni: React.FC<SymfoniProps> = ({
         return contract
     }
         ;
-    const getToken = (_provider: providers.Provider, _signer?: Signer) => {
-        let instance = _signer ? Token__factory.connect(ethers.constants.AddressZero, _signer) : Token__factory.connect(ethers.constants.AddressZero, _provider)
-        const contract: SymfoniToken = {
-            instance: instance,
-            factory: _signer ? new Token__factory(_signer) : undefined,
-        }
-        return contract
-    }
-        ;
     const getERC20 = (_provider: providers.Provider, _signer?: Signer) => {
         let instance = _signer ? ERC20__factory.connect(ethers.constants.AddressZero, _signer) : ERC20__factory.connect(ethers.constants.AddressZero, _provider)
         const contract: SymfoniERC20 = {
@@ -251,20 +232,18 @@ export const Symfoni: React.FC<SymfoniProps> = ({
                     <CurrentAddressContext.Provider value={[currentAddress, setCurrentAddress]}>
                         <PolyBreadContext.Provider value={PolyBread}>
                             <SampleBreadContext.Provider value={SampleBread}>
-                                <TokenContext.Provider value={Token}>
-                                    <ERC20Context.Provider value={ERC20}>
-                                        {showLoading && loading ?
-                                            props.loadingComponent
-                                                ? props.loadingComponent
-                                                : <div>
-                                                    {messages.map((msg, i) => (
-                                                        <p key={i}>{msg}</p>
-                                                    ))}
-                                                </div>
-                                            : props.children
-                                        }
-                                    </ERC20Context.Provider >
-                                </TokenContext.Provider >
+                                <ERC20Context.Provider value={ERC20}>
+                                    {showLoading && loading ?
+                                        props.loadingComponent
+                                            ? props.loadingComponent
+                                            : <div>
+                                                {messages.map((msg, i) => (
+                                                    <p key={i}>{msg}</p>
+                                                ))}
+                                            </div>
+                                        : props.children
+                                    }
+                                </ERC20Context.Provider >
                             </SampleBreadContext.Provider >
                         </PolyBreadContext.Provider >
                     </CurrentAddressContext.Provider>

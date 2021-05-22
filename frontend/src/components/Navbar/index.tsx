@@ -18,14 +18,15 @@ import { ethers } from "ethers";
 //   yGiftContext,
 //   ERC721Context,
 // } from "../../hardhat/HardhatContext";
-// import { formatAddress } from "../../lib/format-address";
-// import { useRouter } from "next/router";
-// import { useEns } from "../../lib/use-ens";
+
+import { CurrentAddressContext, ProviderContext, SignerContext } from "../../hardhat/SymfoniContext";
 
 // Node access from our chainstack polygon node
 import * as chainstack from '../../../../chainstack.json';
-import { CurrentAddressContext, ProviderContext, SignerContext } from "../../hardhat/SymfoniContext";
+import { formatAddress } from '../../lib/formataddress';
+import { useRouter } from 'next/router';
 import { nameResolver } from '../../lib/nameresolver';
+
 
 const network = "testnet";
 const CS_USERNAME = chainstack.CS_USERNAME;
@@ -37,7 +38,7 @@ const Logo = () => (
     <NavLink href="/">
         <Heading
             color={"#013A6D"}
-            {...{ fontFamily: "Helvetica", fontStyle:"normal", fontWeight:"900", fontSize:"40px"}}
+            {...{ fontFamily: "Helvetica", fontStyle:"normal", fontWeight:"900", fontSize:"40px", letterSpacing: "-2.5px"}}
             cursor="pointer"
         >
         PolyBread
@@ -69,6 +70,7 @@ const handleWeb3ProviderConnect = (
             network,
             cacheProvider: true,
             providerOptions,
+            theme: "dark",
         });
 
         const provider = await web3Modal.connect();
@@ -102,6 +104,68 @@ const handleWeb3ProviderConnect = (
 
 };
 
+
+const OurLink = (props: any) => {
+
+    const [currentAddress] = useContext(CurrentAddressContext);
+    const [_provider, setProvider] = useContext(ProviderContext);
+    const [_signer, setSigner] = useContext(SignerContext);
+    const [_currentAddress, setCurrentAddress] = useContext(CurrentAddressContext);
+    const Router = useRouter();
+    const isActive = Router.pathname == props.href;
+
+
+    if (!currentAddress) {
+        return (
+            <CLink
+                onClick={handleWeb3ProviderConnect(setProvider, setSigner, setCurrentAddress)}
+                href={"#"}
+                {...props}
+                {...{
+                    fontFamily: "Helvetica",
+                    fontStyle: "normal",
+                    fontWeight: "normal",
+                    fontSize: "16px",
+                    color: "#0809EBD",
+                    ...(isActive && {
+                        color: "#013A6D",
+                        textDecoration: "underline",
+                    }),
+                }}
+            />
+        );
+    }
+
+    return (
+        <CLink
+            as={NavLink}
+            {...props}
+            {...{
+                fontFamily: "Helvetica",
+                fontStyle: "normal",
+                fontWeight: "normal",
+                fontSize: "16px",
+                color: "#809EBD",
+                ...(isActive && {
+                    color: "#013A6D",
+                    textDecoration: "underline"
+                }),
+            }}
+        />
+    );
+
+};
+
+// NAVBAR LINKS GO HERE
+const Links = () => (
+    <Center mx="auto">
+        <HStack spacing={10}>
+            <OurLink href="#">test link1</OurLink>
+            <OurLink href="#">test link2</OurLink>
+        </HStack>
+    </Center>
+);
+
 const Navbar: React.FunctionComponent<IProps> = (props) => {
     // get our contract/web3 context
     const [currentAddress, setCurrentAddress] = useContext(CurrentAddressContext);
@@ -114,7 +178,7 @@ const Navbar: React.FunctionComponent<IProps> = (props) => {
         <Flex width="100%" px={[2,10]} py={4}>
             <Logo></Logo>
             {/* links go here */}
-
+            <Links></Links>
             <Center>
                 {ensName ? (
                     <Text ml="auto"
@@ -131,8 +195,8 @@ const Navbar: React.FunctionComponent<IProps> = (props) => {
                 ) : (
                     <Button
                         ml="auto"
-                        background="#0065D0"
-                        borderRadius="32px"
+                        background="black"
+                        borderRadius="0px"
                         color="white"
                         onClick={handleWeb3ProviderConnect(setProvider, setSigner, setCurrentAddress)}
                     >
@@ -145,4 +209,4 @@ const Navbar: React.FunctionComponent<IProps> = (props) => {
     );
 };
 
-export { Navbar};
+export { Navbar };
