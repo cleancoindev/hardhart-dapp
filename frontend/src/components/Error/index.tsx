@@ -16,8 +16,8 @@ const Error: React.FunctionComponent<IProps> = (props) => {
         <Center 
             width={["100vw","90vw", "90vw", "70vw"]}
             {...{
-                background: "linear-gradient(342.98deg, #013A6D 0%, #0055AC 56.01%, #0065D0 93.5%)",
-                borderRadius: "16px",
+                background: "black",
+                borderRadius: "2px",
             }}
         >
             <VStack spacing={8} p={10}>
@@ -52,7 +52,7 @@ const Error: React.FunctionComponent<IProps> = (props) => {
                             router.back();
                         }}
                         >
-                            Try again
+                            Try again?
                         </Button>
             </VStack>
         </Center>

@@ -4,22 +4,9 @@ import NavLink from "next/link";
 import Web3Modal, { IProviderOptions } from "web3modal";
 import WalletConnectProvider from "@walletconnect/web3-provider";
 import { ethers } from "ethers";
-// import {
-//   CurrentAddressContext,
-//   INFURA_API_KEY,
-//   ProviderContext,
-//   network,
-//   SignerContext,
-//   getyGift,
-//   getERC721,
-//   emptyContract,
-//   SymfoniYGift,
-//   SymfoniErc721,
-//   yGiftContext,
-//   ERC721Context,
-// } from "../../hardhat/HardhatContext";
 
-import { CurrentAddressContext, ProviderContext, SignerContext } from "../../hardhat/SymfoniContext";
+
+import { CurrentAddressContext, ProviderContext, SignerContext, getSampleBread, SampleBreadContext, SymfoniSampleBread, emptyContract } from "../../hardhat/SymfoniContext";
 
 // Node access from our chainstack polygon node
 import * as chainstack from '../../../../chainstack.json';
@@ -37,7 +24,7 @@ interface IProps {}
 const Logo = () => (
     <NavLink href="/">
         <Heading
-            color={"#013A6D"}
+            color={"black"}
             {...{ fontFamily: "Helvetica", fontStyle:"normal", fontWeight:"900", fontSize:"40px", letterSpacing: "-2.5px"}}
             cursor="pointer"
         >
@@ -51,6 +38,7 @@ const handleWeb3ProviderConnect = (
     setProvider: Function,
     setSigner: Function,
     setCurrentAddress: Function,
+    setSampleBread: Function
     
 ) => async () => {
     const getWeb3ModalProvider = async (): Promise<any> => {
@@ -98,6 +86,11 @@ const handleWeb3ProviderConnect = (
     setCurrentAddress(address);
 
     // get  and set contract interaction here
+
+    const sampleBread = getSampleBread(web3provider, signer);
+
+    console.log("samplebread:", sampleBread);
+    setSampleBread(sampleBread);
     // const token = getToken(web3provider, signer);
     // setToken(token);
 
@@ -111,6 +104,8 @@ const OurLink = (props: any) => {
     const [_provider, setProvider] = useContext(ProviderContext);
     const [_signer, setSigner] = useContext(SignerContext);
     const [_currentAddress, setCurrentAddress] = useContext(CurrentAddressContext);
+    const [SampleBread, setSampleBread] = useContext(SampleBreadContext);
+
     const Router = useRouter();
     const isActive = Router.pathname == props.href;
 
@@ -118,7 +113,7 @@ const OurLink = (props: any) => {
     if (!currentAddress) {
         return (
             <CLink
-                onClick={handleWeb3ProviderConnect(setProvider, setSigner, setCurrentAddress)}
+                onClick={handleWeb3ProviderConnect(setProvider, setSigner, setCurrentAddress, setSampleBread)}
                 href={"#"}
                 {...props}
                 {...{
@@ -160,7 +155,7 @@ const OurLink = (props: any) => {
 const Links = () => (
     <Center mx="auto">
         <HStack spacing={10}>
-            <OurLink href="#">test link1</OurLink>
+            <OurLink href="/Samplebread">test link1</OurLink>
             <OurLink href="#">test link2</OurLink>
         </HStack>
     </Center>
@@ -171,13 +166,13 @@ const Navbar: React.FunctionComponent<IProps> = (props) => {
     const [currentAddress, setCurrentAddress] = useContext(CurrentAddressContext);
     const [provider, setProvider] = useContext(ProviderContext);
     const [_signer, setSigner] = useContext(SignerContext);
+    const [SampleBread, setSampleBread] = useState<SymfoniSampleBread>(emptyContract);
 
     const { ensName } = nameResolver();
 
     return (
         <Flex width="100%" px={[2,10]} py={4}>
             <Logo></Logo>
-            {/* links go here */}
             <Links></Links>
             <Center>
                 {ensName ? (
@@ -198,7 +193,7 @@ const Navbar: React.FunctionComponent<IProps> = (props) => {
                         background="black"
                         borderRadius="0px"
                         color="white"
-                        onClick={handleWeb3ProviderConnect(setProvider, setSigner, setCurrentAddress)}
+                        onClick={handleWeb3ProviderConnect(setProvider, setSigner, setCurrentAddress, setSampleBread)}
                     >
                         Connect
                     </Button>
