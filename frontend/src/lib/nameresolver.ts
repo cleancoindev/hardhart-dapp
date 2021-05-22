@@ -17,7 +17,11 @@ export const nameResolver = (lookupAddress?: string, format: boolean = false) =>
         const fetch = async () => {
 
             if (lookupAddress) {
-                const ensName = await provider?.lookupAddress(lookupAddress);
+                try {
+                    const ensName = await provider?.lookupAddress(lookupAddress);
+                } catch (error) {
+                    console.error("could not resolve ENS name",error)
+                }
 
                 if (ensName) {
                     setEnsName(ensName);
@@ -26,7 +30,12 @@ export const nameResolver = (lookupAddress?: string, format: boolean = false) =>
                 }
 
             }  else if (currentAddress) {
-                const ensName = await provider?.lookupAddress(currentAddress);
+                try {
+                    const ensName = await provider?.lookupAddress(lookupAddress);
+                } catch (error) {
+                    console.error("could not resolve ENS name",error)
+                }
+                // const ensName = await provider?.lookupAddress(currentAddress);
 
                 if (ensName) {
                     setEnsName(ensName);
