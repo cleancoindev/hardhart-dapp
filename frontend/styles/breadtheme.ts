@@ -1,11 +1,13 @@
 // //breadtheme.ts
-// import { extendTheme } from '@chakra-ui/react';
+import { extendTheme } from '@chakra-ui/react';
 
 
-// const config = {
+const config = {
+    initialColorMode: "light",
+    useSystemColorMode: false,
 
-// }
+}
 
-// const breadTheme = extendTheme({ config })
+const breadTheme = extendTheme({ config })
 
-// export default breadTheme;
+export default breadTheme;

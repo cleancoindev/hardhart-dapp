@@ -1,5 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
-import { Flex, Text, Button, HStack, Heading, Link as CLink, Center } from "@chakra-ui/react";
+import { useColorMode, Flex, Text, Button, HStack, Heading, Link as CLink, Center, IconButton, color } from "@chakra-ui/react";
+import { MoonIcon, SunIcon } from '@chakra-ui/icons'
 import NavLink from "next/link";
 import Web3Modal, { IProviderOptions } from "web3modal";
 import WalletConnectProvider from "@walletconnect/web3-provider";
@@ -24,7 +25,6 @@ interface IProps {}
 const Logo = () => (
     <NavLink href="/">
         <Heading
-            color={"black"}
             {...{ fontFamily: "Helvetica", fontStyle:"normal", fontWeight:"900", fontSize:"40px", letterSpacing: "-2.5px"}}
             cursor="pointer"
         >
@@ -33,7 +33,14 @@ const Logo = () => (
     </NavLink>
 );
 
-
+/**
+ *  handleWeb3ProviderConnect
+ * @param setProvider 
+ * @param setSigner 
+ * @param setCurrentAddress 
+ * @param setSampleBread 
+ * @returns promise containing web3 provider 
+ */
 const handleWeb3ProviderConnect = (
     setProvider: Function,
     setSigner: Function,
@@ -56,7 +63,7 @@ const handleWeb3ProviderConnect = (
 
         const web3Modal = new Web3Modal({
             network,
-            cacheProvider: true,
+            cacheProvider: false,
             providerOptions,
             theme: "dark",
         });
@@ -155,11 +162,12 @@ const OurLink = (props: any) => {
 const Links = () => (
     <Center mx="auto">
         <HStack spacing={10}>
-            <OurLink href="/Samplebread">test link1</OurLink>
+            <OurLink href="/samplebread">test link1</OurLink>
             <OurLink href="#">test link2</OurLink>
         </HStack>
     </Center>
 );
+
 
 const Navbar: React.FunctionComponent<IProps> = (props) => {
     // get our contract/web3 context
@@ -170,6 +178,23 @@ const Navbar: React.FunctionComponent<IProps> = (props) => {
 
     const { ensName } = nameResolver();
 
+    // Chakra color mode
+    const { colorMode, toggleColorMode } = useColorMode();
+
+    const handleToggle = () => {
+         toggleColorMode();
+        //  console.log(colorMode);
+
+    }
+
+    const determineIcon = () => {
+        if (colorMode === 'light') {
+            return (<MoonIcon />);
+        } else {
+            return (<SunIcon />);
+        }
+    }
+
     return (
         <Flex width="100%" px={[2,10]} py={4}>
             <Logo></Logo>
@@ -177,19 +202,26 @@ const Navbar: React.FunctionComponent<IProps> = (props) => {
             <Center>
                 {ensName ? (
                     <Text ml="auto"
+                          mr="auto"
                     {...{
                         fontFamily: "Helvetica",
                         fontStyle: "normal",
                         fontWeight: "normal",
                         fontSize: "16px",
                         color: "#809EBD",
+                        
                     }}
+                    _hover={{
+                        color: "black",
+                      }}
                     >
                         {ensName}
                     </Text>
+
                 ) : (
                     <Button
                         ml="auto"
+                        mr="auto"
                         background="black"
                         borderRadius="0px"
                         color="white"
@@ -198,6 +230,15 @@ const Navbar: React.FunctionComponent<IProps> = (props) => {
                         Connect
                     </Button>
                 )}
+
+
+                <IconButton
+                 ml="auto"
+                 mr="auto"
+                 borderRadius="0px"
+                 aria-label="toggle darkmode" icon={ determineIcon() } onClick={handleToggle} >
+                    Toggle {colorMode === "light" ? "Dark" : "Light"}
+                </IconButton>
               
             </Center>
         </Flex>

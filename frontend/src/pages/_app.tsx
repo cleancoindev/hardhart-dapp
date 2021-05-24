@@ -7,6 +7,8 @@ import type { AppProps /*, app context */ } from 'next/app';
 import { Layout } from '../components/Layout';
 import { Symfoni } from "../hardhat/SymfoniContext";
 
+import { breadTheme } from '../../styles/breadtheme';
+
 // @ts-ignore-next
 import Head from 'next/head';
 import '../../styles/App.css';
@@ -35,7 +37,7 @@ function MyApp({ Component, pageProps, router }: AppProps) {
   //TODO: fix symfoni context, it throws react prop errors
 
   return (
-    <ChakraProvider>
+    <ChakraProvider theme={breadTheme}>
       <Symfoni>
         <Layout>
           <ErrorBoundary key={router.asPath}>

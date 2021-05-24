@@ -4,7 +4,7 @@ import { ethers } from "hardhat";
 import chai from "chai";
 
 // typechain contract artifacts are located in front end 
-import { SampleBreadFactory, SampleBread } from "../frontend/src/hardhat/typechain";
+import { SampleBreadFactory, SampleBread } from '../frontend/src/hardhat/SymfoniContext';
 
 const { expect } = chai;
 

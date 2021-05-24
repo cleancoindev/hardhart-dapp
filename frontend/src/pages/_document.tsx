@@ -1,6 +1,8 @@
 // document.tsx
-
+import { ColorModeScript, theme } from '@chakra-ui/react';
 import Document, { Html, Head, Main, NextScript, DocumentContext } from 'next/document';
+import breadTheme from '../../styles/breadtheme';
+
 
 class MyDocument extends Document {
 
@@ -20,6 +22,7 @@ class MyDocument extends Document {
                 </Head>
 
                 <body>
+                    <ColorModeScript initialColorMode={breadTheme.config.initialColorMode} />
                     <Main />
                     <NextScript />
                 </body>

@@ -10,7 +10,7 @@ const Content: React.FC<IContentProps> = (props) => {
   // const [address, setAddress] = React.useState("");
   // const history = useHistory();
   return (
-      
+
     <VStack spacing={4} textAlign="left" width={["auto", "auto", "auto", "543px"]}>
       <Heading
         as="h2"
@@ -18,12 +18,13 @@ const Content: React.FC<IContentProps> = (props) => {
         {...{
           fontFamily: "Helvetica",
           fontStyle: "normal",
-          fontWeight: "bold",
-          color: "#013A6D",
+          fontWeight: "900",
+          letterSpacing: "-2.5px",
+          color: "#black",
         }}
         mb={[2, 4]}
       >
-          PolyBread
+          hello.
       </Heading>
       <VStack textAlign="left" alignItems="flex-start">
         {/* <Text
