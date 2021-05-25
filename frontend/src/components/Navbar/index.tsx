@@ -94,10 +94,10 @@ const handleWeb3ProviderConnect = (
 
     // get  and set contract interaction here
 
-    const sampleBread = getSampleBread(web3provider, signer);
+    // const sampleBread = getSampleBread(web3provider, signer);
 
-    console.log("samplebread:", sampleBread);
-    setSampleBread(sampleBread);
+    // console.log("samplebread:", sampleBread);
+    // setSampleBread(sampleBread);
     // const token = getToken(web3provider, signer);
     // setToken(token);
 

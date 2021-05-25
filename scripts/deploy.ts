@@ -21,7 +21,7 @@ async function main() {
     console.log("Account balance:", (await deployer.getBalance()).toString());
 
     // Deploy
-    const factory = await ethers.getContractFactory("SampleBread");
+    const factory = await ethers.getContractFactory("PbNFT");
     const contract = await factory.deploy();
 
     // The address of the contract once mined

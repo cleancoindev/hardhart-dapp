@@ -4,12 +4,16 @@
 import { providers, Signer, ethers } from "ethers";
 import React, { useEffect, useState } from "react";
 import Web3Modal, { IProviderOptions } from "web3modal";
+import { PbNFT } from "./typechain/PbNFT";
+import { PbNFT__factory } from "./typechain/factories/PbNFT__factory";
 import { PolyBread } from "./typechain/PolyBread";
 import { PolyBread__factory } from "./typechain/factories/PolyBread__factory";
 import { SampleBread } from "./typechain/SampleBread";
 import { SampleBread__factory } from "./typechain/factories/SampleBread__factory";
 import { ERC20 } from "./typechain/ERC20";
 import { ERC20__factory } from "./typechain/factories/ERC20__factory";
+import { ERC721 } from "./typechain/ERC721";
+import { ERC721__factory } from "./typechain/factories/ERC721__factory";
 
 const emptyContract = {
     instance: undefined,
@@ -29,9 +33,11 @@ const defaultSymfoniContext: SymfoniContextInterface = {
     providers: []
 };
 export const SymfoniContext = React.createContext<SymfoniContextInterface>(defaultSymfoniContext);
+export const PbNFTContext = React.createContext<SymfoniPbNFT>(emptyContract);
 export const PolyBreadContext = React.createContext<SymfoniPolyBread>(emptyContract);
 export const SampleBreadContext = React.createContext<SymfoniSampleBread>(emptyContract);
 export const ERC20Context = React.createContext<SymfoniERC20>(emptyContract);
+export const ERC721Context = React.createContext<SymfoniERC721>(emptyContract);
 
 export interface SymfoniContextInterface {
     init: (provider?: string) => void;
@@ -45,6 +51,11 @@ export interface SymfoniProps {
     autoInit?: boolean;
     showLoading?: boolean;
     loadingComponent?: React.ReactNode;
+}
+
+export interface SymfoniPbNFT {
+    instance?: PbNFT;
+    factory?: PbNFT__factory;
 }
 
 export interface SymfoniPolyBread {
@@ -62,6 +73,11 @@ export interface SymfoniERC20 {
     factory?: ERC20__factory;
 }
 
+export interface SymfoniERC721 {
+    instance?: ERC721;
+    factory?: ERC721__factory;
+}
+
 export const Symfoni: React.FC<SymfoniProps> = ({
     showLoading = true,
     autoInit = true,
@@ -76,9 +92,11 @@ export const Symfoni: React.FC<SymfoniProps> = ({
     const [currentAddress, setCurrentAddress] = useState<string>(defaultCurrentAddress);
     const [fallbackProvider] = useState<string | undefined>(undefined);
     const [providerPriority, setProviderPriority] = useState<string[]>(["web3modal", "hardhat"]);
+    const [PbNFT, setPbNFT] = useState<SymfoniPbNFT>(emptyContract);
     const [PolyBread, setPolyBread] = useState<SymfoniPolyBread>(emptyContract);
     const [SampleBread, setSampleBread] = useState<SymfoniSampleBread>(emptyContract);
     const [ERC20, setERC20] = useState<SymfoniERC20>(emptyContract);
+    const [ERC721, setERC721] = useState<SymfoniERC721>(emptyContract);
     useEffect(() => {
         if (messages.length > 0)
             console.debug(messages.pop())
@@ -158,9 +176,11 @@ export const Symfoni: React.FC<SymfoniProps> = ({
                 setMessages(old => [...old, text])
             }
             const finishWithContracts = (text: string) => {
+                setPbNFT(getPbNFT(_provider, _signer))
                 setPolyBread(getPolyBread(_provider, _signer))
                 setSampleBread(getSampleBread(_provider, _signer))
                 setERC20(getERC20(_provider, _signer))
+                setERC721(getERC721(_provider, _signer))
                 finish(text)
             }
             if (!autoInit && initializeCounter === 0) return finish("Auto init turned off.")
@@ -189,6 +209,15 @@ export const Symfoni: React.FC<SymfoniProps> = ({
         return () => { subscribed = false }
     }, [initializeCounter])
 
+    const getPbNFT = (_provider: providers.Provider, _signer?: Signer) => {
+        let instance = _signer ? PbNFT__factory.connect(ethers.constants.AddressZero, _signer) : PbNFT__factory.connect(ethers.constants.AddressZero, _provider)
+        const contract: SymfoniPbNFT = {
+            instance: instance,
+            factory: _signer ? new PbNFT__factory(_signer) : undefined,
+        }
+        return contract
+    }
+        ;
     const getPolyBread = (_provider: providers.Provider, _signer?: Signer) => {
         let instance = _signer ? PolyBread__factory.connect(ethers.constants.AddressZero, _signer) : PolyBread__factory.connect(ethers.constants.AddressZero, _provider)
         const contract: SymfoniPolyBread = {
@@ -216,6 +245,15 @@ export const Symfoni: React.FC<SymfoniProps> = ({
         return contract
     }
         ;
+    const getERC721 = (_provider: providers.Provider, _signer?: Signer) => {
+        let instance = _signer ? ERC721__factory.connect(ethers.constants.AddressZero, _signer) : ERC721__factory.connect(ethers.constants.AddressZero, _provider)
+        const contract: SymfoniERC721 = {
+            instance: instance,
+            factory: _signer ? new ERC721__factory(_signer) : undefined,
+        }
+        return contract
+    }
+        ;
 
     const handleInitProvider = (provider?: string) => {
         if (provider) {
@@ -230,22 +268,26 @@ export const Symfoni: React.FC<SymfoniProps> = ({
             <ProviderContext.Provider value={[provider, setProvider]}>
                 <SignerContext.Provider value={[signer, setSigner]}>
                     <CurrentAddressContext.Provider value={[currentAddress, setCurrentAddress]}>
-                        <PolyBreadContext.Provider value={PolyBread}>
-                            <SampleBreadContext.Provider value={SampleBread}>
-                                <ERC20Context.Provider value={ERC20}>
-                                    {showLoading && loading ?
-                                        props.loadingComponent
-                                            ? props.loadingComponent
-                                            : <div>
-                                                {messages.map((msg, i) => (
-                                                    <p key={i}>{msg}</p>
-                                                ))}
-                                            </div>
-                                        : props.children
-                                    }
-                                </ERC20Context.Provider >
-                            </SampleBreadContext.Provider >
-                        </PolyBreadContext.Provider >
+                        <PbNFTContext.Provider value={PbNFT}>
+                            <PolyBreadContext.Provider value={PolyBread}>
+                                <SampleBreadContext.Provider value={SampleBread}>
+                                    <ERC20Context.Provider value={ERC20}>
+                                        <ERC721Context.Provider value={ERC721}>
+                                            {showLoading && loading ?
+                                                props.loadingComponent
+                                                    ? props.loadingComponent
+                                                    : <div>
+                                                        {messages.map((msg, i) => (
+                                                            <p key={i}>{msg}</p>
+                                                        ))}
+                                                    </div>
+                                                : props.children
+                                            }
+                                        </ERC721Context.Provider >
+                                    </ERC20Context.Provider >
+                                </SampleBreadContext.Provider >
+                            </PolyBreadContext.Provider >
+                        </PbNFTContext.Provider >
                     </CurrentAddressContext.Provider>
                 </SignerContext.Provider>
             </ProviderContext.Provider>
