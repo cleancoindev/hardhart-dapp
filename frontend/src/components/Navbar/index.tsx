@@ -7,7 +7,20 @@ import WalletConnectProvider from "@walletconnect/web3-provider";
 import { ethers } from "ethers";
 
 
-import { CurrentAddressContext, ProviderContext, SignerContext, getSampleBread, SampleBreadContext, SymfoniSampleBread, emptyContract } from "../../hardhat/SymfoniContext";
+import {
+    CurrentAddressContext,
+    ProviderContext, 
+    SignerContext, 
+    SymfoniPolyBread,
+    SymfoniPbNFT,
+    SymfoniERC721,
+    PbNFTContext,
+    ERC721Context, 
+    SampleBreadContext, 
+    SymfoniSampleBread,
+    SymfoniContext, 
+ } from "../../hardhat/SymfoniContext";
+
 
 // Node access from our chainstack polygon node
 import * as chainstack from '../../../../chainstack.json';
@@ -45,7 +58,8 @@ const handleWeb3ProviderConnect = (
     setProvider: Function,
     setSigner: Function,
     setCurrentAddress: Function,
-    setSampleBread: Function
+    setPbNFT: Function,
+    setERC721: Function
     
 ) => async () => {
     const getWeb3ModalProvider = async (): Promise<any> => {
@@ -92,6 +106,14 @@ const handleWeb3ProviderConnect = (
 
     setCurrentAddress(address);
 
+    const pbNFT = useContext(PbNFTContext);
+    const erc721 = useContext(ERC721Context);
+    
+    // const erc721 = getERC721(web3provider, signer);
+
+    setPbNFT(pbNFT);
+    setERC721(erc721);
+
     // get  and set contract interaction here
 
     // const sampleBread = getSampleBread(web3provider, signer);
@@ -111,7 +133,10 @@ const OurLink = (props: any) => {
     const [_provider, setProvider] = useContext(ProviderContext);
     const [_signer, setSigner] = useContext(SignerContext);
     const [_currentAddress, setCurrentAddress] = useContext(CurrentAddressContext);
-    const [SampleBread, setSampleBread] = useContext(SampleBreadContext);
+    // const [SampleBread, setSampleBread] = useContext(SampleBreadContext);
+    const [PbNFT, setPbNFT] = useContext(PbNFTContext);
+    const [ERC721, setERC721] = useContext(ERC721Context);
+
 
     const Router = useRouter();
     const isActive = Router.pathname == props.href;
@@ -120,7 +145,7 @@ const OurLink = (props: any) => {
     if (!currentAddress) {
         return (
             <CLink
-                onClick={handleWeb3ProviderConnect(setProvider, setSigner, setCurrentAddress, setSampleBread)}
+                onClick={handleWeb3ProviderConnect(setProvider, setSigner, setCurrentAddress, setPbNFT, setERC721)}
                 href={"#"}
                 {...props}
                 {...{
@@ -163,7 +188,7 @@ const Links = () => (
     <Center mx="auto">
         <HStack spacing={10}>
             <OurLink href="/samplebread">test link1</OurLink>
-            <OurLink href="#">test link2</OurLink>
+            <OurLink href="/mint-nft">NFT</OurLink>
         </HStack>
     </Center>
 );
@@ -174,7 +199,11 @@ const Navbar: React.FunctionComponent<IProps> = (props) => {
     const [currentAddress, setCurrentAddress] = useContext(CurrentAddressContext);
     const [provider, setProvider] = useContext(ProviderContext);
     const [_signer, setSigner] = useContext(SignerContext);
-    const [SampleBread, setSampleBread] = useState<SymfoniSampleBread>(emptyContract);
+    // const [SampleBread, setSampleBread] = useState<SymfoniSampleBread>(emptyContract);
+    // const [PbNFT, setPbNFT] = useState<SymfoniPbNFT>(emptyContract);
+    // const [ERC721, setERC721] = useState<SymfoniERC721>(emptyContract);
+    const [PbNFT, setPbNFT] = useState("");
+    const [ERC721, setERC721] = useState("");
 
     const { ensName } = nameResolver();
 
@@ -225,7 +254,7 @@ const Navbar: React.FunctionComponent<IProps> = (props) => {
                         background="black"
                         borderRadius="0px"
                         color="white"
-                        onClick={handleWeb3ProviderConnect(setProvider, setSigner, setCurrentAddress, setSampleBread)}
+                        onClick={handleWeb3ProviderConnect(setProvider, setSigner, setCurrentAddress, setPbNFT, setERC721)}
                     >
                         Connect
                     </Button>

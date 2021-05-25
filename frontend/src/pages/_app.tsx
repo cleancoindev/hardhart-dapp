@@ -7,7 +7,7 @@ import type { AppProps /*, app context */ } from 'next/app';
 import { Layout } from '../components/Layout';
 import { Symfoni } from "../hardhat/SymfoniContext";
 
-import { breadTheme } from '../../styles/breadtheme';
+import  breadTheme  from '../../styles/breadtheme';
 
 // @ts-ignore-next
 import Head from 'next/head';

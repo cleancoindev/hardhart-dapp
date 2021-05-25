@@ -6,8 +6,8 @@ const config = {
     initialColorMode: "light",
     useSystemColorMode: false,
 
-}
+};
 
-const breadTheme = extendTheme({ config })
+const breadTheme = extendTheme(config);
 
 export default breadTheme;

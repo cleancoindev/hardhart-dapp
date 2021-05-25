@@ -1,11 +1,17 @@
 // MintNFT index.ts is a react component for uploading/minting/pinning NFT's on IPFS and Polygon
 
 import React, { useCallback, useContext, useEffect, useState } from 'react';
-import { Button, VStack, Input, FormControl, FormErrorMessage, Box, HStack, Center, Image, Heading, useClipboard, Text, FormLabel, keyframes } from '@chakra-ui/react';
+import { Button, VStack, Input, FormControl, FormErrorMessage, Box, HStack, Center, Image, Heading, useClipboard, Text, FormLabel, keyframes, Spinner } from '@chakra-ui/react';
 import { CloseIcon, CopyIcon, SmallCloseIcon, SpinnerIcon } from '@chakra-ui/icons';
 
+import ipfsClient, { 
+    // @ts-ignore-next
+    urlSource,
+} from 'ipfs-http-client';
+import { darken } from 'polished';
+import  graphic  from './graphic.png'
 import { useMintNFTFormManagement } from './useMintNFTFormManagement';
-import { useFormik } from 'formik';
+import { Form, useFormik } from 'formik';
 
 import { CurrentAddressContext, ProviderContext, SignerContext } from '../../hardhat/SymfoniContext';
 
@@ -183,7 +189,7 @@ const MintNFT: React.FunctionComponent<IProps> = (props) => {
                 setIsVideo(true);
             } else if (ipfsFileUrl?.includes("ipfs") && !isVideo) {
                 const [urlSourced] = await all <any>(urlSource(ipfsFileUrl));
-                const [file] = awiat all<ArrayBuffer(urlSourced.content);
+                const [file] = await all<ArrayBuffer(urlSourced.content);
                 const fileTypeResult = await fileType.fromBuffer(file);
                 const isVideo = Boolean(fileTypeResult?.mime?.includes("video"));
 
@@ -338,7 +344,7 @@ const MintNFT: React.FunctionComponent<IProps> = (props) => {
                                     }
                                     height={
                                         ((chosenFileUrl ||
-                                            formik.values?.[Number(params.indexOf("_url"))])) && 
+                                            formik.values?.[Number(params.indexOf("_url"))]) && 
                                             "auto") ||
                                         "463px"
                                     }
@@ -358,26 +364,296 @@ const MintNFT: React.FunctionComponent<IProps> = (props) => {
                                     mb={"18px"}
                                     ></Image>
                             )}
-                            
+
+                            {chosenFileUrl && (
+                                <Box 
+                                {...{
+                                    position: "absolute",
+                                    display: "flex",
+                                    justifyContent: "center",
+                                    alignItems: "center",
+                                    width: "40px",
+                                    height: "40px",
+                                    right: "8px",
+                                    top: "8px",
+                                    background: "rgba(255,255,255,0.3",
+                                    borderRadius: "32px",
+                                }}
+                                cursor="pointer"
+                                onClick={() => {
+                                    if (chosenFileUrl.length) {
+                                        setChosenFile(undefined);
+                                        setChosenFileUrl("");
+                                        setIsVideo(false);
+                                    } else {
+                                        formik.setFieldValue(String(params.indexOf("_url")), "");
+                                    }
+                                }}
+                                >
+                                    <CloseIcon height="12px" width="12px"></CloseIcon>
+                                </Box>
+                            )}
                         </Box>
+
+                        <FormControl 
+                            display={
+                                formik?.values?.[Number(params.indexOf("_url"))]
+                                ? "block"
+                                : "none"
+                            }
+
+                            borderRadius="24px"
+                            key={"_url"}
+                            isInvalid={Boolean(formik.errors[3] && formik.touched[3])}
+                            mt={
+                                ((chosenFileUrl || 
+                                    formik.values?.[Number(params.indexOf("_url"))]) &&
+                                    "auto !important") ||
+                                    "inherit"
+                            }
+                        >
+                            <Input 
+                                isRequired
+                                disabled
+                                _disabled={{ cursor: "default" }}
+                                height={"56px"}
+                                width={"424px"}
+                                placeholder="Cover URL"
+                                key={"_url"}
+                                data-testid={"_url"}
+                                id={String(params.indexOf("_url"))}
+                                name={String(params.indexOf("_url"))}
+                                onChange={formik.handleChange}
+                                type="text"
+                                value={formik.values[
+                                    Number(params.indexOf("_url"))
+                                ]?.toString()}
+                                borderRadius={"32px"}
+                                border="none"
+                                color="#A1C5E2"
+                                bg="#336da6"
+                                {...{
+                                    fontFamily: "Helvetica",
+                                    fontStyle: "normal",
+                                    fontWeight: "normal",
+                                    fontSize: "16px",
+                                    lineHeight: "137.88%",
+                                }}
+                                mb={"32px"}
+                                />
+                            <FormErrorMessage>
+                                {formik.errors[Number(params.indexOf("_url"))]}
+                            </FormErrorMessage>
+
+                        </FormControl>
+
+                        {chosenFileUrl.length ? (
+                            <Button
+                                variant="outline"
+                                _hover={{ background: "transparent", border: "1px solid grey" }}
+                                cursor="pointer"
+                                {...{
+                                    fontFamily: "Helvetica",
+                                    fontStyle: "normal",
+                                    fontWeight: "normal",
+                                    fontSize: "16px",
+                                    lineHeight: "137.88%",
+                                }}
+
+                                color="white"
+                                borderRadius="32px"
+                                boxSizing="border-box"
+                                border="1px solid orange"
+                                borderColor="orange"
+                                textAlign="center"
+                                height={"56px"}
+                                width={"424px"}
+                                mt={
+                                    ((chosenFileUrl || 
+                                        formik.values?.[Number(params.indexOf("_url"))]) && 
+                                        "inherit") ||
+                                        "auto"
+                                }
+                                m={0}
+                                onClick={() => {
+                                    if (chosenFile) {
+                                        saveToIpfs(chosenFile);
+                                    }
+                                }}
+                                >
+                                    {isUploadingCoverImageUrl ? (
+                                        <SpinnerIcon
+                                            color="white"
+                                            animation={`${spin} 2s infinite linear`}
+                                        />
+                                    ) : (
+                                        "Upload File to IPFS"
+                                    )}
+                                </Button>
+
+                        ) : (
+                            <FormLabel
+                                display="inline-block"
+                                cursor="pointer"
+                                {...{
+                                    fontFamily: "Helvetica",
+                                    fontStyle: "normal",
+                                    fontWeight: "norma; ",
+                                    fontSize: "16px",
+                                    lineHeight: "137.88%",
+                                }}
+                                color="white"
+                                borderRadius="32px"
+                                border="1px solid white"
+                                textAlign="center"
+                                height={"56px"}
+                                width={"424px"}
+                                m={0}
+                                mt={
+                                    ((chosenFileUrl ||
+                                        formik.values?.[Number(params.indexOf("_url"))]) && 
+                                        "inherit") ||
+                                        "auto"
+                                }
+                                px={5}
+                                boxSizing="border-box"
+                                py={"17px"}
+                                _hover={{ border: "1px solid grey" }}
+                                >
+
+                                    {"Choose Image or mp4"}
+                                    <Input 
+                                        onChange={(event) => {
+                                            event.stopPropagation();
+                                            event.preventDefault();
+                                            if (event.target.files) {
+                                                return handleChooseFile(event.target.files);
+                                            }
+                                        }}
+                                        display="none"
+                                        type="file"
+                                    />
+                                </FormLabel>
+                        
+                        )}
 
                         </VStack>
 
                 </Center>
 
+                <Center background="white"
+                width={["auto", "auto", "auto", "50%"]}
+                height="100%"
+                py={[5, 5, 5, 5, 0]}
+                px={[5, 5, 5, 5, 20]}
+                borderRadius="16px"
+                borderTopLeftRadius="none"
+                borderBottomLeftRadius="none"
+                >
 
+                    <VStack spacing={"24px"} width={"420px"}>
+                        <Heading
+                            {...{
+                                fontFamily: "Helvetica",
+                                fontStyle: "normal",
+                                fontWeight: "bold",
+                                fontSize: "24px",
+                                lineHeight: "126.39%",
+                                color: "#013A6D",
+                                alignSelf: "flex-start",
+                            }}
+                            mt={`0px !important`}
+                            mb={"8px"}
+                            >
+                                Create a new NFT
+                            </Heading>
 
+                            <Text
+                                {...{
+                                    fontFamily: "Helvetica",
+                                    fontStyle: "normal",
+                                    fontWeight: "normal",
+                                    fontSize: "16px",
+                                    lineHeight: "137.88%",
+                                    color: "#809EBD",
+                                    textAlign: "left",
+                                    alignSelf: "flex-start",
+                                }}
+                                mt={`0px !important`}
+                                mb={"32px"}
+                            >
+                                Add your work, a title, and description
+                            </Text>
 
+                            {params.map((param, index) => {
+                                if (param === "_url") {
+                                    return null;
+                                }
 
+                                return (
+                                    <FormControl
+                                        key={param}
+                                        isInvalid={Boolean(
+                                            formik.errors[index] && formik.touched[index]
+                                        )}
+                                        background="#ECF4FA"
+                                        borderRadius="24px"
+                                        mt={index === 0 ? `0px !important` : "inherit"}
+                                    >
 
+                                        
+                                    </FormControl>
+                                );
+                            })}
+
+                            <Button 
+                                data-testid={"submit"}
+                                type={
+                                    isApproved ||
+                                    formik?.values?.[Number(params.indexOf("_name"))] === 0
+                                    ? "submit"
+                                    : "button"
+                                }
+
+                                onClick={() => {
+                                    !isApproved && 
+                                        formik?.values?.[Number(params.indexOf("_name"))] !== 0 
+                                        // this normally would be for _amount
+                                }}
+
+                                isDisabled={!formik.values?.[Number(params.indexOf("_url"))]}
+                                isLoading={props.isSubmitting || formik.isSubmitting}
+                                variant="outline"
+                                background="#00065D0"
+                                _hover={{ background: darken(0.1, "#0065D0") }}
+                                borderRadius="32px"
+                                width={"100%"}
+                                height={"56px"}
+                                color="white"
+                                _disabled={{ background: darken(0.1, "#0065D0") }}
+                                {...{
+                                    fontFamily: "Helvetica",
+                                    fontStyle: "normal",
+                                    fontWeight: "normal",
+                                    fontSize: "16px",
+                                    lineHeight: "137.88%",
+                                }}
+                                >
+                                    {isApproved ||
+                                        formik?.values?.[Number(params.indexOf("_name"))] === 0
+                                        ? "Submit"
+                                        : "Approve"}
+                                </Button>
+
+                    </VStack>
+                </Center>
             </HStack>
 
-
-
-
         </form>
-    )
+    );
 
 
 
-}
+};
+
+export { MintNFT }
