@@ -12,7 +12,7 @@ export function useMintNFTFormManagement() {
 
     const [currentAddress] = useContext(CurrentAddressContext);
     const [provider] = useContext(ProviderContext);
-    const [PbNFT] = useContext(PbNFTContext);
+    const  PbNFT = useContext(PbNFTContext);
     const [hasSubmitted, setHasSubmitted] = useState(false);
     const [pbnCreatedId, setPbnCreatedId] = useState("");
 
@@ -21,12 +21,14 @@ export function useMintNFTFormManagement() {
 
     const submitHandler = async (params: Parameters<PbNFT["mint"]>) => {
         // debug
+        console.log('hit hit hit');
         console.log(params);
 
         return new Promise(async (resolve) => {
             // Need to convert ether to gwei here for transaction
-            console.log(params[2]);
+            console.log('params2:', params[2]);
 
+        
             // params[2] = ethers.utils.parseUnits(
             //     params[2].toString(),
             //     erc20TokensData.find(
@@ -46,10 +48,14 @@ export function useMintNFTFormManagement() {
                     params as any 
                 );
 
-                const tx = PbNFT?.instance?.mint.apply(
-                    null,
-                    params.concat({ gasLimit: gasLimit?.add("80000") }) as any
-                );
+                const tx = await PbNFT?.instance?.mint(String(currentAddress), params[0], params[1], params[2]);
+
+                // const tx = PbNFT?.instance?.mint.apply(
+                //     currentAddress,
+                //     params[0],
+                //     params[1],
+                //     params[2]
+                // );
 
                 const createNftTx = await tx;
                 await createNftTx?.wait();
@@ -58,11 +64,10 @@ export function useMintNFTFormManagement() {
                 const nftMintedSentEventFilter = PbNFT?.instance?.filters?.NFTMinted(
                     String(currentAddress),
                     null,
-                    null,
-                    null
                 );
 
                 if (nftMintedSentEventFilter) {
+
                     const logs = await provider?.getLogs({
                         ...nftMintedSentEventFilter,
                         fromBlock: 0,
@@ -78,7 +83,9 @@ export function useMintNFTFormManagement() {
 
                         setPbnCreatedId(nftMinted?.[2]);
                     }
+
                 }
+
 
                 resolve(true);
 
@@ -103,8 +110,8 @@ export function useMintNFTFormManagement() {
         "",
         "",
         "",
-        "",
     ];
+    
     return {
         onSubmit,
         initialValues,

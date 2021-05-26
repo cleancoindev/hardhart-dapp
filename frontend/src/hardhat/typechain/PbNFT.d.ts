@@ -27,7 +27,7 @@ interface PbNFTInterface extends ethers.utils.Interface {
     "breads(uint256)": FunctionFragment;
     "getApproved(uint256)": FunctionFragment;
     "isApprovedForAll(address,address)": FunctionFragment;
-    "mint(address,string,string,string,string)": FunctionFragment;
+    "mint(address,string,string,string)": FunctionFragment;
     "name()": FunctionFragment;
     "owner()": FunctionFragment;
     "ownerOf(uint256)": FunctionFragment;
@@ -64,7 +64,7 @@ interface PbNFTInterface extends ethers.utils.Interface {
   ): string;
   encodeFunctionData(
     functionFragment: "mint",
-    values: [string, string, string, string, string]
+    values: [string, string, string, string]
   ): string;
   encodeFunctionData(functionFragment: "name", values?: undefined): string;
   encodeFunctionData(functionFragment: "owner", values?: undefined): string;
@@ -263,7 +263,6 @@ export class PbNFT extends BaseContract {
 
     mint(
       owner: string,
-      tokenURI: string,
       _name: string,
       _desc: string,
       _url: string,
@@ -377,7 +376,6 @@ export class PbNFT extends BaseContract {
 
   mint(
     owner: string,
-    tokenURI: string,
     _name: string,
     _desc: string,
     _url: string,
@@ -485,7 +483,6 @@ export class PbNFT extends BaseContract {
 
     mint(
       owner: string,
-      tokenURI: string,
       _name: string,
       _desc: string,
       _url: string,
@@ -627,7 +624,6 @@ export class PbNFT extends BaseContract {
 
     mint(
       owner: string,
-      tokenURI: string,
       _name: string,
       _desc: string,
       _url: string,
@@ -738,7 +734,6 @@ export class PbNFT extends BaseContract {
 
     mint(
       owner: string,
-      tokenURI: string,
       _name: string,
       _desc: string,
       _url: string,

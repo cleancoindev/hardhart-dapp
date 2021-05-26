@@ -4,16 +4,29 @@ import React, { useCallback, useContext, useEffect, useState } from 'react';
 import { Button, VStack, Input, FormControl, FormErrorMessage, Box, HStack, Center, Image, Heading, useClipboard, Text, FormLabel, keyframes, Spinner } from '@chakra-ui/react';
 import { CloseIcon, CopyIcon, SmallCloseIcon, SpinnerIcon } from '@chakra-ui/icons';
 
-import ipfsClient, { 
+import ipfsClient, {
     // @ts-ignore-next
     urlSource,
-} from 'ipfs-http-client';
+  } from "ipfs-http-client";
 import { darken } from 'polished';
 import  graphic  from './graphic.png'
 import { useMintNFTFormManagement } from './useMintNFTFormManagement';
 import { Form, useFormik } from 'formik';
+import { BigNumber, ethers } from 'ethers';
 
 import { CurrentAddressContext, ProviderContext, SignerContext } from '../../hardhat/SymfoniContext';
+import all from 'it-all';
+import fileType from 'file-type';
+
+// const ipfs = create(new URL('https://ipfs.infura.io:5001'));
+const ipfs = ipfsClient({ url: "https://ipfs.infura.io:5001" });
+
+
+
+const spin = keyframes`
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+`;
 
 
 interface IProps {
@@ -178,6 +191,7 @@ const MintNFT: React.FunctionComponent<IProps> = (props) => {
     const [chosenFileUrl, setChosenFileUrl] = useState<string>("");
     const [isVideo, setIsVideo] = useState<boolean>(false);
 
+    const [pbNFTContract, set] = useState<ethers.Contract | undefined>(undefined);
 
     // Check if our IPFS file is a video 
     useEffect(() => {
@@ -188,8 +202,8 @@ const MintNFT: React.FunctionComponent<IProps> = (props) => {
             if (ipfsFileUrl?.includes("mp4") && !isVideo) {
                 setIsVideo(true);
             } else if (ipfsFileUrl?.includes("ipfs") && !isVideo) {
-                const [urlSourced] = await all <any>(urlSource(ipfsFileUrl));
-                const [file] = await all<ArrayBuffer(urlSourced.content);
+                const [urlSourced] = await all<any>(urlSource(ipfsFileUrl));
+                const [file] = await all<ArrayBuffer>(urlSourced.content);
                 const fileTypeResult = await fileType.fromBuffer(file);
                 const isVideo = Boolean(fileTypeResult?.mime?.includes("video"));
 
@@ -199,6 +213,15 @@ const MintNFT: React.FunctionComponent<IProps> = (props) => {
 
         fetch();
     }, [_url, isVideo]);
+
+    // Transaction approval here
+    // const approveMint = useCallback() => {
+
+    //     const fetch = async () => {
+
+    //         if ()
+    //     }
+    // };
 
     async function saveToIpfs(file: File) {
 
@@ -221,6 +244,8 @@ const MintNFT: React.FunctionComponent<IProps> = (props) => {
                     setIsUploadingImage(false);
                     setChosenFile(undefined);
                     setChosenFileUrl("");
+                    // MARK debug
+                    setIsApproved(true);
                 })
                 .catch((err) => {
                     console.error(err);
@@ -299,7 +324,7 @@ const MintNFT: React.FunctionComponent<IProps> = (props) => {
                     boxShadow: "0px 0px 68px rgba(27, 39, 70, 0.15)",
                     borderRadius: "16px",
                     background: 
-                        "linear-gradient(342.98deg, #013A6D 0%, #0055AC 56.01%, #0065D0 93.35%)",
+                        "black",
                 }}
                 width={["auto", "auto", "auto", "1200px"]}
                 height={["auto", "auto", "auto", "775px"]}
@@ -337,6 +362,7 @@ const MintNFT: React.FunctionComponent<IProps> = (props) => {
 
                                 <Image 
                                     borderRadius="16px"
+                                    borderColor="white"
                                     maxHeight={
                                         (chosenFileUrl ||
                                             formik.values?.[Number(params.indexOf("_url"))]) &&
@@ -377,7 +403,7 @@ const MintNFT: React.FunctionComponent<IProps> = (props) => {
                                     right: "8px",
                                     top: "8px",
                                     background: "rgba(255,255,255,0.3",
-                                    borderRadius: "32px",
+                                    borderRadius: "0px",
                                 }}
                                 cursor="pointer"
                                 onClick={() => {
@@ -402,7 +428,7 @@ const MintNFT: React.FunctionComponent<IProps> = (props) => {
                                 : "none"
                             }
 
-                            borderRadius="24px"
+                            borderRadius="0px"
                             key={"_url"}
                             isInvalid={Boolean(formik.errors[3] && formik.touched[3])}
                             mt={
@@ -428,10 +454,10 @@ const MintNFT: React.FunctionComponent<IProps> = (props) => {
                                 value={formik.values[
                                     Number(params.indexOf("_url"))
                                 ]?.toString()}
-                                borderRadius={"32px"}
+                                borderRadius={"0px"}
                                 border="none"
-                                color="#A1C5E2"
-                                bg="#336da6"
+                                color="black"
+                                bg="white"
                                 {...{
                                     fontFamily: "Helvetica",
                                     fontStyle: "normal",
@@ -461,7 +487,7 @@ const MintNFT: React.FunctionComponent<IProps> = (props) => {
                                 }}
 
                                 color="white"
-                                borderRadius="32px"
+                                borderRadius="0px"
                                 boxSizing="border-box"
                                 border="1px solid orange"
                                 borderColor="orange"
@@ -503,7 +529,7 @@ const MintNFT: React.FunctionComponent<IProps> = (props) => {
                                     lineHeight: "137.88%",
                                 }}
                                 color="white"
-                                borderRadius="32px"
+                                borderRadius="0px"
                                 border="1px solid white"
                                 textAlign="center"
                                 height={"56px"}
@@ -559,7 +585,7 @@ const MintNFT: React.FunctionComponent<IProps> = (props) => {
                                 fontWeight: "bold",
                                 fontSize: "24px",
                                 lineHeight: "126.39%",
-                                color: "#013A6D",
+                                color: "black",
                                 alignSelf: "flex-start",
                             }}
                             mt={`0px !important`}
@@ -575,7 +601,7 @@ const MintNFT: React.FunctionComponent<IProps> = (props) => {
                                     fontWeight: "normal",
                                     fontSize: "16px",
                                     lineHeight: "137.88%",
-                                    color: "#809EBD",
+                                    color: "grey",
                                     textAlign: "left",
                                     alignSelf: "flex-start",
                                 }}
@@ -596,10 +622,37 @@ const MintNFT: React.FunctionComponent<IProps> = (props) => {
                                         isInvalid={Boolean(
                                             formik.errors[index] && formik.touched[index]
                                         )}
-                                        background="#ECF4FA"
-                                        borderRadius="24px"
+                                        background="white"
+                                        borderRadius="0px"
                                         mt={index === 0 ? `0px !important` : "inherit"}
                                     >
+                                        <FormLabel textAlign="center" htmlFor="_name"></FormLabel>
+                                        <FormLabel textAlign="center" htmlFor="_desc"></FormLabel>
+
+                                        <Input
+                                            isRequired
+                                            placeholder={getPlaceholder(param)}
+                                            key={param}
+                                            data-testid={param}
+                                            id={index.toString()}
+                                            name={index.toString()}
+                                            onChange={formik.handleChange}
+                                            type={"text"}
+                                            value={formik.values[index]?.toString()}
+                                            {...{
+                                                fontFamily: "Helvetica",
+                                                fontStyle: "normal",
+                                                fontWeight: "normal",
+                                                fontSize: "16px",
+                                                textAlign: "left",
+                                                
+                                            }}
+                                            height={"56px"}
+                                            width={"424px"}
+                                            borderRadius="0px"
+                                            borderColor="black"
+                                        />
+                                        <FormErrorMessage>{formik.errors[index]}</FormErrorMessage>
 
                                         
                                     </FormControl>
@@ -619,18 +672,19 @@ const MintNFT: React.FunctionComponent<IProps> = (props) => {
                                     !isApproved && 
                                         formik?.values?.[Number(params.indexOf("_name"))] !== 0 
                                         // this normally would be for _amount
+                                        // make transaction here
                                 }}
 
-                                isDisabled={!formik.values?.[Number(params.indexOf("_url"))]}
+                                isDisabled={!formik.values?.[Number(params.indexOf("_name"))]}
                                 isLoading={props.isSubmitting || formik.isSubmitting}
                                 variant="outline"
-                                background="#00065D0"
-                                _hover={{ background: darken(0.1, "#0065D0") }}
-                                borderRadius="32px"
+                                background="grey"
+                                _hover={{ background: darken(0.1, "black") }}
+                                borderRadius="0px"
                                 width={"100%"}
                                 height={"56px"}
                                 color="white"
-                                _disabled={{ background: darken(0.1, "#0065D0") }}
+                                _disabled={{ background: darken(0.1, "black") }}
                                 {...{
                                     fontFamily: "Helvetica",
                                     fontStyle: "normal",

@@ -33,7 +33,7 @@ contract PbNFT is ERC721, Ownable {
         uint256 indexed tokenId
     );
 
-    function mint(address owner, string memory tokenURI, 
+    function mint(address owner, 
         string calldata _name, 
         string calldata _desc,
         string calldata _url ) external {

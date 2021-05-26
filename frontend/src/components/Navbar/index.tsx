@@ -108,7 +108,11 @@ const handleWeb3ProviderConnect = (
 
     const pbNFT = useContext(PbNFTContext);
     const erc721 = useContext(ERC721Context);
+
+    console.log(pbNFT);
+    console.log(erc721);
     
+
     // const erc721 = getERC721(web3provider, signer);
 
     setPbNFT(pbNFT);
