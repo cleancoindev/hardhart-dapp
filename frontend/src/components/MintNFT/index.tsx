@@ -1,7 +1,7 @@
 // MintNFT index.ts is a react component for uploading/minting/pinning NFT's on IPFS and Polygon
 
 import React, { useCallback, useContext, useEffect, useState } from 'react';
-import { Button, VStack, Input, FormControl, FormErrorMessage, Box, HStack, Center, Image, Heading, useClipboard, Text, FormLabel, keyframes, Spinner } from '@chakra-ui/react';
+import { Button, VStack, Input, FormControl, FormErrorMessage, Box, HStack, Center, Image, Heading, useClipboard, Text, FormLabel, keyframes, Spinner, useColorMode, useColorModeValue } from '@chakra-ui/react';
 import { CloseIcon, CopyIcon, SmallCloseIcon, SpinnerIcon } from '@chakra-ui/icons';
 
 import ipfsClient, {
@@ -201,6 +201,11 @@ const MintNFT: React.FunctionComponent<IProps> = (props) => {
 
     const [pbNFTContract, set] = useState<ethers.Contract | undefined>(undefined);
 
+
+    // color mode shit
+    const bgColor = useColorModeValue("black.500", "black.200");
+    const textColor = useColorModeValue("white.500", "black.500");
+
     // Check if our IPFS file is a video 
     useEffect(() => {
         const fetch = async function () {
@@ -330,9 +335,9 @@ const MintNFT: React.FunctionComponent<IProps> = (props) => {
                 spacing={0}
                 {...{
                     boxShadow: "0px 0px 68px rgba(27, 39, 70, 0.15)",
-                    borderRadius: "16px",
+                    borderRadius: "0px",
                     background: 
-                        "black",
+                        bgColor,
                 }}
                 width={["auto", "auto", "auto", "1200px"]}
                 height={["auto", "auto", "auto", "775px"]}

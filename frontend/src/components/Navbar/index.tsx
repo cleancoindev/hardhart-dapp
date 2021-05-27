@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { useColorMode, Flex, Text, Button, HStack, Heading, Link as CLink, Center, IconButton, color } from "@chakra-ui/react";
+import { useColorMode, Flex, Text, Button, HStack, Heading, Link as CLink, Center, IconButton, color, useColorModeValue } from "@chakra-ui/react";
 import { MoonIcon, SunIcon } from '@chakra-ui/icons'
 import NavLink from "next/link";
 import Web3Modal, { IProviderOptions } from "web3modal";
@@ -193,6 +193,7 @@ const Links = () => (
         <HStack spacing={10}>
             <OurLink href="/samplebread">test link1</OurLink>
             <OurLink href="/mint-nft">NFT</OurLink>
+            <OurLink href="/nfts">COLLECTION</OurLink>
         </HStack>
     </Center>
 );
@@ -213,6 +214,7 @@ const Navbar: React.FunctionComponent<IProps> = (props) => {
 
     // Chakra color mode
     const { colorMode, toggleColorMode } = useColorMode();
+    
 
     const handleToggle = () => {
          toggleColorMode();
@@ -226,13 +228,17 @@ const Navbar: React.FunctionComponent<IProps> = (props) => {
         } else {
             return (<SunIcon />);
         }
+        
     }
 
+    const bgColor = useColorModeValue("black.500", "black.200");
+    const textColor = useColorModeValue("white.500", "black.500");
+
     return (
-        <Flex width="100%" px={[2,10]} py={4}>
+        <Flex width="100%" px={[2,10]} py={4} borderColor={bgColor} border="2px">
             <Logo></Logo>
             <Links></Links>
-            <Center>
+            <Center border="2px" borderColor={bgColor} >
                 {ensName ? (
                     <Text ml="auto"
                           mr="auto"

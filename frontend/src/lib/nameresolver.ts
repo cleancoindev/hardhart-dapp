@@ -30,10 +30,12 @@ export const nameResolver = (lookupAddress?: string, format: boolean = false) =>
                 }
 
             }  else if (currentAddress) {
+
                 try {
                     const ensName = await provider?.lookupAddress(lookupAddress);
                 } catch (error) {
                     console.error("could not resolve ENS name",error)
+                    
                 }
                 // const ensName = await provider?.lookupAddress(currentAddress);
 
