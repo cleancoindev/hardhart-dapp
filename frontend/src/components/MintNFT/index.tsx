@@ -329,7 +329,9 @@ const MintNFT: React.FunctionComponent<IProps> = (props) => {
         return (
             <Submitted 
                 id={mgmt.pbnCreatedId}
-                url={formik.values?.["5"]}
+                url={formik?.values?.[
+                    Number(params?.indexOf("_url"))
+                ]?.toString() || 'whydontthisworkman'}
             ></Submitted>
         );
     }
