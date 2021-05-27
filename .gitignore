@@ -5,6 +5,7 @@
 ## API ##
 .secret
 chainstack.json
+data/
 
 ### Solidity ###
 # Logs

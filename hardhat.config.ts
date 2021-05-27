@@ -8,6 +8,7 @@ import '@typechain/hardhat'
 import "@typechain/ethers-v5";
 import "typechain-target-ethers-v5";
 import 'tsconfig-paths/register'; // adds support for typescript paths mappings
+import 'hardhat-abi-exporter';
 
 import { HardhatUserConfig, task } from "hardhat/config";
 import * as chainstack from './chainstack.json';
@@ -86,11 +87,18 @@ const config: HardhatUserConfig = {
     sources: "./contracts",
     tests: "./test",
     cache: "./cache",
-    artifacts: "./artifacts"
+    artifacts: "./artifacts",
+    deployments: './frontend/src/hardhat/deployments'
   },
 
   mocha: {
     timeout: 20000
+  },
+
+  abiExporter: {
+    path: './data/abi',
+    clear: true,
+    spacing: 2
   },
 
 };

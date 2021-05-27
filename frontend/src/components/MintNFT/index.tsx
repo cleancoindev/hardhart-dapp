@@ -14,9 +14,14 @@ import { useMintNFTFormManagement } from './useMintNFTFormManagement';
 import { Form, useFormik } from 'formik';
 import { BigNumber, ethers } from 'ethers';
 
+import PbNFTDeployment from '../../hardhat/deployments/chainstack/PbNFT.json';
+
 import { CurrentAddressContext, ProviderContext, SignerContext } from '../../hardhat/SymfoniContext';
 import all from 'it-all';
 import fileType from 'file-type';
+
+
+
 
 // const ipfs = create(new URL('https://ipfs.infura.io:5001'));
 const ipfs = ipfsClient({ url: "https://ipfs.infura.io:5001" });
@@ -38,6 +43,9 @@ interface ISubmittedProps {
     url: string;
     id: string;
 }
+
+export const PbNFTContractAddress = PbNFTDeployment.receipt.contractAddress;
+export const PbNFTAbi = PbNFTDeployment.abi;
 
 // Form input params
 export const params = [
