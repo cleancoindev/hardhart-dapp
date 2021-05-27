@@ -64,7 +64,7 @@ export function useMintNFTFormManagement() {
                 
                 // TESTING REMOVE FOR MAINNET
             
-                const connect = PbNFT?.instance?.connect(provider);
+                // const connect = PbNFT?.instance?.connect(provider);
                 
                 const gasLimit = await PbNFT?.instance?.estimateGas.mint(String(currentAddress), params[0], params[1], params[2])
                 
