@@ -9,7 +9,8 @@ import ipfsClient, {
     urlSource,
   } from "ipfs-http-client";
 import { darken } from 'polished';
-import  graphic  from './graphic.png'
+// import  graphic  from '../../../public/graphic.png';
+
 import { useMintNFTFormManagement } from './useMintNFTFormManagement';
 import { Form, useFormik } from 'formik';
 import { BigNumber, ethers } from 'ethers';
@@ -402,7 +403,7 @@ const MintNFT: React.FunctionComponent<IProps> = (props) => {
                                         formik.values?.[
                                           Number(params.indexOf("_url"))
                                         ]?.toString() ||
-                                        graphic
+                                        '/graphic.png'
                                     }
                                     mb={"18px"}
                                     ></Image>
