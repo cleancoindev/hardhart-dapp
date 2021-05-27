@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: ISC
+
 pragma solidity ^0.7.3;
 
 // SampleBread contract defines a marketplace for renting samples
