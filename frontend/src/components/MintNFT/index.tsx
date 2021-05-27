@@ -64,12 +64,16 @@ export const Submitted: React.FC<ISubmittedProps> = (props) => {
     const { hasCopied: hasIdCopied, onCopy: onIdCopy } = useClipboard(nftIdUrl);
 
 
+    const bgColor = useColorModeValue("black.500", "black.200");
+    const textColor = useColorModeValue("white.500", "black.500");
+
+
     return (
         <Center 
             width={["auto", "auto", "90vw", "1200px"]}
             height={["auto", "auto", "auto", "775px"]}
             {...{
-                background: "black",
+                background: bgColor,
                 borderRadius: "16px",
                 py: 8
             }}
@@ -82,7 +86,7 @@ export const Submitted: React.FC<ISubmittedProps> = (props) => {
                         fontStyle: "normal",
                         fontWeight: "bold",
                         fontSize: "24px",
-                        color: "white",
+                        color: textColor,
                     }}
                     mb={"24px"}
                 >
@@ -100,7 +104,7 @@ export const Submitted: React.FC<ISubmittedProps> = (props) => {
                         width: "290px",
                         whiteSpace: "nowrap",
                         overflow: "hidden",
-                        color: "white",
+                        color: textColor,
                     }}
                     >
                         {props.url}
@@ -121,7 +125,7 @@ export const Submitted: React.FC<ISubmittedProps> = (props) => {
 
                 <VStack spacing={1}>
                     <Text
-                        color="white"
+                        color={textColor}
                         {...{
                             fontFamily: "Helvetica",
                             fontStyle: "normal",
@@ -142,7 +146,7 @@ export const Submitted: React.FC<ISubmittedProps> = (props) => {
                                 fontSize: "18px",
                                 width: "400px",
                                 textAlign: "center",
-                                color: "white",
+                                color: textColor,
                             }}
                             >
                                 Share the image and URL 
@@ -469,8 +473,8 @@ const MintNFT: React.FunctionComponent<IProps> = (props) => {
                                 ]?.toString()}
                                 borderRadius={"0px"}
                                 border="none"
-                                color="black"
-                                bg="white"
+                                color={textColor}
+                                bg={bgColor}
                                 {...{
                                     fontFamily: "Helvetica",
                                     fontStyle: "normal",
@@ -499,7 +503,7 @@ const MintNFT: React.FunctionComponent<IProps> = (props) => {
                                     lineHeight: "137.88%",
                                 }}
 
-                                color="white"
+                                color={textColor}
                                 borderRadius="0px"
                                 boxSizing="border-box"
                                 border="1px solid orange"
@@ -541,9 +545,10 @@ const MintNFT: React.FunctionComponent<IProps> = (props) => {
                                     fontSize: "16px",
                                     lineHeight: "137.88%",
                                 }}
-                                color="white"
+                                color={textColor}
                                 borderRadius="0px"
-                                border="1px solid white"
+                                border="1px"
+                                borderColor={bgColor}
                                 textAlign="center"
                                 height={"56px"}
                                 width={"424px"}

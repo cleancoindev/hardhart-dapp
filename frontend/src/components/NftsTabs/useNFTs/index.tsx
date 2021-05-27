@@ -26,8 +26,8 @@ export function useNfts() {
 
             if (nftMintedSentEventFilter) {
 
-          
-                    const logs = await provider?.getLogs({ ...nftMintedSentEventFilter, fromBlock: 0, toBlock: 'latest' });
+                
+                    const logs = await provider?.getLogs({ ...nftMintedSentEventFilter, fromBlock: 0 });
                     // logs?.forEach(log => console.log(log.transactionHash));
     
                     const nftsMinted = logs?.map((log) => PbNFT?.instance?.interface?.parseLog(log)?.args);
@@ -49,8 +49,9 @@ export function useNfts() {
     
     
                     let nfts = await Promise.all(ids.map((id) => PbNFT?.instance?.breads(id)));
+
                     (nfts as any) = ids.map((id, index) => ({ ...nfts[index], id}));
-    
+                    console.log('nfts:' ,nfts);
                     setNftsOwned(nfts);
                   
 
@@ -97,7 +98,7 @@ export function useNfts() {
 
 
         
-    }, [PbNFT?.instance, signer, provider, currentAddress ]);
+    }, [PbNFT?.instance, signer, provider, currentAddress]);
 
 
     return { nftsOwned };

@@ -32,9 +32,14 @@ This repo contains both the "backend" (hardhat solidity dev environment) and fro
   * contract artifacts are stored in [`./artifacts`](./artifacts)
   * generated contract typechain bindings are stored in [`./frontend/src/hardhat`](./frontend/src/hardhat)
   
+  
 * Tests
   * unit tests are located in [`./test`](./test) and use mocha + chai for verbose testing.
   * contract interaction is imported from typechain. see [`./test/SampleBread.ts`](./test/SampleBread.ts) for an example.
+
+## Deploying Contracts
+
+`npx hardhat --network [NETWORK_ID] deploy`
 
 
 ## Frontend

@@ -52,15 +52,20 @@ const NoNFTs: React.FC = () => {
 
 const NFTs: React.FunctionComponent<IProps> = (props) => {
 
+    console.log('props: ', props);
+
     return (
-        <Wrap spacing={"24px"} px={6} justify="center">
-            {props?.nfts?.length ? ( 
-                props?.nfts.map((nft) => (
+        <Wrap spacing={"24px"} px={20} justify="center">
+
+            {props?.nfts?.nftsOwned?.length ? ( 
+                props?.nfts.nftsOwned.map((nft) => (
                     <WrapItem>
                         <NFT {...nft}></NFT>
                     </WrapItem>
+         
                 ))
             ) : (
+
                 <NoNFTs></NoNFTs>
 
 

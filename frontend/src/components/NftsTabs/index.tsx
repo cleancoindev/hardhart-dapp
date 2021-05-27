@@ -11,7 +11,7 @@ interface IProps {}
 
 const NftsTabs: React.FunctionComponent<IProps> = (props) => {
 
-    const nftsOwned = useNfts();
+    const  nftsOwned  = useNfts();
 
     const bgColor = useColorModeValue("black.500", "black.200");
     const textColor = useColorModeValue("white.500", "black.500");

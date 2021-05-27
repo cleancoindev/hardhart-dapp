@@ -1,7 +1,7 @@
 
 
 import React, { useEffect, useState } from 'react';
-import { Flex, Stack, Text, Button, Image, VStack, Heading, useColorModeValue } from '@chakra-ui/react';
+import { Flex, Stack, Text, Button, Image, VStack, Heading, useColorModeValue, Box } from '@chakra-ui/react';
 import fileType from 'file-type';
 import { BigNumber, ethers } from 'ethers';
 import Link from 'next/link';
@@ -11,6 +11,7 @@ import {
     //@ts-ignore-next
     urlSource,
 } from 'ipfs-http-client';
+import { borderColor } from 'polished';
 
 
 
@@ -78,7 +79,7 @@ const NFT: React.FunctionComponent<PbNFTModel> = (props) => {
 
     return (
         <Link href={`/nft/${props.id}`}>
-            <VStack spacing={0} width="220px" boxShadow="0px opx 24px rgba(27, 39, 70, 0.1)" cursor="pointer">
+            <VStack spacing={10} width="auto" boxShadow="0px opx 24px rgba(27, 39, 70, 0.1)" cursor="pointer" border="2px">
 
                 {isVideo ? (
 
@@ -90,26 +91,32 @@ const NFT: React.FunctionComponent<PbNFTModel> = (props) => {
                         playsInline
                         height="auto"
                         width="220px"
-                        style={{ borderRadius: "16px"}}
+                        style={{ borderRadius: "0px"}}
                     />
                 ) : (
-                    <Image width="220px" height="auto" src={props?.url} borderRadius="16px"></Image>
+                    <Image width="220px" height="auto" src={props?.url} borderRadius="0px" border="2px" marginTop="5" borderColor={bgColor}></Image>
                 )}
 
 
-                <VStack p={2} width="100%" spacing={1} alignItems="flex-start">
+                <VStack p={2} width="100%" spacing={1} alignItems="flex-start" >
+                    <Box border="2px" borderColor={bgColor}>
 
-                    <Heading as="h4" fontFamily="Helvetica" fontSize="18px" fontWeight="700" color={textColor}>
-                        {props?.name}
-                    </Heading>
+                        <Heading as="h4" fontFamily="Helvetica" fontSize="18px" fontWeight="700" color={textColor}>
+                            <Text as="kbd" fontSize="10px">title: </Text>{props?.name}
+                        </Heading>
                     
-                    <Text fontFamily="Helvetica" fontSize="16px" fontWeight="bold" color={textColor}>
-                        {props?.createdBy}
-                    </Text>
 
-                    <Text fontFamily="Helvetica" fontSize="16px" fontWeight="bold" color={textColor}>
-                        {props?.description}
-                    </Text>
+                        <Text fontFamily="Helvetica" fontSize="16px" fontWeight="bold" color={textColor}>
+                            <Text as="kbd" fontSize="10px">description: </Text>{props?.description}
+                        </Text>
+
+                        <Text fontFamily="Helvetica" fontSize="16px" fontWeight="bold" color={textColor}>
+                            <Text as="kbd" fontSize="10px">creator: </Text>{props?.createdBy}
+                        </Text>
+
+                    </Box>
+
+
 
 
                 </VStack> 
