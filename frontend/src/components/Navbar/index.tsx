@@ -1,5 +1,17 @@
 import React, { useContext, useEffect, useState } from "react";
-import { useColorMode, Flex, Text, Button, HStack, Heading, Link as CLink, Center, IconButton, color, useColorModeValue } from "@chakra-ui/react";
+import { Box, useColorMode, Flex, Text, Button, HStack, Heading, Link as CLink, Center, IconButton, color, useColorModeValue, 
+Popover,
+PopoverTrigger,
+PopoverContent,
+PopoverHeader,
+PopoverBody,
+PopoverFooter,
+PopoverArrow,
+PopoverCloseButton,
+Portal,
+Icon,  
+Link} from "@chakra-ui/react";
+import { DiGithubBadge } from 'react-icons/di';
 import { MoonIcon, SunIcon } from '@chakra-ui/icons'
 import NavLink from "next/link";
 import Web3Modal, { IProviderOptions } from "web3modal";
@@ -247,11 +259,11 @@ const Navbar: React.FunctionComponent<IProps> = (props) => {
                         fontStyle: "normal",
                         fontWeight: "normal",
                         fontSize: "16px",
-                        color: "#809EBD",
+                        color: textColor,
                         
                     }}
                     _hover={{
-                        color: "black",
+                        color: textColor,
                       }}
                     >
                         {ensName}
@@ -280,6 +292,39 @@ const Navbar: React.FunctionComponent<IProps> = (props) => {
                 </IconButton>
               
             </Center>
+
+            <Box border="2px" marginLeft="5px">
+                <Popover>
+                    <PopoverTrigger>
+                        <Button fontFamily="Helvetica" >info</Button>
+                    </PopoverTrigger>
+                    <Portal>
+                        <PopoverContent>
+                            <PopoverArrow />
+                            <PopoverHeader fontFamily="Helvetica" fontSize="16px" fontWeight="bold">PolyBread Alpha</PopoverHeader>
+                            <PopoverCloseButton />
+
+                            <PopoverBody>
+                                <Text as="kbd" fontSize="sm">deployed on polygon/matic mumbai testnet</Text>
+                            </PopoverBody>
+
+                            <PopoverFooter as="kbd" fontSize="x-small" >version 0.0.1 pre-release alpha</PopoverFooter>
+                            <PopoverFooter as="kbd" fontSize="x-small" >
+                                <Link href='https://github.com/bretth18/hardhart-dapp'>
+                                    <Icon as={DiGithubBadge} fontSize="xl"></Icon>
+                                </Link>
+                            </PopoverFooter>
+
+                        </PopoverContent>
+                    </Portal>
+ 
+
+                </Popover>
+                {/* <Text as="kbd" noOfLines={[2,3]} fontSize="10px" >
+                    PBv0.0.1
+                    mumbai testnet
+                </Text> */}
+            </Box>
         </Flex>
     );
 };

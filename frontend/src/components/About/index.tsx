@@ -49,7 +49,7 @@ const Content: React.FC<IContentProps> = (props) => {
             color: "#809EBD",
           }}
         >
-          connect to the fuckin dApp.
+          connect your wallet to begin using PolyBread
         </Text>
       </VStack>
       {/* TODO: Hide until route implemented */}
