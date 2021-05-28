@@ -11,7 +11,7 @@ export const params = [];
 
 
 interface IProps {
-    nfts: [PbNFTModel & { description?: string }];
+    nfts: any,
 }
 
 
@@ -54,11 +54,12 @@ const NFTs: React.FunctionComponent<IProps> = (props) => {
 
     console.log('props: ', props);
 
+    // haha look at all this dumb shit i had to do just to get this to work fuck typescript fuck react fuck facebook 
     return (
         <Wrap spacing={"24px"} px={20} justify="center">
 
             {props?.nfts?.nftsOwned?.length ? ( 
-                props?.nfts?.nftsOwned?.map((nft) => (
+                props?.nfts?.nftsOwned?.map((nft: JSX.IntrinsicAttributes & PbNFTModel & { children?: React.ReactNode; }) => (
                     <WrapItem>
                         <NFT {...nft}></NFT>
                     </WrapItem>

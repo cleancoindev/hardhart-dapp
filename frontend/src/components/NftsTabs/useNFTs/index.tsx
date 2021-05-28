@@ -13,7 +13,8 @@ export function useNfts() {
 
     const PbNFT = useContext(PbNFTContext);
 
-    const [nftsOwned, setNftsOwned] = useState<(PbNFTModel | undefined)[]>();
+    const [nftsOwned, setNftsOwned] = useState<(PbNFTModel | undefined)>();
+    // const [nftsSent, setNftsSent] = useState<(PbNFTModel | undefined)>();
 
 
     useEffect(() => {
