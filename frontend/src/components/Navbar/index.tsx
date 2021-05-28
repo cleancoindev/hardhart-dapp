@@ -150,8 +150,8 @@ const OurLink = (props: any) => {
     const [_signer, setSigner] = useContext(SignerContext);
     const [_currentAddress, setCurrentAddress] = useContext(CurrentAddressContext);
     // const [SampleBread, setSampleBread] = useContext(SampleBreadContext);
-    const [PbNFT, setPbNFT] = useContext(PbNFTContext);
-    const [ERC721, setERC721] = useContext(ERC721Context);
+    const [PbNFT, setPbNFT] = useState("");
+    const [ERC721, setERC721] = useState("");
 
 
     const Router = useRouter();
