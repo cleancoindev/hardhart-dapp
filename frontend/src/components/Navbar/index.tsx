@@ -35,15 +35,15 @@ import {
 
 
 // Node access from our chainstack polygon node
-import * as chainstack from '../../../../chainstack.json';
+// import * as chainstack from '../../../../chainstack.json';
 import { formatAddress } from '../../lib/formataddress';
 import { useRouter } from 'next/router';
 import { nameResolver } from '../../lib/nameresolver';
 
 
 const network = "testnet";
-const CS_USERNAME = chainstack.CS_USERNAME;
-const CS_PASSWORD = chainstack.CS_PASSWORD;
+const CS_USERNAME = process.env.CS_USERNAME;
+const CS_PASSWORD = process.env.CS_PASSWORD;
 
 interface IProps {}
 
