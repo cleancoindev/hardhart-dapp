@@ -13,7 +13,7 @@ export function useNfts() {
 
     const PbNFT = useContext(PbNFTContext);
 
-    const [nftsOwned, setNftsOwned] = useState<(PbNFTModel | undefined)[]>([]);
+    const [nftsOwned, setNftsOwned] = useState<(PbNFTModel | undefined)[]>();
 
 
     useEffect(() => {
@@ -34,7 +34,7 @@ export function useNfts() {
     
                     // check the printout here for where our id is
     
-                    const ids: string[] = nftsMinted?.map((nft) => {
+                    const ids:string[] = nftsMinted?.map((nft) => {
     
                         console.log('nft-loading:', nft);
                         const id = nft?.[1];
@@ -45,7 +45,7 @@ export function useNfts() {
 
                         return idNumformat;
     
-                    });
+                    }) ?? [''];
     
     
                     let nfts = await Promise.all(ids.map((id) => PbNFT?.instance?.breads(id)));
@@ -101,5 +101,5 @@ export function useNfts() {
     }, [PbNFT?.instance, signer, provider, currentAddress]);
 
 
-    return { nftsOwned };
+    return  {nftsOwned};
 }

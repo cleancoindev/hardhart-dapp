@@ -101,6 +101,11 @@ const NFT: React.FunctionComponent<PbNFTModel> = (props) => {
                 <VStack p={2} width="100%" spacing={1} alignItems="flex-start" >
                     <Box border="2px" borderColor={bgColor}>
 
+                        <Text fontFamily="Helvetica" fontSize="16px" fontWeight="bold" color={textColor}>
+                            <Text as="kbd" fontSize="10px">tokenID: </Text>{props?.id}
+                        </Text>
+
+
                         <Heading as="h4" fontFamily="Helvetica" fontSize="18px" fontWeight="700" color={textColor}>
                             <Text as="kbd" fontSize="10px">title: </Text>{props?.name}
                         </Heading>
@@ -113,6 +118,7 @@ const NFT: React.FunctionComponent<PbNFTModel> = (props) => {
                         <Text fontFamily="Helvetica" fontSize="16px" fontWeight="bold" color={textColor}>
                             <Text as="kbd" fontSize="10px">creator: </Text>{props?.createdBy}
                         </Text>
+
 
                     </Box>
 
