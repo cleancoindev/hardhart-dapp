@@ -96,7 +96,7 @@ export function useMintNFTFormManagement() {
                         fromBlock: 0,
                     });
 
-                    const nftsMinted = logs.map(
+                    const nftsMinted = logs?.map(
                         (log) => PbNFT?.instance?.interface?.parseLog(log)?.args
                     );
 
