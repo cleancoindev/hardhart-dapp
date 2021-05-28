@@ -16,7 +16,7 @@ to compile contracts (& generate typechain bindings):
 `npx hardhat compile`
 
 to deploy contracts to EVM:
-`npx hardhat run scripts/deploy.ts --network [hardhat || matic_testnet]`
+`npx hardhat --network [NETWORK] deploy`
 
 to run unit tests (mocha, defined in ./test directory):
 `npx hardhat test`

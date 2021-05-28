@@ -612,7 +612,7 @@ const MintNFT: React.FunctionComponent<IProps> = (props) => {
                             mt={`0px !important`}
                             mb={"8px"}
                             >
-                                Create a new NFT
+                                Mint a new NFT
                             </Heading>
 
                             <Text
