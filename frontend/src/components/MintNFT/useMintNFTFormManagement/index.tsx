@@ -148,7 +148,7 @@ export function useMintNFTFormManagement() {
                 
 
                 // const tx = await PbNFT?.instance?.mint(String(currentAddress), metadataURI, {gasLimit: gasLimit?.add("80000")} );
-                const tx = await PbNFT?.instance?.mint(String(currentAddress), metadataURI);
+                const tx = await PbNFT?.instance?.mint(String(currentAddress), String(metadataURI));
                 // const tx = await PbNFT?.instance?.mint
                 console.log('transaction:', tx);
                 await tx?.wait();

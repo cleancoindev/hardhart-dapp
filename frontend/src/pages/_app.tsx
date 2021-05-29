@@ -5,7 +5,7 @@ import type { AppProps /*, app context */ } from 'next/app';
 
 // import '../../styles/globals.css'
 import { Layout } from '../components/Layout';
-import { Symfoni } from "../hardhat/SymfoniContext";
+import { Symfoni } from '../hardhat/SymfoniContext';
 
 import  breadTheme  from '../../styles/breadtheme';
 

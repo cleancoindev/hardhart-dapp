@@ -95,7 +95,7 @@ const handleWeb3ProviderConnect = (
         });
 
         const provider = await web3Modal.connect();
-        console.log(provider);
+        console.log('provider:', provider);
 
         return provider;
 
@@ -267,7 +267,9 @@ const Navbar: React.FunctionComponent<IProps> = (props) => {
                       }}
                     >
                         {ensName}
+
                     </Text>
+
 
                 ) : (
                     <Button
@@ -307,6 +309,7 @@ const Navbar: React.FunctionComponent<IProps> = (props) => {
                             <PopoverBody>
                                 <Text as="kbd" fontSize="sm">deployed on polygon/matic mumbai testnet</Text>
                             </PopoverBody>
+
 
                             <PopoverFooter as="kbd" fontSize="x-small" >version 0.0.1 pre-release alpha</PopoverFooter>
                             <PopoverFooter as="kbd" fontSize="x-small" >

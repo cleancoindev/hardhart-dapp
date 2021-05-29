@@ -1,6 +1,6 @@
 //SPDX-License-Identifier: MIT
 
-pragma solidity ^0.7.3;
+pragma solidity ^0.7.0;
 
 
 import "hardhat/console.sol";
@@ -31,6 +31,16 @@ contract PbNFT is ERC721 {
         return id;
 
     }
+
+
+    // function tokenURI(uint256 _tokenId) public view returns (string) {
+    //     return Strings.strConcat(
+    //         baseURI(),
+    //         Strings.uint2str(_tokenId)
+    //     );
+    // }
+
+  
 
 
 
