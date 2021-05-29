@@ -1,3 +1,6 @@
+// Helper function, this is where the contract interaction is called to mint NFT's
+
+
 import { useCallback, useContext, useState } from 'react';
 
 import { CurrentAddressContext, ProviderContext, PbNFTContext, SignerContext } from '../../../hardhat/SymfoniContext';
@@ -140,27 +143,24 @@ export function useMintNFTFormManagement() {
             
                 // const connect = PbNFT?.instance?.connect(provider);
                 
-                const gasLimit = await PbNFT?.instance?.estimateGas.mint(String(currentAddress), params[0], params[1], params[2])
+                // input as the current address to the owner, and the metadataURI (ipfs hash resolving to metadata) as the uri inpput
+                // const gasLimit = await PbNFT?.instance?.estimateGas.mint(String(currentAddress), metadataURI)
                 
 
-                const tx = await PbNFT?.instance?.mint(String(currentAddress), params[0], params[1], params[2], {gasLimit: gasLimit?.add("80000")} );
+                // const tx = await PbNFT?.instance?.mint(String(currentAddress), metadataURI, {gasLimit: gasLimit?.add("80000")} );
+                const tx = await PbNFT?.instance?.mint(String(currentAddress), metadataURI);
+                // const tx = await PbNFT?.instance?.mint
                 console.log('transaction:', tx);
                 await tx?.wait();
 
-                // console.log('newly mined result: ', await PbNFT.instance?.tokenURI())
-                // const tx = PbNFT?.instance?.mint.apply(
-                //     currentAddress,
-                //     params[0],
-                //     params[1],
-                //     params[2]
-                // );
+
 
            
                 setHasSubmitted(true);
 
-                const nftMintedSentEventFilter = PbNFT?.instance?.filters?.NFTMinted(
-                    String(currentAddress),
+                const nftMintedSentEventFilter = PbNFT?.instance?.filters?.Transfer(
                     null,
+                    String(currentAddress),
                 );
 
                 if (nftMintedSentEventFilter) {
@@ -203,8 +203,6 @@ export function useMintNFTFormManagement() {
     ]);
 
     const initialValues: Parameters<PbNFT["mint"]> = [
-        "",
-        "",
         "",
         "",
     ];

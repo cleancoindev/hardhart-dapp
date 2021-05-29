@@ -24,7 +24,7 @@ export function useNfts() {
         const fetch = async () => {
 
             // not sure if these filters work
-            const nftMintedSentEventFilter = PbNFT?.instance?.filters?.NFTMinted(String(currentAddress));
+            const nftMintedSentEventFilter = PbNFT?.instance?.filters?.Transfer(String(currentAddress));
             // const nftMintedOwnedEventFilter = PbNFT?.instance?.filters?.NFTMinted(String(currentAddress));
 
             if (nftMintedSentEventFilter) {

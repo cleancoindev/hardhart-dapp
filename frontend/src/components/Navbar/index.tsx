@@ -102,7 +102,7 @@ const handleWeb3ProviderConnect = (
     };
 
     const provider = await getWeb3ModalProvider();
-    console.log(provider);
+    console.log('provider:', provider);
 
     // setup ethers with walletconnect/web3 provider
     const web3provider = new ethers.providers.Web3Provider(provider);
