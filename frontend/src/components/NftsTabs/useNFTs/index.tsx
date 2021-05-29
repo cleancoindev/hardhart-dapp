@@ -4,6 +4,8 @@ import { CurrentAddressContext, ProviderContext, SignerContext, PbNFTContext } f
 import { PbNFTModel } from '../../NFTs/NFT';
 
 
+//@TODO: FIX MEMORY LEAKS!!!!!!!!!!!!
+
 export function useNfts() {
 
 

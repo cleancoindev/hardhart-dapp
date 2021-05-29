@@ -136,7 +136,7 @@ export const Submitted: React.FC<ISubmittedProps> = (props) => {
                             textAlign: "center",
                         }}
                         >
-                            hey dumbass
+                            your work here is greatly appreciated. 
                         </Text>
 
                         <Text
