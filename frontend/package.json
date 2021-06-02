@@ -36,11 +36,10 @@
     "web3modal": "^1.9.3"
   },
   "devDependencies": {
-    "@types/react": "^17.0.6",
     "@babel/core": "^7.12.3",
+    "@types/react": "^17.0.6",
     "babel-loader": "8.1.0",
     "electron": "^11.0.3",
     "react-is": "^17.0.1"
-
   }
 }

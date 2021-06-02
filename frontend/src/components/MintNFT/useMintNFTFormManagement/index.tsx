@@ -96,7 +96,7 @@ export function useMintNFTFormManagement() {
     const submitHandler = async (params: Parameters<PbNFT["mint"]>) => {
         // debug
         console.log('hit hit hit');
-        console.log(params);
+        console.log('SUMBIT HANDLER RECEIVED PARAMS:', params);
 
 
         console.log('PBNFT: ', PbNFT);
@@ -122,7 +122,10 @@ export function useMintNFTFormManagement() {
                 console.log('generated NFT metadata: ', metadata);
 
                 // Upload the metadata to IPFS
-                const metadataCid = await ipfs.add({ path: '/nft/metadata.json', content: JSON.stringify(metadata)}, {
+                // We're adding cid specification to 'options?'
+                const metadataCid = await ipfs.add({ path: '/nft/metadata.json', content: JSON.stringify(metadata)},  {
+                    cidVersion: 1,
+                    hashAlg: 'sha2-256',
                     progress: (prog: any) => console.log(`received: ${prog}`),
                 });
                 console.log('metadataCID:', metadataCid);
@@ -132,21 +135,10 @@ export function useMintNFTFormManagement() {
                 console.log('generated metadata URI: ', metadataURI);
 
 
-                // Mint NFT with reference to the metadata URI, we don't need this since the mint function
-                // will add on our baseURI on call. we just want to send the hash me thinks
-
+                // ipfs:// prefix is added on mint, so we can replace it here
                 const cleanMetadata = metadataURI.replace('ipfs://', '');
 
 
-                // const connect = await PbNFT?.factory?.connect(PbNFTContractAddress, provider);
-                
-                // TESTING REMOVE FOR MAINNET
-            
-                // const connect = PbNFT?.instance?.connect(provider);
-                
-                // input as the current address to the owner, and the metadataURI (ipfs hash resolving to metadata) as the uri inpput
-                // const gasLimit = await PbNFT?.instance?.estimateGas.mint(String(currentAddress), metadataURI)
-                
 
                 // const tx = await PbNFT?.instance?.mint(String(currentAddress), metadataURI, {gasLimit: gasLimit?.add("80000")} );
                 const tx = await PbNFT?.instance?.mint(String(currentAddress), String(cleanMetadata));
@@ -159,7 +151,7 @@ export function useMintNFTFormManagement() {
            
                 setHasSubmitted(true);
 
-                const nftMintedSentEventFilter = PbNFT?.instance?.filters?.NFTMinted(
+                const nftMintedSentEventFilter = PbNFT?.instance?.filters?.Transfer(
                     null,
                     String(currentAddress),
                 );

@@ -251,6 +251,7 @@ const Navbar: React.FunctionComponent<IProps> = (props) => {
         <Flex width="100%" px={[2,10]} py={4} borderColor={bgColor} border="2px">
             <Logo></Logo>
             <Links></Links>
+
             <Center border="2px" borderColor={bgColor} >
                 {ensName ? (
                     <Text ml="auto"
@@ -274,7 +275,7 @@ const Navbar: React.FunctionComponent<IProps> = (props) => {
 
                 ) : (
                     <Button
-                        ml="auto"
+                        ml="2px"
                         mr="auto"
                         background="black"
                         borderRadius="0px"
@@ -290,6 +291,8 @@ const Navbar: React.FunctionComponent<IProps> = (props) => {
                  ml="auto"
                  mr="auto"
                  borderRadius="0px"
+                 variant="outline"
+
                  aria-label="toggle darkmode" icon={ determineIcon() } onClick={handleToggle} >
                     Toggle {colorMode === "light" ? "Dark" : "Light"}
                 </IconButton>

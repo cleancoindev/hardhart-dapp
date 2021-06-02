@@ -1,7 +1,7 @@
 // MintNFT index.ts is a react component for uploading/minting/pinning NFT's on IPFS and Polygon
 
 import React, { useCallback, useContext, useEffect, useState } from 'react';
-import { Button, VStack, Input, FormControl, FormErrorMessage, Box, HStack, Center, Image, Heading, useClipboard, Text, FormLabel, keyframes, Spinner, useColorMode, useColorModeValue } from '@chakra-ui/react';
+import { Button, VStack, Input, FormControl, FormErrorMessage, Box, HStack, Center, Image, Heading, useClipboard, Text, FormLabel, keyframes, Spinner, useColorMode, useColorModeValue, useProps } from '@chakra-ui/react';
 import { CloseIcon, CopyIcon, SmallCloseIcon, SpinnerIcon } from '@chakra-ui/icons';
 
 import ipfsClient, {
@@ -21,8 +21,7 @@ import { CurrentAddressContext, ProviderContext, SignerContext } from '../../har
 import all from 'it-all';
 import fileType from 'file-type';
 
-
-
+import path from 'path';
 
 // const ipfs = create(new URL('https://ipfs.infura.io:5001'));
 const ipfs = ipfsClient({ url: "https://ipfs.infura.io:5001" });
@@ -63,6 +62,7 @@ export const Submitted: React.FC<ISubmittedProps> = (props) => {
     // Hot linking for uploaded nft
     const nftIdUrl = `${window.location.href.replace("/mint-nft", `/nft/${props.id}`)}`;
     const { hasCopied: hasIdCopied, onCopy: onIdCopy } = useClipboard(nftIdUrl);
+    // const { assetCid } = props.assetCid;
 
 
     const bgColor = useColorModeValue("black.500", "black.200");
@@ -203,7 +203,7 @@ const MintNFT: React.FunctionComponent<IProps> = (props) => {
     const [chosenFile, setChosenFile] = useState<File | undefined>(undefined);
     const [chosenFileUrl, setChosenFileUrl] = useState<string>("");
     const [isVideo, setIsVideo] = useState<boolean>(false);
-
+    const [assetCid, setAssetCid] = useState<any>();
     const [pbNFTContract, set] = useState<ethers.Contract | undefined>(undefined);
 
 
@@ -232,28 +232,30 @@ const MintNFT: React.FunctionComponent<IProps> = (props) => {
         fetch();
     }, [_url, isVideo]);
 
-    // Transaction approval here
-    // const approveMint = useCallback() => {
 
-    //     const fetch = async () => {
-
-    //         if ()
-    //     }
-    // };
-
+    /**
+     * 
+     * @param file 
+     */
     async function saveToIpfs(file: File) {
-
+        console.log('file', file);
 
         if (file) {
             setIsUploadingImage(true);
             // setup our path?
             const filePath = file.name;
-            const ipfsPath = '/nft/' + filePath;
+            // extract file name for fully qualified path?
+            const baseName = path.basename(filePath);
+            const ipfsPath = '/nft/' + baseName;
             console.log('filePath: ', ipfsPath);
 
             // Do ipfs shit
-            ipfs
+            
+            const assetCid = await ipfs
                 .add( {path: ipfsPath, content: file}, {
+                    // CID spec for NFT metadata, see for ref: https://docs.ipfs.io/how-to/best-practices-for-nft-data/#types-of-ipfs-links-and-when-to-use-them
+                    cidVersion: 1,
+                    hashAlg: 'sha2-256',
                     progress: (prog: any) => console.log(`received: ${prog}`),
                 })
                 .then((file) => {
@@ -263,7 +265,7 @@ const MintNFT: React.FunctionComponent<IProps> = (props) => {
                     const ipfsGateway = "https://gateway.ipfs.io/ipfs/";
                     formik.setFieldValue(
                         String(params.indexOf("_url")),
-                        ipfsGateway + ipfsHash + ipfsPath
+                        (ipfsGateway + ipfsHash + '/' + `${baseName}`)
                     );
 
                     setIsUploadingImage(false);
@@ -271,10 +273,13 @@ const MintNFT: React.FunctionComponent<IProps> = (props) => {
                     setChosenFileUrl("");
                     // MARK debug
                     setIsApproved(true);
+                    setAssetCid(assetCid);
+
                 })
                 .catch((err) => {
                     console.error(err);
                 });
+
         }
     }
 
@@ -457,7 +462,7 @@ const MintNFT: React.FunctionComponent<IProps> = (props) => {
 
                             borderRadius="0px"
                             key={"_url"}
-                            isInvalid={Boolean(formik.errors[3] && formik.touched[3])}
+                            isInvalid={Boolean(formik.errors[0] && formik.touched[0])}
                             mt={
                                 ((chosenFileUrl || 
                                     formik.values?.[Number(params.indexOf("_url"))]) &&
@@ -518,6 +523,7 @@ const MintNFT: React.FunctionComponent<IProps> = (props) => {
                                 boxSizing="border-box"
                                 border="1px solid orange"
                                 borderColor="orange"
+                                backgroundColor={bgColor}
                                 textAlign="center"
                                 height={"56px"}
                                 width={"424px"}

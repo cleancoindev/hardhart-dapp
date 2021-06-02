@@ -211,7 +211,7 @@ export const Symfoni: React.FC<SymfoniProps> = ({
 
     const getPbNFT = (_provider: providers.Provider, _signer?: Signer) => {
 
-        const contractAddress = "0x20C2E823B8f9265E1e6D1aDe2ba0156BBEeEF86d"
+        const contractAddress = "0x6A5CFcB2dcCc1F9B2773F53BfBD9cb9248af7180"
         const instance = _signer ? PbNFT__factory.connect(contractAddress, _signer) : PbNFT__factory.connect(contractAddress, _provider)
         const contract: SymfoniPbNFT = {
             instance: instance,

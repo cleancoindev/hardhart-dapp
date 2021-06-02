@@ -37,6 +37,25 @@ contract PbNFT is ERC721, Ownable {
     }
 
 
+    // /**
+    //  * Override isApprovedForAll to whitelist proxy accounts
+    //  * whitelisting 0x ERC721 or ERC1155 proxy contract
+    //  * see https://docs.opensea.io/docs/other-blockchains for details
+    //  * this allows for the user to not pay gas the first time they list an item on OpenSea
+    // */
+    // function isApprovedForAll(
+    //     address _owner,
+    //     address _operator
+    // ) public override view returns (bool isOperator) {
+    //     // Use 0x58807baD0B376efc12F5AD86aAc70E78ed67deaE as the whitelisted address for ERC721's.
+    //     if (_operator == address(0x207Fa8Df3a17D96Ca7EA4f2893fcdCb78a304101)) {
+    //         return true;
+    //     }
+        
+    //     return ERC1155.isApprovedForAll(_owner, _operator);
+    // }
+
+
 
   
 
