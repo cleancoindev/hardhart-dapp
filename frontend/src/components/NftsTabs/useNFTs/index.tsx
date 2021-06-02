@@ -15,86 +15,65 @@ export function useNfts() {
 
     const PbNFT = useContext(PbNFTContext);
 
-    const [nftsOwned, setNftsOwned] = useState<(PbNFTModel | undefined)>();
+    const [nftsOwned, setNftsOwned] = useState<(PbNFTModel | undefined[])>([]);
     // const [nftsSent, setNftsSent] = useState<(PbNFTModel | undefined)>();
 
+
+    // make helper functions here
 
     useEffect(() => {
 
         const fetch = async () => {
 
+
             // not sure if these filters work
-            const nftMintedSentEventFilter = PbNFT?.instance?.filters?.Transfer(String(currentAddress));
+            const nftMintedSentEventFilter = PbNFT?.instance?.filters?.NFTMinted(String(currentAddress));
             // const nftMintedOwnedEventFilter = PbNFT?.instance?.filters?.NFTMinted(String(currentAddress));
 
             if (nftMintedSentEventFilter) {
+                    console.log('current address: ', String(currentAddress));
+                    console.log('nFT MINTED EVENT FILTER: ', nftMintedSentEventFilter);
 
                 
-                    const logs = await provider?.getLogs({ ...nftMintedSentEventFilter, fromBlock: 0 });
-                    // logs?.forEach(log => console.log(log.transactionHash));
+                    const logs = await provider?.getLogs({ ...nftMintedSentEventFilter, fromBlock: 0, toBlock: 'latest' });
+                    // logs?.forEach(log => console.log(log.data));
+                    
+                    const nftsMinted =  logs?.map((log) => PbNFT?.instance?.interface?.parseLog(log)?.args);
     
-                    const nftsMinted = logs?.map((log) => PbNFT?.instance?.interface?.parseLog(log)?.args);
-    
+
+                    console.log('nftsminted:',   nftsMinted);
                     // check the printout here for where our id is
     
                     const ids:string[] = nftsMinted?.map((nft) => {
     
-                        console.log('nft-loading:', nft);
+                        // console.log('nft-loading:', nft);
                         const id = nft?.[1];
                         
-                        console.log('id: ', id);
-                        console.log('id to number: ', id.toNumber())
-                        const idNumformat = id.toNumber()
+                        // console.log('id: ', id);
+                        const idNumformat = id.toNumber();
+                        // console.log('id to number: ', idNumformat);
 
-                        return idNumformat;
+                        return id;
     
                     }) ?? [''];
+
+                    console.log('ids', ids);
     
     
-                    let nfts = await Promise.all(ids.map((id) => PbNFT?.instance?.breads(id)));
+                    let nfts = await Promise.all(ids.map((id) => PbNFT?.instance?.tokenOfOwnerByIndex(String(currentAddress), id)));
 
                     (nfts as any) = ids.map((id, index) => ({ ...nfts[index], id}));
-                    console.log('nfts:' ,nfts);
+                    // console.log('nfts:' ,nfts);
                     setNftsOwned(nfts);
-                  
 
-            
-                    // console.error(e);
-
+                    // update loading state
 
 
 
             }
 
 
-            // if (nftMintedOwnedEventFilter) {
 
-            //     // same thing just in case?
-            //     // todo: fix
-
-            //     const logs = await provider?.getLogs({ ...nftMintedOwnedEventFilter, fromBlock: 0, toBlock: 'latest' });
-            //     // logs?.forEach(log => console.log(log.transactionHash));
-
-            //     const nftsMinted = logs?.map((log) => PbNFT?.instance?.interface?.parseLog(log)?.args);
-
-            //     const ids: string[] = nftsMinted?.map((nft) => {
-
-            //         const id = nft?.[2];
-            //         console.log('id', id);
-            //         return id;
-                    
-
-            //     });
-
-
-            //     let nfts = await Promise.all(ids.map((id) => PbNFT?.instance?.breads(id)));
-            //     (nfts as any) = ids.map((id, index) => ({ ...nfts[index], id }));
-                
-            //     setNftsOwned(nfts);
-
-
-
-            // }
         };
 
         fetch();

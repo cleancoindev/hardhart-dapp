@@ -163,6 +163,7 @@ const OurLink = (props: any) => {
             <CLink
                 onClick={handleWeb3ProviderConnect(setProvider, setSigner, setCurrentAddress, setPbNFT, setERC721)}
                 href={"#"}
+                as="kbd"
                 {...props}
                 {...{
                     fontFamily: "Helvetica",

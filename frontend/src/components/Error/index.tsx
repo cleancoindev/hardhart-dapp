@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Button, VStack, Heading, Center, Image } from '@chakra-ui/react';
+import { Button, VStack, Heading, Center, Image, useColorModeValue } from '@chakra-ui/react';
 // @ts-ignore-next
 import Router, { useRouter } from 'next/router';
 
@@ -12,11 +12,14 @@ const Error: React.FunctionComponent<IProps> = (props) => {
 
     const router = useRouter();
 
+    const bgColor = useColorModeValue("black.500", "black.200");
+    const textColor = useColorModeValue("white.500", "black.500");
+
     return (
         <Center 
             width={["100vw","90vw", "90vw", "70vw"]}
             {...{
-                background: "black",
+                background: bgColor,
                 borderRadius: "2px",
             }}
         >
@@ -28,7 +31,7 @@ const Error: React.FunctionComponent<IProps> = (props) => {
                         fontStyle: "normal",
                         fontWeight: "bold",
                         fontSize: "24px",
-                        color: "#FFFFFF",
+                        color: textColor,
                     }}
                     >
                         uh oh, something went wrong -_-
@@ -38,7 +41,7 @@ const Error: React.FunctionComponent<IProps> = (props) => {
                         {...{
                             border: "1px solid #FFFFFF",
                             boxSizing: "border-box",
-                            color: "#FFFFFF",
+                            color: textColor,
                             fontFamily: "Helvetica",
                             fontStyle: "normal",
                             fontWeight: "normal",

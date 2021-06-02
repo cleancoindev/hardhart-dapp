@@ -19,15 +19,10 @@ import { borderColor } from 'polished';
 
 export type PbNFTModel = {
     id?: string;
-    createdBy: string;
-    name: string;
-    description: string;
-    url: string;
+    metadataURI: string;
     0: string;
     1: string;
     2: string;
-    3: string;
-
 };
 
 

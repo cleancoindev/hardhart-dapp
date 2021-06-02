@@ -132,9 +132,10 @@ export function useMintNFTFormManagement() {
                 console.log('generated metadata URI: ', metadataURI);
 
 
-                // Mint NFT with reference to the metadata URI
+                // Mint NFT with reference to the metadata URI, we don't need this since the mint function
+                // will add on our baseURI on call. we just want to send the hash me thinks
 
-
+                const cleanMetadata = metadataURI.replace('ipfs://', '');
 
 
                 // const connect = await PbNFT?.factory?.connect(PbNFTContractAddress, provider);
@@ -148,7 +149,7 @@ export function useMintNFTFormManagement() {
                 
 
                 // const tx = await PbNFT?.instance?.mint(String(currentAddress), metadataURI, {gasLimit: gasLimit?.add("80000")} );
-                const tx = await PbNFT?.instance?.mint(String(currentAddress), String(metadataURI));
+                const tx = await PbNFT?.instance?.mint(String(currentAddress), String(cleanMetadata));
                 // const tx = await PbNFT?.instance?.mint
                 console.log('transaction:', tx);
                 await tx?.wait();
@@ -158,12 +159,13 @@ export function useMintNFTFormManagement() {
            
                 setHasSubmitted(true);
 
-                const nftMintedSentEventFilter = PbNFT?.instance?.filters?.Transfer(
+                const nftMintedSentEventFilter = PbNFT?.instance?.filters?.NFTMinted(
                     null,
                     String(currentAddress),
                 );
 
                 if (nftMintedSentEventFilter) {
+                    console.log('NFT MINTED SENT EVENT FILTER HIT');
 
                     const logs = await provider?.getLogs({
                         ...nftMintedSentEventFilter,

@@ -243,20 +243,27 @@ const MintNFT: React.FunctionComponent<IProps> = (props) => {
 
     async function saveToIpfs(file: File) {
 
+
         if (file) {
             setIsUploadingImage(true);
+            // setup our path?
+            const filePath = file.name;
+            const ipfsPath = '/nft/' + filePath;
+            console.log('filePath: ', ipfsPath);
+
+            // Do ipfs shit
             ipfs
-                .add(file, {
+                .add( {path: ipfsPath, content: file}, {
                     progress: (prog: any) => console.log(`received: ${prog}`),
                 })
                 .then((file) => {
                     // lemme see
-                    console.log(file);
-                    const ipfsHash = file.path;
+                    console.log('file',file);
+                    const ipfsHash = file.cid.toString();
                     const ipfsGateway = "https://gateway.ipfs.io/ipfs/";
                     formik.setFieldValue(
                         String(params.indexOf("_url")),
-                        ipfsGateway + ipfsHash
+                        ipfsGateway + ipfsHash + ipfsPath
                     );
 
                     setIsUploadingImage(false);

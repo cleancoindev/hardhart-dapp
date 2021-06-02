@@ -6,13 +6,17 @@ pragma solidity ^0.7.0;
 import "hardhat/console.sol";
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import "@openzeppelin/contracts/utils/Counters.sol";
+import "@openzeppelin/contracts/access/Ownable.sol";
 
 
-contract PbNFT is ERC721 {
+contract PbNFT is ERC721, Ownable {
 
     using Counters for Counters.Counter;
 
     Counters.Counter private _tokenIds;
+
+    // Mapping for tokenURI's
+    mapping (uint256 => string) private _tokenURIs;
 
 
     constructor () ERC721("PbNFT", "PBNFT") {
@@ -33,12 +37,6 @@ contract PbNFT is ERC721 {
     }
 
 
-    // function tokenURI(uint256 _tokenId) public view returns (string) {
-    //     return Strings.strConcat(
-    //         baseURI(),
-    //         Strings.uint2str(_tokenId)
-    //     );
-    // }
 
   
 
