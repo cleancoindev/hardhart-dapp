@@ -111,6 +111,10 @@ const config: HardhatUserConfig = {
     clear: true,
     spacing: 2
   },
+  spdxLicenseIdentifier: {
+    overwrite: false,
+    runOnCompile: true,
+  },
 
 
 };

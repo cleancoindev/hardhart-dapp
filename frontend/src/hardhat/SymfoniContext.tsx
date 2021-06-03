@@ -6,14 +6,15 @@ import React, { useEffect, useState } from "react";
 import Web3Modal, { IProviderOptions } from "web3modal";
 import { PbNFT } from "./typechain/PbNFT";
 import { PbNFT__factory } from "./typechain/factories/PbNFT__factory";
-import { PolyBread } from "./typechain/PolyBread";
-import { PolyBread__factory } from "./typechain/factories/PolyBread__factory";
 import { SampleBread } from "./typechain/SampleBread";
 import { SampleBread__factory } from "./typechain/factories/SampleBread__factory";
-import { ERC721 } from "./typechain/ERC721";
-import { ERC721__factory } from "./typechain/factories/ERC721__factory";
+import { PolyBread } from "./typechain/PolyBread";
+import { PolyBread__factory } from "./typechain/factories/PolyBread__factory";
 import { ERC20 } from "./typechain/ERC20";
 import { ERC20__factory } from "./typechain/factories/ERC20__factory";
+import { ERC721 } from "./typechain/ERC721";
+import { ERC721__factory } from "./typechain/factories/ERC721__factory";
+import WalletConnectProvider from "@walletconnect/web3-provider";
 
 const emptyContract = {
     instance: undefined,
@@ -34,10 +35,10 @@ const defaultSymfoniContext: SymfoniContextInterface = {
 };
 export const SymfoniContext = React.createContext<SymfoniContextInterface>(defaultSymfoniContext);
 export const PbNFTContext = React.createContext<SymfoniPbNFT>(emptyContract);
-export const PolyBreadContext = React.createContext<SymfoniPolyBread>(emptyContract);
 export const SampleBreadContext = React.createContext<SymfoniSampleBread>(emptyContract);
-export const ERC721Context = React.createContext<SymfoniERC721>(emptyContract);
+export const PolyBreadContext = React.createContext<SymfoniPolyBread>(emptyContract);
 export const ERC20Context = React.createContext<SymfoniERC20>(emptyContract);
+export const ERC721Context = React.createContext<SymfoniERC721>(emptyContract);
 
 export interface SymfoniContextInterface {
     init: (provider?: string) => void;
@@ -58,24 +59,24 @@ export interface SymfoniPbNFT {
     factory?: PbNFT__factory;
 }
 
-export interface SymfoniPolyBread {
-    instance?: PolyBread;
-    factory?: PolyBread__factory;
-}
-
 export interface SymfoniSampleBread {
     instance?: SampleBread;
     factory?: SampleBread__factory;
 }
 
-export interface SymfoniERC721 {
-    instance?: ERC721;
-    factory?: ERC721__factory;
+export interface SymfoniPolyBread {
+    instance?: PolyBread;
+    factory?: PolyBread__factory;
 }
 
 export interface SymfoniERC20 {
     instance?: ERC20;
     factory?: ERC20__factory;
+}
+
+export interface SymfoniERC721 {
+    instance?: ERC721;
+    factory?: ERC721__factory;
 }
 
 export const Symfoni: React.FC<SymfoniProps> = ({
@@ -93,10 +94,10 @@ export const Symfoni: React.FC<SymfoniProps> = ({
     const [fallbackProvider] = useState<string | undefined>(undefined);
     const [providerPriority, setProviderPriority] = useState<string[]>(["web3modal", "hardhat"]);
     const [PbNFT, setPbNFT] = useState<SymfoniPbNFT>(emptyContract);
-    const [PolyBread, setPolyBread] = useState<SymfoniPolyBread>(emptyContract);
     const [SampleBread, setSampleBread] = useState<SymfoniSampleBread>(emptyContract);
-    const [ERC721, setERC721] = useState<SymfoniERC721>(emptyContract);
+    const [PolyBread, setPolyBread] = useState<SymfoniPolyBread>(emptyContract);
     const [ERC20, setERC20] = useState<SymfoniERC20>(emptyContract);
+    const [ERC721, setERC721] = useState<SymfoniERC721>(emptyContract);
     useEffect(() => {
         if (messages.length > 0)
             console.debug(messages.pop())
@@ -158,7 +159,12 @@ export const Symfoni: React.FC<SymfoniProps> = ({
     };
     const getWeb3ModalProvider = async (): Promise<any> => {
         const providerOptions: IProviderOptions = {
-
+            walletconnect: {
+                package: WalletConnectProvider,
+                options: {
+                    infuraId: "c229331f1d044c8f95e03f54b0ea2f26"
+                }
+            }
         };
         const web3Modal = new Web3Modal({
             // network: "mainnet",
@@ -177,10 +183,10 @@ export const Symfoni: React.FC<SymfoniProps> = ({
             }
             const finishWithContracts = (text: string) => {
                 setPbNFT(getPbNFT(_provider, _signer))
-                setPolyBread(getPolyBread(_provider, _signer))
                 setSampleBread(getSampleBread(_provider, _signer))
-                setERC721(getERC721(_provider, _signer))
+                setPolyBread(getPolyBread(_provider, _signer))
                 setERC20(getERC20(_provider, _signer))
+                setERC721(getERC721(_provider, _signer))
                 finish(text)
             }
             if (!autoInit && initializeCounter === 0) return finish("Auto init turned off.")
@@ -211,20 +217,11 @@ export const Symfoni: React.FC<SymfoniProps> = ({
 
     const getPbNFT = (_provider: providers.Provider, _signer?: Signer) => {
 
-        const contractAddress = "0x6A5CFcB2dcCc1F9B2773F53BfBD9cb9248af7180"
+        const contractAddress = "0x0F09C0833C36bBcdBe79a800B50d3d770562F5d6"
         const instance = _signer ? PbNFT__factory.connect(contractAddress, _signer) : PbNFT__factory.connect(contractAddress, _provider)
         const contract: SymfoniPbNFT = {
             instance: instance,
             factory: _signer ? new PbNFT__factory(_signer) : undefined,
-        }
-        return contract
-    }
-        ;
-    const getPolyBread = (_provider: providers.Provider, _signer?: Signer) => {
-        let instance = _signer ? PolyBread__factory.connect(ethers.constants.AddressZero, _signer) : PolyBread__factory.connect(ethers.constants.AddressZero, _provider)
-        const contract: SymfoniPolyBread = {
-            instance: instance,
-            factory: _signer ? new PolyBread__factory(_signer) : undefined,
         }
         return contract
     }
@@ -238,11 +235,11 @@ export const Symfoni: React.FC<SymfoniProps> = ({
         return contract
     }
         ;
-    const getERC721 = (_provider: providers.Provider, _signer?: Signer) => {
-        let instance = _signer ? ERC721__factory.connect(ethers.constants.AddressZero, _signer) : ERC721__factory.connect(ethers.constants.AddressZero, _provider)
-        const contract: SymfoniERC721 = {
+    const getPolyBread = (_provider: providers.Provider, _signer?: Signer) => {
+        let instance = _signer ? PolyBread__factory.connect(ethers.constants.AddressZero, _signer) : PolyBread__factory.connect(ethers.constants.AddressZero, _provider)
+        const contract: SymfoniPolyBread = {
             instance: instance,
-            factory: _signer ? new ERC721__factory(_signer) : undefined,
+            factory: _signer ? new PolyBread__factory(_signer) : undefined,
         }
         return contract
     }
@@ -252,6 +249,15 @@ export const Symfoni: React.FC<SymfoniProps> = ({
         const contract: SymfoniERC20 = {
             instance: instance,
             factory: _signer ? new ERC20__factory(_signer) : undefined,
+        }
+        return contract
+    }
+        ;
+    const getERC721 = (_provider: providers.Provider, _signer?: Signer) => {
+        let instance = _signer ? ERC721__factory.connect(ethers.constants.AddressZero, _signer) : ERC721__factory.connect(ethers.constants.AddressZero, _provider)
+        const contract: SymfoniERC721 = {
+            instance: instance,
+            factory: _signer ? new ERC721__factory(_signer) : undefined,
         }
         return contract
     }
@@ -271,10 +277,10 @@ export const Symfoni: React.FC<SymfoniProps> = ({
                 <SignerContext.Provider value={[signer, setSigner]}>
                     <CurrentAddressContext.Provider value={[currentAddress, setCurrentAddress]}>
                         <PbNFTContext.Provider value={PbNFT}>
-                            <PolyBreadContext.Provider value={PolyBread}>
-                                <SampleBreadContext.Provider value={SampleBread}>
-                                    <ERC721Context.Provider value={ERC721}>
-                                        <ERC20Context.Provider value={ERC20}>
+                            <SampleBreadContext.Provider value={SampleBread}>
+                                <PolyBreadContext.Provider value={PolyBread}>
+                                    <ERC20Context.Provider value={ERC20}>
+                                        <ERC721Context.Provider value={ERC721}>
                                             {showLoading && loading ?
                                                 props.loadingComponent
                                                     ? props.loadingComponent
@@ -285,10 +291,10 @@ export const Symfoni: React.FC<SymfoniProps> = ({
                                                     </div>
                                                 : props.children
                                             }
-                                        </ERC20Context.Provider >
-                                    </ERC721Context.Provider >
-                                </SampleBreadContext.Provider >
-                            </PolyBreadContext.Provider >
+                                        </ERC721Context.Provider >
+                                    </ERC20Context.Provider >
+                                </PolyBreadContext.Provider >
+                            </SampleBreadContext.Provider >
                         </PbNFTContext.Provider >
                     </CurrentAddressContext.Provider>
                 </SignerContext.Provider>

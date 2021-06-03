@@ -1,4 +1,5 @@
-//SPDX-License-Identifier: MIT
+// SPDX-License-Identifier: MIT
+
 
 pragma solidity ^0.7.0;
 
@@ -19,6 +20,12 @@ contract PbNFT is ERC721, Ownable {
     mapping (uint256 => string) private _tokenURIs;
 
 
+    // Event 
+    event NFTMinted(
+        address indexed from,
+        uint256 indexed tokenId
+    );
+
     constructor () ERC721("PbNFT", "PBNFT") {
         _setBaseURI("ipfs://");
     }
@@ -32,8 +39,12 @@ contract PbNFT is ERC721, Ownable {
         _safeMint(owner, id);
         _setTokenURI(id, metadataURI);
 
+        // emit event
+        emit NFTMinted(msg.sender, id);
+
         return id;
 
+        
     }
 
 

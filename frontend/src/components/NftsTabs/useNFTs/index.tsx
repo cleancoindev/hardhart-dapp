@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from 'react';
+import { Provider, useContext, useEffect, useState } from 'react';
 import { CurrentAddressContext, ProviderContext, SignerContext, PbNFTContext } from '../../../hardhat/SymfoniContext';
 
 import { PbNFTModel } from '../../NFTs/NFT';
@@ -15,9 +15,22 @@ export function useNfts() {
 
     const PbNFT = useContext(PbNFTContext);
 
-    const [nftsOwned, setNftsOwned] = useState<(PbNFTModel | undefined[])>([]);
+    const [nftsOwned, setNftsOwned] = useState<(PbNFTModel | undefined)>();
     // const [nftsSent, setNftsSent] = useState<(PbNFTModel | undefined)>();
 
+
+    // async function loggy(eventFilter: any, provider: any, ){
+
+    //     try {
+    //         const logs = await provider?.getLogs({...eventFilter, fromBlock: 0, toBlock: 'latest'})
+    //         // logs?.forEach(log => console.log(log.data));
+
+    //         return logs;
+
+    //     } catch (e){
+    //         console.error('error generating RPC logs:', e);
+    //     }
+    // }
 
     // make helper functions here
 
@@ -31,14 +44,16 @@ export function useNfts() {
             // const nftMintedOwnedEventFilter = PbNFT?.instance?.filters?.NFTMinted(String(currentAddress));
 
             if (nftMintedSentEventFilter) {
-                    console.log('current address: ', String(currentAddress));
-                    console.log('nFT MINTED EVENT FILTER: ', nftMintedSentEventFilter);
+                    // console.log('current address: ', String(currentAddress));
+                    // console.log('nFT MINTED EVENT FILTER: ', nftMintedSentEventFilter);
 
                 
-                    const logs = await provider?.getLogs({ ...nftMintedSentEventFilter, fromBlock: 0, toBlock: 'latest' });
-                    // logs?.forEach(log => console.log(log.data));
+                    const logs = await provider?.getLogs({ ...nftMintedSentEventFilter, fromBlock: 0 });
+                    logs?.forEach(log => console.log(log.data));
+
+                    // const logs = await loggy(nftMintedSentEventFilter, provider);
                     
-                    const nftsMinted =  logs?.map((log) => PbNFT?.instance?.interface?.parseLog(log)?.args);
+                    const nftsMinted =  logs?.map((log: { topics: string[]; data: string; }) => PbNFT?.instance?.interface?.parseLog(log)?.args);
     
 
                     console.log('nftsminted:',   nftsMinted);
@@ -46,14 +61,14 @@ export function useNfts() {
     
                     const ids:string[] = nftsMinted?.map((nft) => {
     
-                        // console.log('nft-loading:', nft);
+                        console.log('nft-loading:', nft);
                         const id = nft?.[1];
                         
                         // console.log('id: ', id);
                         const idNumformat = id.toNumber();
                         // console.log('id to number: ', idNumformat);
 
-                        return id;
+                        return idNumformat;
     
                     }) ?? [''];
 
@@ -63,7 +78,7 @@ export function useNfts() {
                     let nfts = await Promise.all(ids.map((id) => PbNFT?.instance?.tokenOfOwnerByIndex(String(currentAddress), id)));
 
                     (nfts as any) = ids.map((id, index) => ({ ...nfts[index], id}));
-                    // console.log('nfts:' ,nfts);
+                    console.log('nfts:' ,nfts);
                     setNftsOwned(nfts);
 
                     // update loading state

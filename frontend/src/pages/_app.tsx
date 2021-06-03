@@ -16,9 +16,14 @@ import ErrorBoundary from '../components/Error/errorboundary';
 import { useEffect } from 'react';
 import { useRouter } from 'next/router';
 
+
 function MyApp({ Component, pageProps, router }: AppProps) {
+
+
   // Router
   const Router = useRouter();
+
+
 
   useEffect(() => {
     if (!window) return;
@@ -39,6 +44,7 @@ function MyApp({ Component, pageProps, router }: AppProps) {
   return (
     <ChakraProvider theme={breadTheme}>
       <Symfoni autoInit={true}>
+
         <Layout>
           <ErrorBoundary key={router.asPath}>
             <Head>

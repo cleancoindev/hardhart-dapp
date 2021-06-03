@@ -54,11 +54,32 @@ export function useMintNFTFormManagement() {
         const { name, description} = options;
         assetURI = ensureIpfsUriPrefix(assetURI);
 
+        /**
+         * potential options conforming to opensea metadata standards (https://docs.opensea.io/docs/metadata-standards)
+         * 
+         * -image: url or ipfs
+         * -image_data: raw svg data
+         * -external_url: url that will appear below assets image
+         * -description: human readable description, markdown supported!
+         * -name: name of item
+         * -attributes[]: eg. "attributes: [ { "trait_type": "Level", "value": 5}, ]"
+         * -background_color: six digit hex without #
+         * -animation_url: url to multi media attatched for item. (GLTF, GLB, WEBM, MP4, M4V, OGV, OGG, MP3, WAV, OGA). also supportes html pages.
+         * -youtube_url: youtube video url
+         */
+
         // return metadata object
         return {
             name,
             description,
-            image: assetURI
+            image: assetURI,
+            attributes: [
+                {
+                    trait_type: "Personality",
+                    value: "Bread"
+                },
+            ]
+            
         };
 
     }
@@ -151,8 +172,7 @@ export function useMintNFTFormManagement() {
            
                 setHasSubmitted(true);
 
-                const nftMintedSentEventFilter = PbNFT?.instance?.filters?.Transfer(
-                    null,
+                const nftMintedSentEventFilter = PbNFT?.instance?.filters?.NFTMinted(
                     String(currentAddress),
                 );
 
