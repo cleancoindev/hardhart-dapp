@@ -50,6 +50,9 @@ const NFT: React.FunctionComponent<PbNFTModel> = (props) => {
             const ipfsFileUrl = initURL.replace('ipfs://', 'https://gateway.ipfs.io/ipfs/');
             console.log(ipfsFileUrl);
 
+
+            // const api_call = await fetch(ipfsFileUrl);
+
             if (isVideo) {
                 return;
             }
@@ -72,6 +75,10 @@ const NFT: React.FunctionComponent<PbNFTModel> = (props) => {
                 const [urlSourced] = await all<any>(urlSource(ipfsFileUrl));
                 const [file] = await all<ArrayBuffer>(urlSourced.content);
                 const fileTypeResult = await fileType.fromBuffer(file);
+
+                // const jsonfile = JSON.parse(JSON.stringify(file));
+
+                // console.log('JASON FILE', jsonfile)
                 const isVideo = Boolean(fileTypeResult?.mime?.includes("video"));
 
                 console.log({ isVideo });

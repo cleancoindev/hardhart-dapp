@@ -52,7 +52,7 @@ const NoNFTs: React.FC = () => {
 
 const NFTs: React.FunctionComponent<IProps> = (props) => {
 
-    console.log('props: ', props);
+    console.log('props!!!!!!!!: ', props);
 
     // haha look at all this dumb shit i had to do just to get this to work fuck typescript fuck react fuck facebook 
     return (
