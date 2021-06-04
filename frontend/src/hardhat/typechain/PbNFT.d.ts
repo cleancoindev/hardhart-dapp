@@ -166,7 +166,7 @@ interface PbNFTInterface extends ethers.utils.Interface {
   events: {
     "Approval(address,address,uint256)": EventFragment;
     "ApprovalForAll(address,address,bool)": EventFragment;
-    "NFTMinted(address,uint256)": EventFragment;
+    "NFTMinted(address,address,uint256)": EventFragment;
     "OwnershipTransferred(address,address)": EventFragment;
     "Transfer(address,address,uint256)": EventFragment;
   };
@@ -526,10 +526,11 @@ export class PbNFT extends BaseContract {
 
     NFTMinted(
       from?: string | null,
+      owner?: string | null,
       tokenId?: BigNumberish | null
     ): TypedEventFilter<
-      [string, BigNumber],
-      { from: string; tokenId: BigNumber }
+      [string, string, BigNumber],
+      { from: string; owner: string; tokenId: BigNumber }
     >;
 
     OwnershipTransferred(

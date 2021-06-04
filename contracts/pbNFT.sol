@@ -23,6 +23,7 @@ contract PbNFT is ERC721, Ownable {
     // Event 
     event NFTMinted(
         address indexed from,
+        address indexed owner,
         uint256 indexed tokenId
     );
 
@@ -40,7 +41,7 @@ contract PbNFT is ERC721, Ownable {
         _setTokenURI(id, metadataURI);
 
         // emit event
-        emit NFTMinted(msg.sender, id);
+        emit NFTMinted(msg.sender, owner, id);
 
         return id;
 

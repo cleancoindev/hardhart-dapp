@@ -36,13 +36,18 @@ const NFT: React.FunctionComponent<PbNFTModel> = (props) => {
     const bgColor = useColorModeValue("black.500", "black.200");
     const textColor = useColorModeValue("white.500", "black.500");
 
+
+    
     // check if ipfs file is video
     useEffect(() => {
 
         const fetch = async function () {
-            console.log("HIT HIT HOO HO")
+            console.log('props?:', props)
 
-            const ipfsFileUrl = props.url;
+            const initURL = props[0];
+
+            //should point to our metadata.json ipfs url
+            const ipfsFileUrl = initURL.replace('ipfs://', 'https://gateway.ipfs.io/ipfs/');
             console.log(ipfsFileUrl);
 
             if (isVideo) {
@@ -54,6 +59,15 @@ const NFT: React.FunctionComponent<PbNFTModel> = (props) => {
                 setIsVideo(true);
 
             } else if (ipfsFileUrl?.includes("ipfs") && !isVideo) {
+
+                // if (ipfsFileUrl?.includes("metadata.json")) {
+
+                //     const fetchURL = ipfsFileUrl.replace('ipfs://', 'https://gateway.ipfs.io/ipfs/');
+
+                //     const [urlSourced] = await all<any>(urlSource(fetchURL));
+                //     const [file] = await all<JSON>(urlSourced.content);
+
+                // }
 
                 const [urlSourced] = await all<any>(urlSource(ipfsFileUrl));
                 const [file] = await all<ArrayBuffer>(urlSourced.content);
@@ -69,7 +83,7 @@ const NFT: React.FunctionComponent<PbNFTModel> = (props) => {
         };
 
         fetch();
-    }, [props.url, isVideo]);
+    }, [props.metadataURI, isVideo]);
 
 
     return (
