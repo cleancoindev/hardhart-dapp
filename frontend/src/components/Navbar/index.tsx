@@ -204,7 +204,7 @@ const OurLink = (props: any) => {
 const Links = () => (
     <Center mx="auto">
         <HStack spacing={10}>
-            <OurLink href="/samplebread">test link1</OurLink>
+            {/* <OurLink href="/samplebread">test link1</OurLink> */}
             <OurLink href="/mint-nft">NFT</OurLink>
             <OurLink href="/nfts">COLLECTION</OurLink>
         </HStack>
