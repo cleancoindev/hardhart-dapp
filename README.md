@@ -68,6 +68,10 @@ Pull requests are welcome. For major changes, please open an issue first to disc
 Please make sure to update tests as appropriate.
 
 
+Donations are accepted to help cover development costs (ETH/Polygon/EVM-based): 
+```0x8a5847fd0e592B058c026C5fDc322AEE834B87F5``` || ```computerdata.eth```
+
+
 
 ## License
 

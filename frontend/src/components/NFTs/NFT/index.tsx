@@ -32,53 +32,50 @@ export type PbNFTModel = {
 const NFT: React.FunctionComponent<PbNFTModel> = (props) => {
 
     const [isVideo, setIsVideo] = useState<boolean>(false);
+    const [metadata, setMetadata] = useState("");
+    const [assetURL, setAssetURL] = useState("");
 
     const bgColor = useColorModeValue("black.500", "black.200");
     const textColor = useColorModeValue("white.500", "black.500");
 
 
-    
-    // check if ipfs file is video
-    useEffect(() => {
 
-        const fetch = async function () {
-            console.log('props?:', props)
 
-            const initURL = props[0];
+    const loadMetadata = async (metaURL: string) => {
+        // add gateway to resolve
+        const ipfsFileUrl = metaURL.replace('ipfs://', 'https://gateway.ipfs.io/ipfs/');
+
+        const response = await fetch(ipfsFileUrl);
+        const data = await response.json();
+
+
+        console.log(data);
+
+        if (data.image) {
+
+            const assetURL = data.image;
 
             //should point to our metadata.json ipfs url
-            const ipfsFileUrl = initURL.replace('ipfs://', 'https://gateway.ipfs.io/ipfs/');
-            console.log(ipfsFileUrl);
+            const gatewayURL = assetURL.replace('ipfs://', 'https://gateway.ipfs.io/ipfs/');
+            console.log(gatewayURL);
 
-
-            // const api_call = await fetch(ipfsFileUrl);
+            // set the state
+            setAssetURL(gatewayURL);
 
             if (isVideo) {
                 return;
             }
 
-            if (ipfsFileUrl?.includes("mp4") && !isVideo) {
+            if (gatewayURL?.includes("mp4") && !isVideo) {
 
                 setIsVideo(true);
 
-            } else if (ipfsFileUrl?.includes("ipfs") && !isVideo) {
+            } else if (gatewayURL?.includes("ipfs") && !isVideo) {
 
-                // if (ipfsFileUrl?.includes("metadata.json")) {
-
-                //     const fetchURL = ipfsFileUrl.replace('ipfs://', 'https://gateway.ipfs.io/ipfs/');
-
-                //     const [urlSourced] = await all<any>(urlSource(fetchURL));
-                //     const [file] = await all<JSON>(urlSourced.content);
-
-                // }
-
-                const [urlSourced] = await all<any>(urlSource(ipfsFileUrl));
+                const [urlSourced] = await all<any>(urlSource(gatewayURL));
                 const [file] = await all<ArrayBuffer>(urlSourced.content);
                 const fileTypeResult = await fileType.fromBuffer(file);
 
-                // const jsonfile = JSON.parse(JSON.stringify(file));
-
-                // console.log('JASON FILE', jsonfile)
                 const isVideo = Boolean(fileTypeResult?.mime?.includes("video"));
 
                 console.log({ isVideo });
@@ -87,9 +84,20 @@ const NFT: React.FunctionComponent<PbNFTModel> = (props) => {
                     setIsVideo(true);
                 }
             }
-        };
+        }
 
-        fetch();
+
+        // update the state
+        setMetadata(data);
+    }
+    
+
+    
+    // check if ipfs file is video
+    useEffect(() => {
+
+        loadMetadata(props[0]);
+        // fetch();
     }, [props.metadataURI, isVideo]);
 
 
@@ -100,7 +108,7 @@ const NFT: React.FunctionComponent<PbNFTModel> = (props) => {
                 {isVideo ? (
 
                     <video
-                        src={props.url}
+                        src={assetURL}
                         autoPlay
                         loop
                         muted
@@ -110,7 +118,7 @@ const NFT: React.FunctionComponent<PbNFTModel> = (props) => {
                         style={{ borderRadius: "0px"}}
                     />
                 ) : (
-                    <Image width="220px" height="auto" src={props?.url} borderRadius="0px" border="2px" marginTop="5" borderColor={bgColor}></Image>
+                    <Image width="220px" height="auto" src={assetURL} borderRadius="0px" border="2px" marginTop="5" borderColor={bgColor}></Image>
                 )}
 
 
@@ -123,12 +131,12 @@ const NFT: React.FunctionComponent<PbNFTModel> = (props) => {
 
 
                         <Heading as="h4" fontFamily="Helvetica" fontSize="18px" fontWeight="700" color={textColor}>
-                            <Text as="kbd" fontSize="10px">title: </Text>{props?.name}
+                            <Text as="kbd" fontSize="10px">title: </Text>{metadata?.name}
                         </Heading>
                     
 
                         <Text fontFamily="Helvetica" fontSize="16px" fontWeight="bold" color={textColor}>
-                            <Text as="kbd" fontSize="10px">description: </Text>{props?.description}
+                            <Text as="kbd" fontSize="10px">description: </Text>{metadata?.description}
                         </Text>
 
                         <Text fontFamily="Helvetica" fontSize="16px" fontWeight="bold" color={textColor}>
