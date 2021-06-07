@@ -41,6 +41,7 @@ const NFT: React.FunctionComponent<PbNFTModel> = (props) => {
 
 
 
+    // TODO: fix complexity
     const loadMetadata = async (metaURL: string) => {
         // add gateway to resolve
         const ipfsFileUrl = metaURL.replace('ipfs://', 'https://gateway.ipfs.io/ipfs/');
@@ -51,6 +52,7 @@ const NFT: React.FunctionComponent<PbNFTModel> = (props) => {
 
         console.log(data);
 
+        // check if image url exists
         if (data.image) {
 
             const assetURL = data.image;
