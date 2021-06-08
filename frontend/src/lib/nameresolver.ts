@@ -14,14 +14,15 @@ export const nameResolver = (lookupAddress?: string, format: boolean = false) =>
     // Resolve ENS name
     // TODO: kinda shit 
     useEffect(() => {
+
         const fetch = async () => {
 
             if (lookupAddress) {
-                try {
-                    const ensName = await provider?.lookupAddress(lookupAddress);
-                } catch (error) {
-                    console.error("could not resolve ENS name",error)
-                }
+
+                const ensName = await provider?.lookupAddress(lookupAddress).catch(err => {
+                    console.log('error fetching ens name:', err);
+                });
+          
 
                 if (ensName) {
                     setEnsName(ensName);
@@ -29,14 +30,14 @@ export const nameResolver = (lookupAddress?: string, format: boolean = false) =>
                     setEnsName(format ? formatAddress(lookupAddress) : lookupAddress);
                 }
 
+
             }  else if (currentAddress) {
 
-                try {
-                    const ensName = await provider?.lookupAddress(lookupAddress);
-                } catch (error) {
-                    console.error("could not resolve ENS name",error)
-                    
-                }
+
+                const ensName = await provider?.lookupAddress(currentAddress).catch(err => {
+                    console.log('error fetching ens name from current address:', err);
+                });
+    
                 // const ensName = await provider?.lookupAddress(currentAddress);
 
                 if (ensName) {

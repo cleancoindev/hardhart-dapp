@@ -302,7 +302,7 @@ const Navbar: React.FunctionComponent<IProps> = (props) => {
             <Box border="2px" marginLeft="5px">
                 <Popover>
                     <PopoverTrigger>
-                        <Button fontFamily="Helvetica" >info</Button>
+                        <Button  color={textColor} background={bgColor} fontFamily="Helvetica" >info</Button>
                     </PopoverTrigger>
                     <Portal>
                         <PopoverContent>

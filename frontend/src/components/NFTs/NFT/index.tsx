@@ -26,13 +26,18 @@ export type PbNFTModel = {
 };
 
 
-
+export type metadataModel = {
+    name: string;
+    description: string;
+    image: string;
+    attributes: Array<string>;
+};
 
 
 const NFT: React.FunctionComponent<PbNFTModel> = (props) => {
 
     const [isVideo, setIsVideo] = useState<boolean>(false);
-    const [metadata, setMetadata] = useState("");
+    const [metadata, setMetadata] = useState<metadataModel>();
     const [assetURL, setAssetURL] = useState("");
 
     const bgColor = useColorModeValue("black.500", "black.200");
@@ -120,7 +125,7 @@ const NFT: React.FunctionComponent<PbNFTModel> = (props) => {
                         style={{ borderRadius: "0px"}}
                     />
                 ) : (
-                    <Image width="220px" height="auto" src={assetURL} borderRadius="0px" border="2px" marginTop="5" borderColor={bgColor}></Image>
+                    <Image width="220px" height="auto" src={assetURL} borderRadius="0px" border="2px"  ml="5" mr="5" my="5" borderColor={bgColor}></Image>
                 )}
 
 
@@ -142,7 +147,7 @@ const NFT: React.FunctionComponent<PbNFTModel> = (props) => {
                         </Text>
 
                         <Text fontFamily="Helvetica" fontSize="16px" fontWeight="bold" color={textColor}>
-                            <Text as="kbd" fontSize="10px">creator: </Text>{props?.createdBy}
+                            <Text as="kbd" fontSize="10px">creator: </Text>
                         </Text>
 
 

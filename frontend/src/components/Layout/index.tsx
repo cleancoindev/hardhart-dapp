@@ -5,6 +5,7 @@ import { Center, VStack } from '@chakra-ui/react';
 import { Navbar } from '../Navbar';
 
 
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
 interface IProps {}
 
 const Layout: React.FunctionComponent<IProps> = (props) => (
