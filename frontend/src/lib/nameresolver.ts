@@ -20,7 +20,8 @@ export const nameResolver = (lookupAddress?: string, format: boolean = false) =>
             if (lookupAddress) {
 
                 const ensName = await provider?.lookupAddress(lookupAddress).catch(err => {
-                    console.log('error fetching ens name:', err);
+
+                    console.error('error fetching ens name:', err);
                 });
           
 
@@ -35,7 +36,7 @@ export const nameResolver = (lookupAddress?: string, format: boolean = false) =>
 
 
                 const ensName = await provider?.lookupAddress(currentAddress).catch(err => {
-                    console.log('error fetching ens name from current address:', err);
+                    console.error('error fetching ens name from current address:', err);
                 });
     
                 // const ensName = await provider?.lookupAddress(currentAddress);

@@ -10,9 +10,10 @@ PopoverArrow,
 PopoverCloseButton,
 Portal,
 Icon,  
-Link} from "@chakra-ui/react";
+Link,
+MenuIcon} from "@chakra-ui/react";
 import { DiGithubBadge } from 'react-icons/di';
-import { MoonIcon, SunIcon } from '@chakra-ui/icons'
+import { CloseIcon, MoonIcon, SunIcon, InfoOutlineIcon } from '@chakra-ui/icons'
 import NavLink from "next/link";
 import Web3Modal, { IProviderOptions } from "web3modal";
 import WalletConnectProvider from "@walletconnect/web3-provider";
@@ -39,6 +40,7 @@ import {
 import { formatAddress } from '../../lib/formataddress';
 import { useRouter } from 'next/router';
 import { nameResolver } from '../../lib/nameresolver';
+import { networkResolver } from '../../lib/networkresolver';
 
 
 const network = "testnet";
@@ -57,6 +59,8 @@ const Logo = () => (
         </Heading>
     </NavLink>
 );
+
+
 
 /**
  *  handleWeb3ProviderConnect
@@ -80,6 +84,16 @@ const handleWeb3ProviderConnect = (
             walletconnect: {
                 package: WalletConnectProvider, // required
                 options: {
+                    qrcodeModalOptions: {
+                        mobileLinks: [
+                          "rainbow",
+                          "metamask",
+                          "argent",
+                          "trust",
+                          "imtoken",
+                          "pillar",
+                        ],
+                    },
                     rpc: {
                         80001: `https://${CS_USERNAME}:${CS_PASSWORD}@nd-075-619-162.p2pify.com`,
                     },
@@ -90,9 +104,11 @@ const handleWeb3ProviderConnect = (
         const web3Modal = new Web3Modal({
             network,
             cacheProvider: false,
+            disableInjectedProvider: true,
             providerOptions,
             theme: "dark",
         });
+
 
         const provider = await web3Modal.connect();
         console.log('provider:', provider);
@@ -100,6 +116,7 @@ const handleWeb3ProviderConnect = (
         return provider;
 
     };
+    
 
     const provider = await getWeb3ModalProvider();
     console.log('provider:', provider);
@@ -130,14 +147,8 @@ const handleWeb3ProviderConnect = (
     setPbNFT(pbNFT);
     setERC721(erc721);
 
-    // get  and set contract interaction here
 
-    // const sampleBread = getSampleBread(web3provider, signer);
 
-    // console.log("samplebread:", sampleBread);
-    // setSampleBread(sampleBread);
-    // const token = getToken(web3provider, signer);
-    // setToken(token);
 
 
 };
@@ -207,6 +218,7 @@ const Links = () => (
             {/* <OurLink href="/samplebread">test link1</OurLink> */}
             <OurLink href="/mint-nft">NFT</OurLink>
             <OurLink href="/nfts">COLLECTION</OurLink>
+            <OurLink href="/info">INFO</OurLink>
         </HStack>
     </Center>
 );
@@ -225,9 +237,13 @@ const Navbar: React.FunctionComponent<IProps> = (props) => {
 
     const { ensName } = nameResolver();
 
+    const { networkName } = networkResolver();
+
     // Chakra color mode
     const { colorMode, toggleColorMode } = useColorMode();
     
+
+ 
 
     const handleToggle = () => {
          toggleColorMode();
@@ -248,7 +264,7 @@ const Navbar: React.FunctionComponent<IProps> = (props) => {
     const textColor = useColorModeValue("white.500", "black.500");
 
     return (
-        <Flex width="100%" px={[2,10]} py={4} borderColor={bgColor} border="2px">
+        <Flex width="100%" px={[2,10]} py={4} borderColor={bgColor} border="2px" as="nav">
             <Logo></Logo>
             <Links></Links>
 
@@ -302,7 +318,7 @@ const Navbar: React.FunctionComponent<IProps> = (props) => {
             <Box border="2px" marginLeft="5px">
                 <Popover>
                     <PopoverTrigger>
-                        <Button  color={textColor} background={bgColor} fontFamily="Helvetica" >info</Button>
+                        <IconButton size={"lg"} aria-label="info panel" icon={<InfoOutlineIcon/>} color={textColor} background={bgColor} f ></IconButton>
                     </PopoverTrigger>
                     <Portal>
                         <PopoverContent>
@@ -310,12 +326,17 @@ const Navbar: React.FunctionComponent<IProps> = (props) => {
                             <PopoverHeader fontFamily="Helvetica" fontSize="16px" fontWeight="bold">PolyBread Alpha</PopoverHeader>
                             <PopoverCloseButton />
 
-                            <PopoverBody>
-                                <Text as="kbd" fontSize="sm">deployed on polygon/matic mumbai testnet</Text>
+                            <PopoverBody >
+                                <Text as="kbd" fontSize="md" fontWeight="bold">wallet</Text>
+                                <Box>
+                                    <Text as="kbd" fontSize="sm">network-name: {networkName}</Text>
+                                </Box>
+
                             </PopoverBody>
 
 
-                            <PopoverFooter as="kbd" fontSize="x-small" >version 0.0.1 pre-release alpha</PopoverFooter>
+                            <PopoverFooter as="kbd" fontSize="x-small">deployed on polygon/matic mumbai testnet</PopoverFooter>
+                            <PopoverFooter as="kbd" fontSize="x-small" >version 0.0.2 pre-release alpha</PopoverFooter>
                             <PopoverFooter as="kbd" fontSize="x-small" >
                                 <Link href='https://github.com/bretth18/hardhart-dapp'>
                                     <Icon as={DiGithubBadge} fontSize="xl"></Icon>

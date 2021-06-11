@@ -209,7 +209,9 @@ const MintNFT: React.FunctionComponent<IProps> = (props) => {
 
     // color mode shit
     const bgColor = useColorModeValue("black.500", "black.200");
+    const bg2Color = useColorModeValue("gray.900", "gray.200");
     const textColor = useColorModeValue("white.500", "black.500");
+    const text2Color = useColorModeValue("gray.200", "gray.900");
 
     // Check if our IPFS file is a video 
     useEffect(() => {
@@ -352,12 +354,13 @@ const MintNFT: React.FunctionComponent<IProps> = (props) => {
         <form onSubmit={formik.handleSubmit}>
             <HStack
                 spacing={0}
-                {...{
-                    boxShadow: "0px 0px 68px rgba(27, 39, 70, 0.15)",
-                    borderRadius: "0px",
-                    background: 
-                        bgColor,
-                }}
+                border={"2px"}
+                // {...{
+                //     boxShadow: "0px 0px 68px rgba(27, 39, 70, 0.15)",
+                //     borderRadius: "0px",
+                //     background: 
+                //         bgColor,
+                // }}
                 width={["auto", "auto", "auto", "1200px"]}
                 height={["auto", "auto", "auto", "775px"]}
                 flexDirection={["column", "column", "column", "row"]}
@@ -393,8 +396,8 @@ const MintNFT: React.FunctionComponent<IProps> = (props) => {
                             ) : (
 
                                 <Image 
-                                    borderRadius="16px"
-                                    borderColor="white"
+                                    border="2px"
+                                    borderColor={bg2Color}
                                     maxHeight={
                                         (chosenFileUrl ||
                                             formik.values?.[Number(params.indexOf("_url"))]) &&
@@ -542,7 +545,7 @@ const MintNFT: React.FunctionComponent<IProps> = (props) => {
                                 >
                                     {isUploadingCoverImageUrl ? (
                                         <SpinnerIcon
-                                            color="white"
+                                            color={textColor}
                                             animation={`${spin} 2s infinite linear`}
                                         />
                                     ) : (
@@ -601,12 +604,11 @@ const MintNFT: React.FunctionComponent<IProps> = (props) => {
 
                 </Center>
 
-                <Center background="white"
+                <Center background={bg2Color}
                 width={["auto", "auto", "auto", "50%"]}
                 height="100%"
                 py={[5, 5, 5, 5, 0]}
                 px={[5, 5, 5, 5, 20]}
-                borderRadius="16px"
                 borderTopLeftRadius="none"
                 borderBottomLeftRadius="none"
                 >
@@ -619,7 +621,7 @@ const MintNFT: React.FunctionComponent<IProps> = (props) => {
                                 fontWeight: "bold",
                                 fontSize: "24px",
                                 lineHeight: "126.39%",
-                                color: "black",
+                                color:  text2Color,
                                 alignSelf: "flex-start",
                             }}
                             mt={`0px !important`}
@@ -656,11 +658,12 @@ const MintNFT: React.FunctionComponent<IProps> = (props) => {
                                         isInvalid={Boolean(
                                             formik.errors[index] && formik.touched[index]
                                         )}
-                                        background="white"
+                                        background={bgColor}
                                         borderRadius="0px"
-                                        mt={index === 0 ? `0px !important` : "inherit"}
+                                        mt={"auto"}
+                                        // mt={index === 0 ? `0px !important` : "inherit"}
                                     >
-                                        <FormLabel textAlign="center" htmlFor="_name"></FormLabel>
+                                        <FormLabel  textAlign="center" htmlFor="_name" backgroundColor={bg2Color} color={bg2Color}></FormLabel>
                                         <FormLabel textAlign="center" htmlFor="_desc"></FormLabel>
 
                                         <Input
@@ -679,12 +682,13 @@ const MintNFT: React.FunctionComponent<IProps> = (props) => {
                                                 fontWeight: "normal",
                                                 fontSize: "16px",
                                                 textAlign: "left",
+                                                color: text2Color
                                                 
                                             }}
                                             height={"56px"}
                                             width={"424px"}
                                             borderRadius="0px"
-                                            borderColor="black"
+                                            borderColor={text2Color}
                                         />
                                         <FormErrorMessage>{formik.errors[index]}</FormErrorMessage>
 

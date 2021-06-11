@@ -26,6 +26,13 @@ The PolyBread Token ("PYBD") is a ERC20 "token" contract on the Polygon/Matic bl
 prototyping(unf - 5/26/21): PolyBread DAO
 The DAO is a decentralized autonomous organization designed to sustainably develop a diversified portfolio of crypto-assets and accrue value for DAO members.  Individuals can join the DAO at any time by buying DAO tokens, subject to a bonding curve to maintain incentive-alignment with risk profile. Members can exit the DAO at any time by selling DAO tokens via the same mechanism, thereby offering individual liquidity while ensuring security for members. The capital pool is managed through inflation and burning mechanisms: portfolio projects receive investment as newly-minted DAO tokens, and DAO tokenholders can always burn the DAO token against the bonding curve to obtain the underlying capital (ETH, WBTC, etc.) less a liquidity discount. This enables the DAO token to be a ‘stabler’ coin, collateralized by an underlying basket of high quality crypto-assets.
 
+
+## DAO
+- Treasury: Gnosis Multi-Sig Wallet (currently mainnet only, not ideal) 0x0c62A4563Cc525401EbcDad475757D805AEC5008
+  
+- Voting: Snapshot
+- 
+
 ## Principles
 
 As with any organization that is ['built to last'](http://www.wikisummaries.org/wiki/Built_to_Last), the DAO sets forth a set of inalienable principles that guides overall strategy along with the individual activities of members and related leagues.

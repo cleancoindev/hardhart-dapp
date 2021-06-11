@@ -1,7 +1,7 @@
 
 
 import React, { useEffect, useState } from 'react';
-import { Flex, Stack, Text, Button, Image, VStack, Heading, useColorModeValue, Box } from '@chakra-ui/react';
+import { Flex, Stack, Text, Button, Image, VStack, Heading, useColorModeValue, Box, Divider } from '@chakra-ui/react';
 import fileType from 'file-type';
 import { BigNumber, ethers } from 'ethers';
 import Link from 'next/link';
@@ -132,22 +132,22 @@ const NFT: React.FunctionComponent<PbNFTModel> = (props) => {
                 <VStack p={2} width="100%" spacing={1} alignItems="flex-start" >
                     <Box border="2px" borderColor={bgColor}>
 
-                        <Text fontFamily="Helvetica" fontSize="16px" fontWeight="bold" color={textColor}>
-                            <Text as="kbd" fontSize="10px">tokenID: </Text>{props?.id}
+                        <Text fontFamily="Helvetica" fontSize="md" fontWeight="bold" color={textColor}>
+                            <Text as="kbd" fontSize="xs">tokenID: </Text>{props?.id}
                         </Text>
 
-
-                        <Heading as="h4" fontFamily="Helvetica" fontSize="18px" fontWeight="700" color={textColor}>
-                            <Text as="kbd" fontSize="10px">title: </Text>{metadata?.name}
+                        <Divider />
+                        <Heading as="h4" fontFamily="Helvetica" fontSize="md" fontWeight="700" color={textColor}>
+                            <Text as="kbd" fontSize="xs">title: </Text>{metadata?.name}
                         </Heading>
                     
 
-                        <Text fontFamily="Helvetica" fontSize="16px" fontWeight="bold" color={textColor}>
-                            <Text as="kbd" fontSize="10px">description: </Text>{metadata?.description}
+                        <Text fontFamily="Helvetica" fontSize="md" fontWeight="bold" color={textColor}>
+                            <Text as="kbd" fontSize="xs">description: </Text>{metadata?.description}
                         </Text>
 
-                        <Text fontFamily="Helvetica" fontSize="16px" fontWeight="bold" color={textColor}>
-                            <Text as="kbd" fontSize="10px">creator: </Text>
+                        <Text fontFamily="Helvetica" fontSize="md" fontWeight="bold" color={textColor}>
+                            <Text as="kbd" fontSize="xs">creator: </Text>
                         </Text>
 
 

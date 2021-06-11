@@ -61,6 +61,8 @@ Frontend of the dApp is located in [`./frontend`](./frontend). It's a React/Next
 
 ## Contributing
 
+- Discord Server: [https://discord.gg/TTXaZzSb](https://discord.gg/TTXaZzSb)
+
 - Ethereum developer resources: [here](https://github.com/ConsenSys/ethereum-developer-tools-list)
 - Smart contract best practices: [here](https://github.com/ConsenSys/smart-contract-best-practices)
 
