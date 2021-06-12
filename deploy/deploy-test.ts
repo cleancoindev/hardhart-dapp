@@ -12,10 +12,17 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
 
     const { deployer } = await getNamedAccounts();
 
-    await deploy("PbNFT", {
+    // await deploy("PbNFT", {
+    //     from: deployer,
+    //     contract: "PbNFT",
+    //     args: [],
+    //     log: true,
+    // });
+
+    await deploy("PolyBread", {
         from: deployer,
-        contract: "PbNFT",
-        args: [],
+        contract: "PolyBread",
+        args:[],
         log: true,
     });
 

@@ -66,6 +66,10 @@ const config: HardhatUserConfig = {
       url: "https://rpc-mumbai.maticvigil.com",
       accounts: [privateKey]
     },
+    matic: {
+      url: "https://rpc-mainnet.maticvigil.com",
+      accounts: [privateKey]
+    },
     chainstack: {
       url: `https://${CS_USERNAME}:${CS_PASSWORD}@nd-075-619-162.p2pify.com`,
       chainId: 80001,

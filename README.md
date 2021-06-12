@@ -2,7 +2,7 @@
 
 PolyBread is a dApp on the Polygon network.
 
-[project site](https://polybread.glitch.me)
+[please visit the project site for info](https://polybread.glitch.me)
 
 *new!* try out the dApp [here](https://polybread.vercel.app). make sure you're on the mumbai testnet!
 

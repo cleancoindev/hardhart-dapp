@@ -11,9 +11,9 @@ PopoverCloseButton,
 Portal,
 Icon,  
 Link,
-MenuIcon} from "@chakra-ui/react";
+ useDisclosure} from "@chakra-ui/react";
 import { DiGithubBadge } from 'react-icons/di';
-import { CloseIcon, MoonIcon, SunIcon, InfoOutlineIcon } from '@chakra-ui/icons'
+import { CloseIcon, MoonIcon, SunIcon, InfoOutlineIcon, HamburgerIcon } from '@chakra-ui/icons'
 import NavLink from "next/link";
 import Web3Modal, { IProviderOptions } from "web3modal";
 import WalletConnectProvider from "@walletconnect/web3-provider";
@@ -52,7 +52,7 @@ interface IProps {}
 const Logo = () => (
     <NavLink href="/">
         <Heading
-            {...{ fontFamily: "Helvetica", fontStyle:"normal", fontWeight:"900", fontSize:"40px", letterSpacing: "-2.5px"}}
+            {...{ fontFamily: "Helvetica", fontStyle:"normal", fontWeight:"900", fontSize:"4xl", letterSpacing: "-2.5px"}}
             cursor="pointer"
         >
         PolyBread
@@ -214,11 +214,12 @@ const OurLink = (props: any) => {
 // NAVBAR LINKS GO HERE
 const Links = () => (
     <Center mx="auto">
-        <HStack spacing={10}>
+        <HStack spacing={[2, 10]}>
             {/* <OurLink href="/samplebread">test link1</OurLink> */}
             <OurLink href="/mint-nft">NFT</OurLink>
             <OurLink href="/nfts">COLLECTION</OurLink>
             <OurLink href="/info">INFO</OurLink>
+            <OurLink href="/token">TOKEN</OurLink>
         </HStack>
     </Center>
 );
@@ -241,6 +242,9 @@ const Navbar: React.FunctionComponent<IProps> = (props) => {
 
     // Chakra color mode
     const { colorMode, toggleColorMode } = useColorMode();
+
+    const { isOpen, onOpen, onClose } = useDisclosure();
+    const handleMenuToggle = () => (isOpen ? onClose() : onOpen());
     
 
  
@@ -268,7 +272,7 @@ const Navbar: React.FunctionComponent<IProps> = (props) => {
             <Logo></Logo>
             <Links></Links>
 
-            <Center border="2px" borderColor={bgColor} >
+            <Center border="2px" borderColor={bgColor} maxW="sm">
                 {ensName ? (
                     <Text ml="auto"
                           mr="auto"
@@ -276,7 +280,7 @@ const Navbar: React.FunctionComponent<IProps> = (props) => {
                         fontFamily: "Helvetica",
                         fontStyle: "normal",
                         fontWeight: "normal",
-                        fontSize: "16px",
+                        fontSize: "md",
                         color: textColor,
                         
                     }}
@@ -321,7 +325,7 @@ const Navbar: React.FunctionComponent<IProps> = (props) => {
                         <IconButton size={"lg"} aria-label="info panel" icon={<InfoOutlineIcon/>} color={textColor} background={bgColor} f ></IconButton>
                     </PopoverTrigger>
                     <Portal>
-                        <PopoverContent>
+                        <PopoverContent borderColor={textColor} borderRadius="0">
                             <PopoverArrow />
                             <PopoverHeader fontFamily="Helvetica" fontSize="16px" fontWeight="bold">PolyBread Alpha</PopoverHeader>
                             <PopoverCloseButton />
@@ -348,10 +352,7 @@ const Navbar: React.FunctionComponent<IProps> = (props) => {
  
 
                 </Popover>
-                {/* <Text as="kbd" noOfLines={[2,3]} fontSize="10px" >
-                    PBv0.0.1
-                    mumbai testnet
-                </Text> */}
+
             </Box>
         </Flex>
     );

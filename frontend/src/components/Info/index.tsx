@@ -1,6 +1,6 @@
 import React from "react";
 import { Flex, Stack, Text, Button, VStack, Heading, HStack, Input, Image, Box, useColorModeValue,
-List, ListItem, UnorderedList, Link, Divider } from "@chakra-ui/react";
+List, ListItem, UnorderedList, Link, Divider, Badge } from "@chakra-ui/react";
 import { ExternalLinkIcon } from '@chakra-ui/icons';
 
 import PbNFTDeployment from '../../hardhat/deployments/chainstack/PbNFT.json';
@@ -39,7 +39,7 @@ const Content: React.FC<IContentProps> = (props) => {
       </Heading>
       <VStack textAlign="left" alignItems="flex-start">
 
-        <Box backgroundColor={bgColor} color={textColor} border="2px" padding={2}>
+        <Box backgroundColor={bgColor} color={textColor} border="2px" padding={2} maxW="sm">
             <Heading mb={[2,4]}>
                 PolyBread Ecosystem:
             </Heading>
@@ -51,7 +51,7 @@ const Content: React.FC<IContentProps> = (props) => {
         </Box>
 
 
-        <Box backgroundColor={bgColor} color={textColor} border="2px" padding={2}>
+        <Box backgroundColor={bgColor} color={textColor} border="2px" padding={2} maxW="sm">
             <Heading as="h4" fontSize={["md", "lg"]}>
                 PolyBread DAO
             </Heading>
@@ -60,10 +60,14 @@ const Content: React.FC<IContentProps> = (props) => {
                 Governance and treasury for the PolyBread ecosystem.
             </Text>
 
+            <Divider />
+            <Badge colorScheme="red" variant="outline">wip</Badge>
+
         </Box>
 
-
-        <Box backgroundColor={bgColor} color={textColor} border="2px" padding={2}>
+        
+        
+        <Box backgroundColor={bgColor} color={textColor} border="2px" padding={2} maxW="sm">
             <Heading as="h4" fontSize={["md", "lg"]}>
                 PbNFT
             </Heading>
@@ -79,11 +83,12 @@ const Content: React.FC<IContentProps> = (props) => {
                     {contractAddress}
                 </Text>
             </Text>
+            <Badge colorScheme="green" variant="outline">deployed-testnet</Badge>
 
         </Box>
 
 
-        <Box backgroundColor={bgColor} color={textColor} border="2px" padding={2}>
+        <Box backgroundColor={bgColor} color={textColor} border="2px" padding={2} maxW="sm">
             <Heading as="h4" fontSize={["md", "lg"]}>
                 PolyBread Token
             </Heading>
@@ -92,6 +97,10 @@ const Content: React.FC<IContentProps> = (props) => {
                 A social token that acts as a gateway to the PolyBread ecosystem. Members must hold 50 BREAD
                 to gain access to the PolyBread Discord server.
             </Text>
+
+            <Divider />
+            <Badge colorScheme="green" variant="outline">deployed</Badge>
+
 
         </Box>
 
@@ -104,7 +113,7 @@ const Content: React.FC<IContentProps> = (props) => {
       <VStack textAlign="left" alignItems="flex-start" >
 
 
-        <Box backgroundColor={bg2Color} bg={bg2Color} color={textColor} border="2px" padding={2} >
+        <Box backgroundColor={bg2Color} bg={bg2Color} color={textColor} border="2px" padding={2} maxW="sm" >
             <Heading as="h4" fontSize={["md", "lg"]} mb="2">
                 Development
             </Heading>
