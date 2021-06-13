@@ -114,7 +114,8 @@ const Content: React.FC<IContentProps> = (props) => {
             <Box mt="4">
                 <Text as="kbd" fontSize="sm">
                     tokenomics will be decided by founding members of the DAO. BREAD is not publicly available at this time, nor is it
-                    staked in any LP's. 
+                    staked in any LP's. once gnosis has enabled support for polygon, the ownership of the contract
+                    and supply of tokens will be moved to the DAO's multi-sig gnosis safe. 
                 </Text>
             </Box>
 

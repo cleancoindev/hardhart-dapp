@@ -94,7 +94,7 @@ const Content: React.FC<IContentProps> = (props) => {
             </Heading>
 
             <Text as="kbd">
-                A social token that acts as a gateway to the PolyBread ecosystem. Members must hold 50 BREAD
+                A social token that acts as a gateway to the PolyBread ecosystem. Members must hold 25 BREAD
                 to gain access to the PolyBread Discord server.
             </Text>
 

@@ -30,7 +30,9 @@ The DAO is a decentralized autonomous organization designed to sustainably devel
 ## DAO
 - Treasury: Gnosis Multi-Sig Wallet (currently mainnet only, not ideal) 0x0c62A4563Cc525401EbcDad475757D805AEC5008
   
+  
 - Voting: Snapshot
+- https://snapshot.org/#/polybread.eth/
 - 
 
 ## Principles
