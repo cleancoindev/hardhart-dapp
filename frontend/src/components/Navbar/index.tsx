@@ -11,6 +11,7 @@ PopoverCloseButton,
 Portal,
 Icon,  
 Link,
+Spacer,
  useDisclosure} from "@chakra-ui/react";
 import { DiGithubBadge } from 'react-icons/di';
 import { CloseIcon, MoonIcon, SunIcon, InfoOutlineIcon, HamburgerIcon } from '@chakra-ui/icons'
@@ -52,7 +53,8 @@ interface IProps {}
 const Logo = () => (
     <NavLink href="/">
         <Heading
-            {...{ fontFamily: "Helvetica", fontStyle:"normal", fontWeight:"900", fontSize:"4xl", letterSpacing: "-2.5px"}}
+        fontSize={["xl", "2xl", "4xl"]}
+            {...{ fontFamily: "Helvetica", fontStyle:"normal", fontWeight:"900", letterSpacing: "-2.5px"}}
             cursor="pointer"
         >
         PolyBread
@@ -176,11 +178,13 @@ const OurLink = (props: any) => {
                 href={"#"}
                 as="kbd"
                 {...props}
+                fontSize={["xs","sm", "md"]}
+                px={2}
+                py={1}
                 {...{
                     fontFamily: "Helvetica",
                     fontStyle: "normal",
                     fontWeight: "normal",
-                    fontSize: "16px",
                     color: "#0809EBD",
                     ...(isActive && {
                         color: "#013A6D",
@@ -195,11 +199,13 @@ const OurLink = (props: any) => {
         <CLink
             as={NavLink}
             {...props}
+            fontSize={["xs","sm", "md"]}
+            px={2}
+            py={1}
             {...{
                 fontFamily: "Helvetica",
                 fontStyle: "normal",
                 fontWeight: "normal",
-                fontSize: "16px",
                 color: "#809EBD",
                 ...(isActive && {
                     color: "#013A6D",
@@ -244,7 +250,6 @@ const Navbar: React.FunctionComponent<IProps> = (props) => {
     const { colorMode, toggleColorMode } = useColorMode();
 
     const { isOpen, onOpen, onClose } = useDisclosure();
-    const handleMenuToggle = () => (isOpen ? onClose() : onOpen());
     
 
  
@@ -269,18 +274,23 @@ const Navbar: React.FunctionComponent<IProps> = (props) => {
 
     return (
         <Flex width="100%" px={[2,10]} py={4} borderColor={bgColor} border="2px" as="nav">
-            <Logo></Logo>
-            <Links></Links>
 
-            <Center border="2px" borderColor={bgColor} maxW="sm">
+            <Box>
+                <Logo></Logo>
+            </Box>
+            <Spacer />
+            <Links></Links>
+            <Spacer />
+
+            <Center border="2px" borderColor={bgColor} maxW={["xs", "sm"]} fontSize={["sm", "md", "lg"]}>
                 {ensName ? (
                     <Text ml="auto"
                           mr="auto"
+                          fontSize={["xs", "sm", "md"]}
                     {...{
                         fontFamily: "Helvetica",
                         fontStyle: "normal",
                         fontWeight: "normal",
-                        fontSize: "md",
                         color: textColor,
                         
                     }}
