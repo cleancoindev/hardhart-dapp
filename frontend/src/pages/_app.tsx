@@ -7,6 +7,8 @@ import type { AppProps /*, app context */ } from 'next/app';
 import { Layout } from '../components/Layout';
 import { Symfoni, SymfoniContext } from '../hardhat/SymfoniContext';
 
+import { ChainId, Config, DAppProvider } from '@usedapp/core';
+
 import  breadTheme  from '../../styles/breadtheme';
 
 // @ts-ignore-next
@@ -22,6 +24,20 @@ function MyApp({ Component, pageProps, router }: AppProps) {
 
   // Router
   const Router = useRouter();
+
+  // useDapp network config here
+  const config: Config = {
+    readOnlyChainId: ChainId.Polygon,
+    readOnlyUrls: {
+      [ChainId.Polygon]: 'https://mainnet.infura.io/v3/3befaad3be0d4a25b12651aadbcd02f5'
+    },
+    supportedChains: [
+      ChainId.Mumbai,
+      ChainId.Polygon,
+      ChainId.Hardhat,
+      ChainId.Localhost,
+    ],
+  };
 
 
 
@@ -43,8 +59,8 @@ function MyApp({ Component, pageProps, router }: AppProps) {
 
   return (
     <ChakraProvider theme={breadTheme}>
-      <Symfoni autoInit={true}>
 
+      <DAppProvider config={config}>
         <Layout>
           <ErrorBoundary key={router.asPath}>
             <Head>
@@ -54,7 +70,8 @@ function MyApp({ Component, pageProps, router }: AppProps) {
 
           </ErrorBoundary>
         </Layout>
-      </Symfoni>
+      </DAppProvider>
+
     </ChakraProvider>
 
   );

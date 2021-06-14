@@ -1,13 +1,18 @@
 // Utility to resolve ethereum network names
 
 import { useContext, useEffect, useState } from 'react';
-import { CurrentAddressContext, ProviderContext } from '../hardhat/SymfoniContext';
+
+
+import { useEthers, useNotifications,  } from '@usedapp/core';
 
 
 export const networkResolver = () => {
 
-    const [currentAddress] = useContext(CurrentAddressContext);
-    const [provider] = useContext(ProviderContext);
+    const { account, library } = useEthers();
+    const { notifications } = useNotifications();
+
+
+
     const [networkName, setNetworkname] = useState<string | undefined>(undefined);
 
 
@@ -16,9 +21,9 @@ export const networkResolver = () => {
         const fetch = async () => {
 
 
-            if (provider) {
+            if (library) {
                 // get the network name from ethers
-                const networkName = await provider?.getNetwork().catch(err => {
+                const networkName = await library?.getNetwork().catch(err => {
                     console.log('error fetching network name:', err);
                 });
 
@@ -40,7 +45,7 @@ export const networkResolver = () => {
         fetch();
 
 
-    }, [currentAddress, provider]);
+    }, [account, library]);
 
     // Return formatted name
     return {

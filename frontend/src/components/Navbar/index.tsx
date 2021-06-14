@@ -20,6 +20,11 @@ import Web3Modal, { IProviderOptions } from "web3modal";
 import WalletConnectProvider from "@walletconnect/web3-provider";
 import { ethers } from "ethers";
 
+import { useEthers, useNotifications } from '@usedapp/core';
+
+import { Balance } from '../Balance';
+
+
 
 import {
     CurrentAddressContext,
@@ -42,6 +47,9 @@ import { formatAddress } from '../../lib/formataddress';
 import { useRouter } from 'next/router';
 import { nameResolver } from '../../lib/nameresolver';
 import { networkResolver } from '../../lib/networkresolver';
+import { balanceResolver } from "../../lib/balanceresolver";
+
+import { truncateHash } from '../../lib/truncatehash';
 
 
 const network = "testnet";
@@ -165,16 +173,18 @@ const OurLink = (props: any) => {
     // const [SampleBread, setSampleBread] = useContext(SampleBreadContext);
     const [PbNFT, setPbNFT] = useState("");
     const [ERC721, setERC721] = useState("");
+    const { account, activateBrowserWallet, deactivate } = useEthers();
+
 
 
     const Router = useRouter();
     const isActive = Router.pathname == props.href;
 
 
-    if (!currentAddress) {
+    if (!account) {
         return (
             <CLink
-                onClick={handleWeb3ProviderConnect(setProvider, setSigner, setCurrentAddress, setPbNFT, setERC721)}
+                onClick={() => activateBrowserWallet()}
                 href={"#"}
                 as="kbd"
                 {...props}
@@ -246,11 +256,15 @@ const Navbar: React.FunctionComponent<IProps> = (props) => {
 
     const { networkName } = networkResolver();
 
+    const { balance } = balanceResolver();
+
     // Chakra color mode
     const { colorMode, toggleColorMode } = useColorMode();
 
-    const { isOpen, onOpen, onClose } = useDisclosure();
-    
+
+
+    const { account, activateBrowserWallet, deactivate } = useEthers();
+    const { notifications } = useNotifications();
 
  
 
@@ -283,7 +297,8 @@ const Navbar: React.FunctionComponent<IProps> = (props) => {
             <Spacer />
 
             <Center border="2px" borderColor={bgColor} maxW={["xs", "sm"]} fontSize={["sm", "md", "lg"]}>
-                {ensName ? (
+                {account ? (
+                        
                     <Text ml="auto"
                           mr="auto"
                           fontSize={["xs", "sm", "md"]}
@@ -298,9 +313,13 @@ const Navbar: React.FunctionComponent<IProps> = (props) => {
                         color: textColor,
                       }}
                     >
-                        {ensName}
-
+                        {truncateHash(account)}
+                        <Button background={bgColor} variant="outline" borderRadius="0" onClick={() => deactivate()}>
+                        disconnect
+                    </Button>
+                    { balance }
                     </Text>
+                    
 
 
                 ) : (
@@ -310,7 +329,7 @@ const Navbar: React.FunctionComponent<IProps> = (props) => {
                         background="black"
                         borderRadius="0px"
                         color="white"
-                        onClick={handleWeb3ProviderConnect(setProvider, setSigner, setCurrentAddress, setPbNFT, setERC721)}
+                        onClick={() => activateBrowserWallet()}
                     >
                         Connect
                     </Button>

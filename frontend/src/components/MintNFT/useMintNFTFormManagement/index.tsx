@@ -5,11 +5,17 @@ import { useCallback, useContext, useState } from 'react';
 
 import { CurrentAddressContext, ProviderContext, PbNFTContext, SignerContext } from '../../../hardhat/SymfoniContext';
 import { PbNFT } from '../../../hardhat/typechain/PbNFT';
-import { BigNumber, ethers, } from 'ethers';
+
+
+import { useEthers, useSendTransaction, useContractFunction } from '@usedapp/core'
+import { ethers, providers, utils, BigNumber } from 'ethers';
+import PbNFTContract from '../../../hardhat/deployments/chainstack/PbNFT.json';
 
 import { useRouter } from 'next/router';
 import { resolve } from 'url';
-import { PbNFTContractAddress } from '..';
+import { Contract } from '@ethersproject/contracts';
+
+
 
 import ipfsClient, {
     // @ts-ignore-next
@@ -32,13 +38,35 @@ export function useMintNFTFormManagement() {
     const [currentAddress] = useContext(CurrentAddressContext);
     const [provider] = useContext(ProviderContext);
     const [signer] = useContext(SignerContext);
-    const  PbNFT = useContext(PbNFTContext);
+
     const [hasSubmitted, setHasSubmitted] = useState(false);
     const [pbnCreatedId, setPbnCreatedId] = useState("");
+
+
+    // new 
+    const { account, library } = useEthers();
 
     const Router = useRouter();
 
 
+    const pbnftInterface = new utils.Interface(PbNFTContract.abi);
+    const pbcontract = new Contract(PbNFTContract.address, pbnftInterface);
+
+    const { state, send } = useContractFunction(pbcontract, 'mint', { transactionName: 'mint'});
+
+
+    const PbNFT = new ethers.Contract(PbNFTContract.address, PbNFTContract.abi, library) as PbNFT;
+
+    // const { state, send } = useContractFunction(PbNFT, 'mint', { transactionName: 'Mint'})
+
+    const doAMint = (owner: string, metadata: string) => {
+        send(owner, metadata)
+    };
+
+    // async function to request access to users web3/metamask account
+    async function requestAccount() {
+        await window.ethereum.request({ method: 'eth_requestAccounts' });
+    }
 
 
     /**
@@ -49,7 +77,7 @@ export function useMintNFTFormManagement() {
      * @param {?string} description - optional description to store in metadata
      * @returns {object} - NFT metadata object
      */
-    async function generateNFTMetadata(assetURI: any, options: { name: String; description: String; }) {
+    async function generateNFTMetadata(assetURI: any, options: { name: string; description: string; }) {
 
         const { name, description} = options;
         assetURI = ensureIpfsUriPrefix(assetURI);
@@ -122,6 +150,7 @@ export function useMintNFTFormManagement() {
 
         console.log('PBNFT: ', PbNFT);
         return new Promise(async (resolve) => {
+
             // Need to convert ether to gwei here for transaction
             console.log('params2:', params[2]);
 
@@ -161,44 +190,71 @@ export function useMintNFTFormManagement() {
 
 
 
-                // const tx = await PbNFT?.instance?.mint(String(currentAddress), metadataURI, {gasLimit: gasLimit?.add("80000")} );
-                const tx = await PbNFT?.instance?.mint(String(currentAddress), String(cleanMetadata));
-                // const tx = await PbNFT?.instance?.mint
-                console.log('transaction:', tx);
-                await tx?.wait();
+                // INTERACT WITH CONTRACT HERE
+                if (library) {
+                    //
+                    console.log('wallet connect, librabry pass');
+                
+                    const signer = library.getSigner(String(account));
 
+                    console.log('signer', signer);
 
+                    // const pbContract = new ethers.Contract(
+                    //     PbNFTContract.address,
+                    //     PbNFTContract.abi,
+                    //     library
+                    // ) as PbNFT;
 
-           
-                setHasSubmitted(true);
+                    pbcontract.connect(library);
+                    
+                    // const tranny = (owner: string, metadata: string) => {
+                    //     send(owner, metadata)
+                    // }
 
-                const nftMintedSentEventFilter = PbNFT?.instance?.filters?.NFTMinted(
-                    String(currentAddress),
-                );
+                    // const tx =  await doAMint(String(account), String(cleanMetadata));
+                    // library.contra
+                    const tx =  doAMint(String(account), String(cleanMetadata));
 
-                if (nftMintedSentEventFilter) {
-                    console.log('NFT MINTED SENT EVENT FILTER HIT');
-
-                    const logs = await provider?.getLogs({
-                        ...nftMintedSentEventFilter,
-                        fromBlock: 0,
-                    });
-
-                    const nftsMinted = logs?.map(
-                        (log) => PbNFT?.instance?.interface?.parseLog(log)?.args
+                    console.log('transaction:', tx);
+                    // await tx?.wait();
+    
+                    
+    
+    
+               
+                    setHasSubmitted(true);
+    
+                    const nftMintedSentEventFilter = pbcontract?.filters.NFTMinted(
+                        String(currentAddress),
                     );
-
-                    if (nftsMinted?.[nftsMinted.length - 1]) {
-                        console.log(nftsMinted);
-                        const nftMinted = nftsMinted?.[nftsMinted.length - 1];
-
-                        setPbnCreatedId(nftMinted?.[2]);
+    
+                    if (nftMintedSentEventFilter) {
+                        console.log('NFT MINTED SENT EVENT FILTER HIT');
+    
+                        const logs = await library?.getLogs({
+                            ...nftMintedSentEventFilter,
+                            fromBlock: 0,
+                        });
+    
+                        const nftsMinted = logs?.map(
+                
+                            (log) => pbcontract?.interface?.parseLog(log)?.args
+                        );
+    
+                        if (nftsMinted?.[nftsMinted.length - 1]) {
+                            console.log(nftsMinted);
+                            const nftMinted = nftsMinted?.[nftsMinted.length - 1];
+    
+                            setPbnCreatedId(nftMinted?.[2]);
+                        }
+    
                     }
-
+    
+    
+                    resolve(true);
                 }
 
 
-                resolve(true);
 
             } catch (e) {
                 console.error(e);

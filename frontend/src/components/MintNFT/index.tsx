@@ -15,6 +15,9 @@ import { useMintNFTFormManagement } from './useMintNFTFormManagement';
 import { Form, useFormik } from 'formik';
 import { BigNumber, ethers } from 'ethers';
 
+import { useEthers, useNotifications } from '@usedapp/core';
+
+
 import PbNFTDeployment from '../../hardhat/deployments/chainstack/PbNFT.json';
 
 import { CurrentAddressContext, ProviderContext, SignerContext } from '../../hardhat/SymfoniContext';
@@ -44,7 +47,7 @@ interface ISubmittedProps {
     id: string;
 }
 
-export const PbNFTContractAddress = PbNFTDeployment.receipt.contractAddress;
+export const PbNFTContractAddress = PbNFTDeployment.address;
 export const PbNFTAbi = PbNFTDeployment.abi;
 
 // Form input params
@@ -62,7 +65,7 @@ export const Submitted: React.FC<ISubmittedProps> = (props) => {
     // Hot linking for uploaded nft
     const nftIdUrl = `${window.location.href.replace("/mint-nft", `/nft/${props.id}`)}`;
     const { hasCopied: hasIdCopied, onCopy: onIdCopy } = useClipboard(nftIdUrl);
-    // const { assetCid } = props.assetCid;
+
 
 
     const bgColor = useColorModeValue("black.500", "black.200");
@@ -188,6 +191,8 @@ const MintNFT: React.FunctionComponent<IProps> = (props) => {
 
     const mgmt = useMintNFTFormManagement();
     const formik = useFormik(mgmt);
+
+    const { account, library } = useEthers();
 
     const [provider] = useContext(ProviderContext);
     const [signer] = useContext(SignerContext);
