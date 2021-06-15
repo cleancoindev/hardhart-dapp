@@ -195,7 +195,6 @@ const MintNFT: React.FunctionComponent<IProps> = (props) => {
     const { account, library } = useEthers();
 
     const [provider] = useContext(ProviderContext);
-    const [signer] = useContext(SignerContext);
     const [currentAddress] = useContext(CurrentAddressContext);
     // formik 
     const _url = String(formik?.values[Number(params.indexOf("_url"))]);
@@ -211,7 +210,7 @@ const MintNFT: React.FunctionComponent<IProps> = (props) => {
     const [assetCid, setAssetCid] = useState<any>();
     const [pbNFTContract, set] = useState<ethers.Contract | undefined>(undefined);
 
-
+    const signer = library?.getSigner()
     // color mode shit
     const bgColor = useColorModeValue("black.500", "black.200");
     const bg2Color = useColorModeValue("gray.900", "gray.200");
@@ -235,6 +234,9 @@ const MintNFT: React.FunctionComponent<IProps> = (props) => {
                 setIsVideo(isVideo);
             }
         };
+
+
+         
 
         fetch();
     }, [_url, isVideo]);

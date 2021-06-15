@@ -4,11 +4,10 @@
 import { useCallback, useContext, useState } from 'react';
 
 import { CurrentAddressContext, ProviderContext, PbNFTContext, SignerContext } from '../../../hardhat/SymfoniContext';
-import { PbNFT } from '../../../hardhat/typechain/PbNFT';
-
+import { PbNFT } from '../../../hardhat/typechain';
 
 import { useEthers, useSendTransaction, useContractFunction } from '@usedapp/core'
-import { ethers, providers, utils, BigNumber } from 'ethers';
+import { utils, BigNumber } from 'ethers';
 import PbNFTContract from '../../../hardhat/deployments/chainstack/PbNFT.json';
 
 import { useRouter } from 'next/router';
@@ -25,6 +24,9 @@ import ipfsClient, {
 
 // IPFS object
 const ipfs = ipfsClient({ url: "https://ipfs.infura.io:5001" });
+const pbnftInterface = new utils.Interface(PbNFTContract.abi);
+const pbcontract = new Contract(PbNFTContract.address, pbnftInterface);
+
 
 
 
@@ -35,9 +37,7 @@ const ipfs = ipfsClient({ url: "https://ipfs.infura.io:5001" });
 
 export function useMintNFTFormManagement() {
 
-    const [currentAddress] = useContext(CurrentAddressContext);
-    const [provider] = useContext(ProviderContext);
-    const [signer] = useContext(SignerContext);
+
 
     const [hasSubmitted, setHasSubmitted] = useState(false);
     const [pbnCreatedId, setPbnCreatedId] = useState("");
@@ -49,19 +49,22 @@ export function useMintNFTFormManagement() {
     const Router = useRouter();
 
 
-    const pbnftInterface = new utils.Interface(PbNFTContract.abi);
-    const pbcontract = new Contract(PbNFTContract.address, pbnftInterface);
-
-    const { state, send } = useContractFunction(pbcontract, 'mint', { transactionName: 'mint'});
 
 
-    const PbNFT = new ethers.Contract(PbNFTContract.address, PbNFTContract.abi, library) as PbNFT;
+    const { state, send } = useContractFunction(pbcontract, 'mint', { transactionName: 'mint', signer: library?.getSigner(String(account)) });
+
+
+    // const PbNFT = new ethers.Contract(PbNFTContract.address, PbNFTContract.abi, library) as PbNFT;
 
     // const { state, send } = useContractFunction(PbNFT, 'mint', { transactionName: 'Mint'})
 
-    const doAMint = (owner: string, metadata: string) => {
-        send(owner, metadata)
-    };
+    // const doAMint = (owner: string, metadata: string) => {
+    //     send(owner, metadata)
+    // };
+
+    async function doAMint(owner: string, metadata: string ) {
+        send(owner, metadata);
+    }
 
     // async function to request access to users web3/metamask account
     async function requestAccount() {
@@ -191,11 +194,11 @@ export function useMintNFTFormManagement() {
 
 
                 // INTERACT WITH CONTRACT HERE
-                if (library) {
+                if (library && account) {
                     //
                     console.log('wallet connect, librabry pass');
                 
-                    const signer = library.getSigner(String(account));
+                    const signer = await library.getSigner(String(account));
 
                     console.log('signer', signer);
 
@@ -205,7 +208,7 @@ export function useMintNFTFormManagement() {
                     //     library
                     // ) as PbNFT;
 
-                    pbcontract.connect(library);
+                    pbcontract.connect(library.getSigner(String(account)));
                     
                     // const tranny = (owner: string, metadata: string) => {
                     //     send(owner, metadata)
@@ -213,6 +216,7 @@ export function useMintNFTFormManagement() {
 
                     // const tx =  await doAMint(String(account), String(cleanMetadata));
                     // library.contra
+                    
                     const tx =  doAMint(String(account), String(cleanMetadata));
 
                     console.log('transaction:', tx);
@@ -225,7 +229,7 @@ export function useMintNFTFormManagement() {
                     setHasSubmitted(true);
     
                     const nftMintedSentEventFilter = pbcontract?.filters.NFTMinted(
-                        String(currentAddress),
+                        String(account),
                     );
     
                     if (nftMintedSentEventFilter) {
@@ -267,8 +271,8 @@ export function useMintNFTFormManagement() {
 
     const onSubmit = useCallback(submitHandler, [
         PbNFT,
-        provider,
-        currentAddress,
+        library,
+        account,
         Router,
     ]);
 
