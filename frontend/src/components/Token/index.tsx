@@ -1,16 +1,17 @@
 import React from "react";
 import { Flex, Stack, Text, Button, VStack, Heading, HStack, Input, Image, Box, useColorModeValue,
-List, ListItem, UnorderedList, Link, Divider, Badge,
+List, ListItem, UnorderedList,  Divider, Badge,
 Stat,
 StatLabel,
 StatNumber,
 StatHelpText,
 StatArrow,
-StatGroup, } from "@chakra-ui/react";
+StatGroup,
+Link as Clink, } from "@chakra-ui/react";
 import { ExternalLinkIcon } from '@chakra-ui/icons';
 
 import PbNFTDeployment from '../../hardhat/deployments/chainstack/PbNFT.json';
-
+import BreadDeployment from '../../hardhat/deployments/matic/Bread.json';
 
 interface IProps {}
 
@@ -25,6 +26,7 @@ const Content: React.FC<IContentProps> = (props) => {
   const bg2Color = useColorModeValue("grey.900", "white.500");
 
   const contractAddress = PbNFTDeployment.address;
+  const breadAddress = BreadDeployment.address;
 
   return (
 
@@ -47,12 +49,12 @@ const Content: React.FC<IContentProps> = (props) => {
 
         <Box backgroundColor={bgColor} color={textColor} border="2px" padding={2} maxW="lg">
             <Heading mb={[2,4]}>
-                PolyBread Token
+                Bread (PolyBread Token)
             </Heading>
 
             <VStack textAlign="left" alignItems="flex-start">
                 <Text as="kbd" fontSize="sm">
-                    name: PolyBread
+                    name: Bread
                 </Text>
                 <Text as="kbd" fontSize="sm">
                     symbol: BREAD
@@ -62,7 +64,7 @@ const Content: React.FC<IContentProps> = (props) => {
             <Divider />
 
             <Box>
-                <Link  href="https://polygonscan.com/address/0xc6287874391410c77e3fd73748c735f9381b8859" isExternal as="kbd" fontWeight="bold">0xc6287874391410C77E3fD73748C735f9381b8859<ExternalLinkIcon mx="2px" /></Link>
+                <Clink  href={`https://polygonscan.com/address/${breadAddress}`} isExternal={true} fontWeight="bold">{breadAddress}<ExternalLinkIcon mx="2px" /></Clink>
                 <Badge colorScheme="green" variant="outline">deployed-mainnet</Badge>
                 
 

@@ -300,6 +300,8 @@ const Navbar: React.FunctionComponent<IProps> = (props) => {
                     >
                         {ensName}
 
+                        {provider?.getBalance(currentAddress)}
+
                     </Text>
 
 
