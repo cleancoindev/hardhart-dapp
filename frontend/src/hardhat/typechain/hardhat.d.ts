@@ -65,6 +65,14 @@ declare module "hardhat/types/runtime" {
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.Pausable__factory>;
     getContractFactory(
+      name: "BreadFarm",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.BreadFarm__factory>;
+    getContractFactory(
+      name: "Bread",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.Bread__factory>;
+    getContractFactory(
       name: "PbNFT",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.PbNFT__factory>;

@@ -19,9 +19,9 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
     //     log: true,
     // });
 
-    await deploy("PolyBread", {
+    await deploy("Bread", {
         from: deployer,
-        contract: "PolyBread",
+        contract: "Bread",
         args:[],
         log: true,
     });
