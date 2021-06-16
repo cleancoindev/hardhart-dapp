@@ -9,18 +9,12 @@ import PbNFTDeployment from '../../hardhat/deployments/chainstack/PbNFT.json';
 
 import { PbNFTModel } from '../../components/NFTs/NFT';
 
-import { Network } from '@ethersproject/networks';
 import { PbNFT__factory } from '../../hardhat/typechain/factories/PbNFT__factory';
 
 
 const INFURA_ID = process.env.INFURA_ID;
 const INFURA_SECRET = process.env.INFURA_SECRET;
 
-const maticTestnet: Network = {
-    name: 'maticmum',
-    chainId: 80001,
-    _defaultProvider: (providers) => new providers.StaticJsonRpcProvider(`https://polygon-mumbai.infura.io/v3/${INFURA_ID}`)
-}
 
 function NftPage({ nft, createdBy, ownedBy, id }: { nft: PbNFTModel; createdBy: string, ownedBy: string; id: string }) {
     return <ViewNft ownedBy={ownedBy} nft={nft} id={id}></ViewNft>;

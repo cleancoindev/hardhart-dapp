@@ -1,32 +1,24 @@
 import React, { useContext, useEffect, useState } from 'react';
 import {
-    Flex,
-    Stack,
     Text,
-    Button,
     VStack,
     HStack,
     Image,
-    useDisclosure,
     Heading,
     Box,
     useMediaQuery,
 } from "@chakra-ui/react";
 import fileType from 'file-type';
-import { useVideo } from 'react-use';
 
 import {
     // @ts-ignore-next
     urlSource,
-} from "ipfs-http-client";
+} from 'ipfs-http-client';
 import { PbNFTModel } from '../NFTs/NFT';
 import { useParams } from "react-router-dom";
 import { CurrentAddressContext, ProviderContext, PbNFTContext } from '../../hardhat/SymfoniContext';
-import { utils } from 'ethers';
 import all from 'it-all';
-import { nameResolver } from '../../lib/nameresolver';
-import { truncateHash } from '../../lib/truncatehash';
-import { formatAddress } from '../../lib/formataddress';
+
 
 
 
