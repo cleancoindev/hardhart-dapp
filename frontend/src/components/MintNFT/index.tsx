@@ -353,8 +353,8 @@ const MintNFT: React.FunctionComponent<IProps> = (props) => {
     return (
         <form onSubmit={formik.handleSubmit}>
             <HStack
-                spacing={0}
-                border={"2px"}
+                spacing={1}
+                
                 // {...{
                 //     boxShadow: "0px 0px 68px rgba(27, 39, 70, 0.15)",
                 //     borderRadius: "0px",
@@ -369,7 +369,7 @@ const MintNFT: React.FunctionComponent<IProps> = (props) => {
             >
 
 
-                <Center height={"100%"} width={["100%", "100%", "100%", "50%"]}>
+                <Center height={"100%"} width={["100%", "100%", "100%", "50%"]} border="2px">
                     {" "}
                     <VStack
                         spacing={0}
@@ -604,16 +604,17 @@ const MintNFT: React.FunctionComponent<IProps> = (props) => {
 
                 </Center>
 
-                <Center background={bg2Color}
+                <Center background={bgColor}
                 width={["auto", "auto", "auto", "50%"]}
                 height="100%"
                 py={[5, 5, 5, 5, 0]}
                 px={[5, 5, 5, 5, 20]}
-                borderTopLeftRadius="none"
-                borderBottomLeftRadius="none"
+                border="2px"
+
                 >
 
                     <VStack spacing={"24px"} width={"420px"}>
+                        <Box border="2px" padding="4" alignSelf="flex-start">
                         <Heading
                             {...{
                                 fontFamily: "Helvetica",
@@ -621,7 +622,7 @@ const MintNFT: React.FunctionComponent<IProps> = (props) => {
                                 fontWeight: "bold",
                                 fontSize: "24px",
                                 lineHeight: "126.39%",
-                                color:  text2Color,
+                                color:  textColor,
                                 alignSelf: "flex-start",
                             }}
                             mt={`0px !important`}
@@ -631,11 +632,10 @@ const MintNFT: React.FunctionComponent<IProps> = (props) => {
                             </Heading>
 
                             <Text
+                            as="kbd"
+                            fontSize={["2xs","x-small", "sm"]}
                                 {...{
-                                    fontFamily: "Helvetica",
-                                    fontStyle: "normal",
-                                    fontWeight: "normal",
-                                    fontSize: "16px",
+ 
                                     lineHeight: "137.88%",
                                     color: "grey",
                                     textAlign: "left",
@@ -646,6 +646,7 @@ const MintNFT: React.FunctionComponent<IProps> = (props) => {
                             >
                                 Add your work, a title, and description
                             </Text>
+                            </Box>
 
                             {params.map((param, index) => {
                                 if (param === "_url") {
@@ -682,13 +683,13 @@ const MintNFT: React.FunctionComponent<IProps> = (props) => {
                                                 fontWeight: "normal",
                                                 fontSize: "16px",
                                                 textAlign: "left",
-                                                color: text2Color
+                                                color: textColor
                                                 
                                             }}
                                             height={"56px"}
                                             width={"424px"}
                                             borderRadius="0px"
-                                            borderColor={text2Color}
+                                            borderColor={textColor}
                                         />
                                         <FormErrorMessage>{formik.errors[index]}</FormErrorMessage>
 

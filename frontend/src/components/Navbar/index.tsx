@@ -12,7 +12,10 @@ Portal,
 Icon,  
 Link,
 Spacer,
- useDisclosure} from "@chakra-ui/react";
+ useDisclosure,
+ Skeleton,
+ Divider,
+Badge} from "@chakra-ui/react";
 import { DiGithubBadge } from 'react-icons/di';
 import { CloseIcon, MoonIcon, SunIcon, InfoOutlineIcon, HamburgerIcon } from '@chakra-ui/icons'
 import NavLink from "next/link";
@@ -32,7 +35,8 @@ import {
     ERC721Context, 
     SampleBreadContext, 
     SymfoniSampleBread,
-    SymfoniContext, 
+    SymfoniContext,
+    BreadContext, 
  } from "../../hardhat/SymfoniContext";
 
 
@@ -42,9 +46,11 @@ import { formatAddress } from '../../lib/formataddress';
 import { useRouter } from 'next/router';
 import { nameResolver } from '../../lib/nameresolver';
 import { networkResolver } from '../../lib/networkresolver';
+import { breadBalanceResolver } from '../../lib/breadbalanceresolver';
+import { truncateHash } from "../../lib/truncatehash";
 
 
-const network = "testnet";
+const network = "maticmum";
 const CS_USERNAME = process.env.CS_USERNAME;
 const CS_PASSWORD = process.env.CS_PASSWORD;
 
@@ -77,7 +83,8 @@ const handleWeb3ProviderConnect = (
     setSigner: Function,
     setCurrentAddress: Function,
     setPbNFT: Function,
-    setERC721: Function
+    setERC721: Function,
+    setBread: Function
     
 ) => async () => {
     const getWeb3ModalProvider = async (): Promise<any> => {
@@ -105,7 +112,7 @@ const handleWeb3ProviderConnect = (
 
         const web3Modal = new Web3Modal({
             network,
-            cacheProvider: false,
+            cacheProvider: true,
             disableInjectedProvider: true,
             providerOptions,
             theme: "dark",
@@ -113,15 +120,15 @@ const handleWeb3ProviderConnect = (
 
 
         const provider = await web3Modal.connect();
-        console.log('provider:', provider);
 
         return provider;
 
     };
     
-
+    
     const provider = await getWeb3ModalProvider();
     console.log('provider:', provider);
+
 
     // setup ethers with walletconnect/web3 provider
     const web3provider = new ethers.providers.Web3Provider(provider);
@@ -139,6 +146,9 @@ const handleWeb3ProviderConnect = (
 
     const pbNFT = useContext(PbNFTContext);
     const erc721 = useContext(ERC721Context);
+    const bread = useContext(BreadContext);
+
+    console.log('bread', bread);
 
     console.log(pbNFT);
     console.log(erc721);
@@ -148,6 +158,8 @@ const handleWeb3ProviderConnect = (
 
     setPbNFT(pbNFT);
     setERC721(erc721);
+    setBread(bread);
+
 
 
 
@@ -165,6 +177,7 @@ const OurLink = (props: any) => {
     // const [SampleBread, setSampleBread] = useContext(SampleBreadContext);
     const [PbNFT, setPbNFT] = useState("");
     const [ERC721, setERC721] = useState("");
+    const [Bread, setBread] = useState("");
 
 
     const Router = useRouter();
@@ -174,20 +187,15 @@ const OurLink = (props: any) => {
     if (!currentAddress) {
         return (
             <CLink
-                onClick={handleWeb3ProviderConnect(setProvider, setSigner, setCurrentAddress, setPbNFT, setERC721)}
+                onClick={handleWeb3ProviderConnect(setProvider, setSigner, setCurrentAddress, setPbNFT, setERC721, setBread)}
                 href={"#"}
-                as="kbd"
                 {...props}
-                fontSize={["xs","sm", "md"]}
+                fontSize={["4xs", "2xs", "xs","sm", "md"]}
                 px={2}
                 py={1}
                 {...{
                     fontFamily: "Helvetica",
-                    fontStyle: "normal",
-                    fontWeight: "normal",
-                    color: "#0809EBD",
                     ...(isActive && {
-                        color: "#013A6D",
                         textDecoration: "underline",
                     }),
                 }}
@@ -199,16 +207,12 @@ const OurLink = (props: any) => {
         <CLink
             as={NavLink}
             {...props}
-            fontSize={["xs","sm", "md"]}
+            fontSize={["4xs","xs","sm", "md"]}
             px={2}
             py={1}
             {...{
-                fontFamily: "Helvetica",
-                fontStyle: "normal",
-                fontWeight: "normal",
-                color: "#809EBD",
+
                 ...(isActive && {
-                    color: "#013A6D",
                     textDecoration: "underline"
                 }),
             }}
@@ -219,8 +223,8 @@ const OurLink = (props: any) => {
 
 // NAVBAR LINKS GO HERE
 const Links = () => (
-    <Center mx="auto">
-        <HStack spacing={[2, 10]}>
+    <Center mx="auto" fontSize={["xx-small", "xs", "small", "md", "lg"]}>
+        <HStack spacing={[1, 2, 4, 6, 8,  10]}>
             {/* <OurLink href="/samplebread">test link1</OurLink> */}
             <OurLink href="/mint-nft">NFT</OurLink>
             <OurLink href="/nfts">COLLECTION</OurLink>
@@ -229,6 +233,8 @@ const Links = () => (
         </HStack>
     </Center>
 );
+
+
 
 
 const Navbar: React.FunctionComponent<IProps> = (props) => {
@@ -241,15 +247,18 @@ const Navbar: React.FunctionComponent<IProps> = (props) => {
     // const [ERC721, setERC721] = useState<SymfoniERC721>(emptyContract);
     const [PbNFT, setPbNFT] = useState("");
     const [ERC721, setERC721] = useState("");
+    const [Bread, setBread] = useState("");
 
     const { ensName } = nameResolver();
 
     const { networkName } = networkResolver();
+    const { breadBalance, loading } = breadBalanceResolver();
+
+
 
     // Chakra color mode
     const { colorMode, toggleColorMode } = useColorMode();
 
-    const { isOpen, onOpen, onClose } = useDisclosure();
     
 
  
@@ -269,6 +278,20 @@ const Navbar: React.FunctionComponent<IProps> = (props) => {
         
     }
 
+    const determineMembership = (balance: any) => {
+
+        if (Number(balance) >= 25) {
+            return (
+                <Badge variant="outline" colorScheme="green" ml="1" fontSize={["xx-small", "xs"]} >member</Badge>
+            );
+
+        } else {
+            return;
+        }
+    }
+
+
+
     const bgColor = useColorModeValue("black.500", "black.200");
     const textColor = useColorModeValue("white.500", "black.500");
 
@@ -278,94 +301,121 @@ const Navbar: React.FunctionComponent<IProps> = (props) => {
             <Box>
                 <Logo></Logo>
             </Box>
-            <Spacer />
             <Links></Links>
-            <Spacer />
 
-            <Center border="2px" borderColor={bgColor} maxW={["xs", "sm"]} fontSize={["sm", "md", "lg"]}>
+            <HStack>
+            <Center border="2px" borderColor={bgColor} maxW={["xs", "sm"]} maxH={["xs", "sm"]} fontSize={["sm", "md", "lg"]}>
                 {ensName ? (
-                    <Text ml="auto"
-                          mr="auto"
-                          fontSize={["xs", "sm", "md"]}
-                    {...{
-                        fontFamily: "Helvetica",
-                        fontStyle: "normal",
-                        fontWeight: "normal",
-                        color: textColor,
-                        
-                    }}
-                    _hover={{
-                        color: textColor,
-                      }}
-                    >
-                        {ensName}
+                    <Box  mx="2"  isTruncated fontSize={["xs", "sm", "md"]} > 
+                        <Text 
+                            px="2"
+                        {...{
+                            fontFamily: "Helvetica",
+                            color: textColor,
+                            
+                        }}
+                        _hover={{
+                            color: textColor,
+                        }}
+                        >
+                            {truncateHash(ensName)}
 
-                        {provider?.getBalance(currentAddress)}
 
-                    </Text>
+
+                        </Text>
+                    </Box>
+
+
 
 
                 ) : (
+                    <Box border="2px" mx="2"  isTruncated fontSize={["xs", "sm", "md"]} > 
+
                     <Button
-                        ml="2px"
-                        mr="auto"
                         background="black"
                         borderRadius="0px"
                         color="white"
-                        onClick={handleWeb3ProviderConnect(setProvider, setSigner, setCurrentAddress, setPbNFT, setERC721)}
+                        onClick={handleWeb3ProviderConnect(setProvider, setSigner, setCurrentAddress, setPbNFT, setERC721, setBread)}
                     >
                         Connect
                     </Button>
+                    </Box>
                 )}
+                
+ 
+                <Box border="1px" mx="2" mr="auto">
+                    <Skeleton isLoaded={!loading}>
+                    <Text as="kbd" fontSize={["2xs", "xs"]} px="2">{breadBalance}BREAD</Text>
+                    <Divider orientation="horizontal" />
+                    {determineMembership(breadBalance)}
+                    </Skeleton>
+                </Box>
+
+                <Divider orientation="vertical" variant="solid" />
+    
 
 
+                <Box mx="2" >
                 <IconButton
-                 ml="auto"
-                 mr="auto"
-                 borderRadius="0px"
-                 variant="outline"
+                    ml="auto"
+                    mr="auto"
+                    borderRadius="0"
+                    color={textColor} background={bgColor}
+                    aria-label="toggle darkmode" icon={ determineIcon() } onClick={handleToggle} >
+                        Toggle {colorMode === "light" ? "Dark" : "Light"}
+                    </IconButton>
+                    <Popover>
+                        <PopoverTrigger>
+                            <IconButton 
+                            ml="auto" 
+                            mr="auto" 
+                            borderRadius="0"  
+                            aria-label="info panel" 
+                            icon={<InfoOutlineIcon/>} 
+                            color={textColor} 
+                            background={bgColor}  ></IconButton>
+                        </PopoverTrigger>
+                        <Portal>
+                            <PopoverContent borderColor={textColor} borderRadius="0">
+                                <PopoverArrow />
+                                <PopoverHeader fontFamily="Helvetica" fontSize="16px" fontWeight="bold">PolyBread Alpha</PopoverHeader>
+                                <PopoverCloseButton />
 
-                 aria-label="toggle darkmode" icon={ determineIcon() } onClick={handleToggle} >
-                    Toggle {colorMode === "light" ? "Dark" : "Light"}
-                </IconButton>
+                                <PopoverBody >
+                                    <Text as="kbd" fontSize="md" fontWeight="bold">wallet</Text>
+                                    <Box>
+                                        <Text as="kbd" fontSize="sm">network-name: {networkName}</Text>
+                                    </Box>
+
+                                </PopoverBody>
+
+
+                                <PopoverFooter as="kbd" fontSize="x-small">deployed on polygon/matic mumbai testnet</PopoverFooter>
+                                <PopoverFooter as="kbd" fontSize="x-small" >version 0.0.3 pre-release alpha</PopoverFooter>
+                                <PopoverFooter as="kbd" fontSize="x-small" >
+                                    <Link href='https://github.com/bretth18/hardhart-dapp'>
+                                        <Icon as={DiGithubBadge} fontSize="xl"></Icon>
+                                    </Link>
+                                </PopoverFooter>
+
+                            </PopoverContent>
+                        </Portal>
+
+                    </Popover>
+                </Box>
+
+
+
+               
               
             </Center>
 
-            <Box border="2px" marginLeft="5px">
-                <Popover>
-                    <PopoverTrigger>
-                        <IconButton size={"lg"} aria-label="info panel" icon={<InfoOutlineIcon/>} color={textColor} background={bgColor} f ></IconButton>
-                    </PopoverTrigger>
-                    <Portal>
-                        <PopoverContent borderColor={textColor} borderRadius="0">
-                            <PopoverArrow />
-                            <PopoverHeader fontFamily="Helvetica" fontSize="16px" fontWeight="bold">PolyBread Alpha</PopoverHeader>
-                            <PopoverCloseButton />
-
-                            <PopoverBody >
-                                <Text as="kbd" fontSize="md" fontWeight="bold">wallet</Text>
-                                <Box>
-                                    <Text as="kbd" fontSize="sm">network-name: {networkName}</Text>
-                                </Box>
-
-                            </PopoverBody>
+                    </HStack>
 
 
-                            <PopoverFooter as="kbd" fontSize="x-small">deployed on polygon/matic mumbai testnet</PopoverFooter>
-                            <PopoverFooter as="kbd" fontSize="x-small" >version 0.0.2 pre-release alpha</PopoverFooter>
-                            <PopoverFooter as="kbd" fontSize="x-small" >
-                                <Link href='https://github.com/bretth18/hardhart-dapp'>
-                                    <Icon as={DiGithubBadge} fontSize="xl"></Icon>
-                                </Link>
-                            </PopoverFooter>
 
-                        </PopoverContent>
-                    </Portal>
- 
 
-                </Popover>
 
-            </Box>
         </Flex>
     );
 };

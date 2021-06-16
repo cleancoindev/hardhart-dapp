@@ -27,6 +27,7 @@ export function useNfts() {
 
 
             // Grab owned ERC-721 balance from the current address
+            
             const addressNftBalance = await PbNFT?.instance?.balanceOf(String(currentAddress)).then((value) => {
 
                 console.log('address balance:', value);
@@ -39,6 +40,7 @@ export function useNfts() {
             }).catch(error => {
                 console.error(error);
             });
+
 
 
             // Current address has a balance of ERC-721 tokens, so we can load them up

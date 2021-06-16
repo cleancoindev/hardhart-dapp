@@ -4,16 +4,16 @@
 import { providers, Signer, ethers } from "ethers";
 import React, { useEffect, useState } from "react";
 import Web3Modal, { IProviderOptions } from "web3modal";
-import { BreadFarm } from "./typechain/BreadFarm";
-import { BreadFarm__factory } from "./typechain/factories/BreadFarm__factory";
+import { PbNFT } from "./typechain/PbNFT";
+import { PbNFT__factory } from "./typechain/factories/PbNFT__factory";
 import { Bread } from "./typechain/Bread";
 import { Bread__factory } from "./typechain/factories/Bread__factory";
 import { SampleBread } from "./typechain/SampleBread";
 import { SampleBread__factory } from "./typechain/factories/SampleBread__factory";
+import { BreadFarm } from "./typechain/BreadFarm";
+import { BreadFarm__factory } from "./typechain/factories/BreadFarm__factory";
 import { PolyBread } from "./typechain/PolyBread";
 import { PolyBread__factory } from "./typechain/factories/PolyBread__factory";
-import { PbNFT } from "./typechain/PbNFT";
-import { PbNFT__factory } from "./typechain/factories/PbNFT__factory";
 import { ERC20 } from "./typechain/ERC20";
 import { ERC20__factory } from "./typechain/factories/ERC20__factory";
 import { ERC721 } from "./typechain/ERC721";
@@ -38,11 +38,11 @@ const defaultSymfoniContext: SymfoniContextInterface = {
     providers: []
 };
 export const SymfoniContext = React.createContext<SymfoniContextInterface>(defaultSymfoniContext);
-export const BreadFarmContext = React.createContext<SymfoniBreadFarm>(emptyContract);
+export const PbNFTContext = React.createContext<SymfoniPbNFT>(emptyContract);
 export const BreadContext = React.createContext<SymfoniBread>(emptyContract);
 export const SampleBreadContext = React.createContext<SymfoniSampleBread>(emptyContract);
+export const BreadFarmContext = React.createContext<SymfoniBreadFarm>(emptyContract);
 export const PolyBreadContext = React.createContext<SymfoniPolyBread>(emptyContract);
-export const PbNFTContext = React.createContext<SymfoniPbNFT>(emptyContract);
 export const ERC20Context = React.createContext<SymfoniERC20>(emptyContract);
 export const ERC721Context = React.createContext<SymfoniERC721>(emptyContract);
 
@@ -60,9 +60,9 @@ export interface SymfoniProps {
     loadingComponent?: React.ReactNode;
 }
 
-export interface SymfoniBreadFarm {
-    instance?: BreadFarm;
-    factory?: BreadFarm__factory;
+export interface SymfoniPbNFT {
+    instance?: PbNFT;
+    factory?: PbNFT__factory;
 }
 
 export interface SymfoniBread {
@@ -75,14 +75,14 @@ export interface SymfoniSampleBread {
     factory?: SampleBread__factory;
 }
 
+export interface SymfoniBreadFarm {
+    instance?: BreadFarm;
+    factory?: BreadFarm__factory;
+}
+
 export interface SymfoniPolyBread {
     instance?: PolyBread;
     factory?: PolyBread__factory;
-}
-
-export interface SymfoniPbNFT {
-    instance?: PbNFT;
-    factory?: PbNFT__factory;
 }
 
 export interface SymfoniERC20 {
@@ -109,11 +109,11 @@ export const Symfoni: React.FC<SymfoniProps> = ({
     const [currentAddress, setCurrentAddress] = useState<string>(defaultCurrentAddress);
     const [fallbackProvider] = useState<string | undefined>(undefined);
     const [providerPriority, setProviderPriority] = useState<string[]>(["web3modal", "hardhat"]);
-    const [BreadFarm, setBreadFarm] = useState<SymfoniBreadFarm>(emptyContract);
+    const [PbNFT, setPbNFT] = useState<SymfoniPbNFT>(emptyContract);
     const [Bread, setBread] = useState<SymfoniBread>(emptyContract);
     const [SampleBread, setSampleBread] = useState<SymfoniSampleBread>(emptyContract);
+    const [BreadFarm, setBreadFarm] = useState<SymfoniBreadFarm>(emptyContract);
     const [PolyBread, setPolyBread] = useState<SymfoniPolyBread>(emptyContract);
-    const [PbNFT, setPbNFT] = useState<SymfoniPbNFT>(emptyContract);
     const [ERC20, setERC20] = useState<SymfoniERC20>(emptyContract);
     const [ERC721, setERC721] = useState<SymfoniERC721>(emptyContract);
     useEffect(() => {
@@ -200,11 +200,11 @@ export const Symfoni: React.FC<SymfoniProps> = ({
                 setMessages(old => [...old, text])
             }
             const finishWithContracts = (text: string) => {
-                setBreadFarm(getBreadFarm(_provider, _signer))
+                setPbNFT(getPbNFT(_provider, _signer))
                 setBread(getBread(_provider, _signer))
                 setSampleBread(getSampleBread(_provider, _signer))
+                setBreadFarm(getBreadFarm(_provider, _signer))
                 setPolyBread(getPolyBread(_provider, _signer))
-                setPbNFT(getPbNFT(_provider, _signer))
                 setERC20(getERC20(_provider, _signer))
                 setERC721(getERC721(_provider, _signer))
                 finish(text)
@@ -235,18 +235,20 @@ export const Symfoni: React.FC<SymfoniProps> = ({
         return () => { subscribed = false }
     }, [initializeCounter])
 
-    const getBreadFarm = (_provider: providers.Provider, _signer?: Signer) => {
-        let instance = _signer ? BreadFarm__factory.connect(ethers.constants.AddressZero, _signer) : BreadFarm__factory.connect(ethers.constants.AddressZero, _provider)
-        const contract: SymfoniBreadFarm = {
+    const getPbNFT = (_provider: providers.Provider, _signer?: Signer) => {
+
+        const contractAddress = "0x0F09C0833C36bBcdBe79a800B50d3d770562F5d6"
+        const instance = _signer ? PbNFT__factory.connect(contractAddress, _signer) : PbNFT__factory.connect(contractAddress, _provider)
+        const contract: SymfoniPbNFT = {
             instance: instance,
-            factory: _signer ? new BreadFarm__factory(_signer) : undefined,
+            factory: _signer ? new PbNFT__factory(_signer) : undefined,
         }
         return contract
     }
         ;
     const getBread = (_provider: providers.Provider, _signer?: Signer) => {
 
-        const contractAddress = "0x31e49e59EA13408f0f7a84783e5a47347f5B0aaB"
+        const contractAddress = "0x88911E5e51BE9A1bB25B8b243514dDC4F9Bba4dE"
         const instance = _signer ? Bread__factory.connect(contractAddress, _signer) : Bread__factory.connect(contractAddress, _provider)
         const contract: SymfoniBread = {
             instance: instance,
@@ -264,22 +266,22 @@ export const Symfoni: React.FC<SymfoniProps> = ({
         return contract
     }
         ;
-    const getPolyBread = (_provider: providers.Provider, _signer?: Signer) => {
-
-        const contractAddress = "0xc6287874391410C77E3fD73748C735f9381b8859"
-        const instance = _signer ? PolyBread__factory.connect(contractAddress, _signer) : PolyBread__factory.connect(contractAddress, _provider)
-        const contract: SymfoniPolyBread = {
+    const getBreadFarm = (_provider: providers.Provider, _signer?: Signer) => {
+        let instance = _signer ? BreadFarm__factory.connect(ethers.constants.AddressZero, _signer) : BreadFarm__factory.connect(ethers.constants.AddressZero, _provider)
+        const contract: SymfoniBreadFarm = {
             instance: instance,
-            factory: _signer ? new PolyBread__factory(_signer) : undefined,
+            factory: _signer ? new BreadFarm__factory(_signer) : undefined,
         }
         return contract
     }
         ;
-    const getPbNFT = (_provider: providers.Provider, _signer?: Signer) => {
-        let instance = _signer ? PbNFT__factory.connect(ethers.constants.AddressZero, _signer) : PbNFT__factory.connect(ethers.constants.AddressZero, _provider)
-        const contract: SymfoniPbNFT = {
+    const getPolyBread = (_provider: providers.Provider, _signer?: Signer) => {
+
+        const contractAddress = "0x95880E95A4b37Bb25A3A53638b4970519A25BE14"
+        const instance = _signer ? PolyBread__factory.connect(contractAddress, _signer) : PolyBread__factory.connect(contractAddress, _provider)
+        const contract: SymfoniPolyBread = {
             instance: instance,
-            factory: _signer ? new PbNFT__factory(_signer) : undefined,
+            factory: _signer ? new PolyBread__factory(_signer) : undefined,
         }
         return contract
     }
@@ -316,11 +318,11 @@ export const Symfoni: React.FC<SymfoniProps> = ({
             <ProviderContext.Provider value={[provider, setProvider]}>
                 <SignerContext.Provider value={[signer, setSigner]}>
                     <CurrentAddressContext.Provider value={[currentAddress, setCurrentAddress]}>
-                        <BreadFarmContext.Provider value={BreadFarm}>
+                        <PbNFTContext.Provider value={PbNFT}>
                             <BreadContext.Provider value={Bread}>
                                 <SampleBreadContext.Provider value={SampleBread}>
-                                    <PolyBreadContext.Provider value={PolyBread}>
-                                        <PbNFTContext.Provider value={PbNFT}>
+                                    <BreadFarmContext.Provider value={BreadFarm}>
+                                        <PolyBreadContext.Provider value={PolyBread}>
                                             <ERC20Context.Provider value={ERC20}>
                                                 <ERC721Context.Provider value={ERC721}>
                                                     {showLoading && loading ?
@@ -335,11 +337,11 @@ export const Symfoni: React.FC<SymfoniProps> = ({
                                                     }
                                                 </ERC721Context.Provider >
                                             </ERC20Context.Provider >
-                                        </PbNFTContext.Provider >
-                                    </PolyBreadContext.Provider >
+                                        </PolyBreadContext.Provider >
+                                    </BreadFarmContext.Provider >
                                 </SampleBreadContext.Provider >
                             </BreadContext.Provider >
-                        </BreadFarmContext.Provider >
+                        </PbNFTContext.Provider >
                     </CurrentAddressContext.Provider>
                 </SignerContext.Provider>
             </ProviderContext.Provider>

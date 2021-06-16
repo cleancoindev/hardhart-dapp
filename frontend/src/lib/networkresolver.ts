@@ -24,13 +24,8 @@ export const networkResolver = () => {
 
                 if (networkName) {
                     
-                    if (networkName.chainId === 80001) {
-                        // chainstack polygon testnet
-                        setNetworkname('chainstack-polygon-testnet')
-                    } else {
-                        // should return normal string for network
-                        setNetworkname(networkName.name);
-                    }
+                    setNetworkname(networkName.name);
+                    
                 }
             }
 

@@ -2,8 +2,8 @@
   "_format": "hh-sol-cache-2",
   "files": {
     "/Users/bretthenderson/Developer/eth/hardhart-dapp/contracts/pbNFT.sol": {
-      "lastModificationDate": 1623183597228,
-      "contentHash": "4afc651396fac79d17e36d4d4b50bb45",
+      "lastModificationDate": 1623725084972,
+      "contentHash": "16670aba5c874a8d0a5ac569d79c2728",
       "sourceName": "contracts/pbNFT.sol",
       "solcConfig": {
         "version": "0.7.0",
@@ -1183,7 +1183,7 @@
       "artifacts": []
     },
     "/Users/bretthenderson/Developer/eth/hardhart-dapp/contracts/breadfarm.sol": {
-      "lastModificationDate": 1623712527571,
+      "lastModificationDate": 1623725084971,
       "contentHash": "372e36e273e0511208df37ff2caf209a",
       "sourceName": "contracts/breadfarm.sol",
       "solcConfig": {
@@ -1228,7 +1228,7 @@
       ]
     },
     "/Users/bretthenderson/Developer/eth/hardhart-dapp/contracts/breadtoken.sol": {
-      "lastModificationDate": 1623711693935,
+      "lastModificationDate": 1623725084972,
       "contentHash": "1f132cb5a7c0065c30ce652b0b9bb3fe",
       "sourceName": "contracts/breadtoken.sol",
       "solcConfig": {
@@ -1274,6 +1274,44 @@
       "artifacts": [
         "Bread"
       ]
+    },
+    "/Users/bretthenderson/Developer/eth/hardhart-dapp/contracts/pbfactory.sol": {
+      "lastModificationDate": 1623790329025,
+      "contentHash": "6e8e2a2d302b5e8d61dd58bcc5212475",
+      "sourceName": "contracts/pbfactory.sol",
+      "solcConfig": {
+        "version": "0.7.0",
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata",
+                "devdoc",
+                "userdoc",
+                "storageLayout",
+                "evm.gasEstimates"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          },
+          "metadata": {
+            "useLiteralContent": true
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [],
+      "artifacts": []
     }
   }
 }

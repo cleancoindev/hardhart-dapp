@@ -16,6 +16,7 @@ export const nameResolver = (lookupAddress?: string, format: boolean = false) =>
     useEffect(() => {
 
         const fetch = async () => {
+            console.log('provider ens', provider);
 
             if (lookupAddress) {
 

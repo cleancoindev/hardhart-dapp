@@ -53,7 +53,7 @@ const Content: React.FC<IContentProps> = (props) => {
 
         <Box backgroundColor={bgColor} color={textColor} border="2px" padding={2} maxW="sm">
             <Heading as="h4" fontSize={["md", "lg"]}>
-                PolyBread DAO
+                PolyBread DAO 
             </Heading>
 
             <Text as="kbd">
@@ -69,7 +69,7 @@ const Content: React.FC<IContentProps> = (props) => {
         
         <Box backgroundColor={bgColor} color={textColor} border="2px" padding={2} maxW="sm">
             <Heading as="h4" fontSize={["md", "lg"]}>
-                PbNFT
+                PbNFT [v1]
             </Heading>
 
             <Text as="kbd">

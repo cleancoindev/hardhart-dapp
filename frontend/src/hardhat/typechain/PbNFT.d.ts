@@ -244,7 +244,7 @@ export class PbNFT extends BaseContract {
     ): Promise<[boolean]>;
 
     mint(
-      owner: string,
+      _owner: string,
       metadataURI: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
@@ -343,7 +343,7 @@ export class PbNFT extends BaseContract {
   ): Promise<boolean>;
 
   mint(
-    owner: string,
+    _owner: string,
     metadataURI: string,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
@@ -436,7 +436,7 @@ export class PbNFT extends BaseContract {
     ): Promise<boolean>;
 
     mint(
-      owner: string,
+      _owner: string,
       metadataURI: string,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
@@ -574,7 +574,7 @@ export class PbNFT extends BaseContract {
     ): Promise<BigNumber>;
 
     mint(
-      owner: string,
+      _owner: string,
       metadataURI: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
@@ -677,7 +677,7 @@ export class PbNFT extends BaseContract {
     ): Promise<PopulatedTransaction>;
 
     mint(
-      owner: string,
+      _owner: string,
       metadataURI: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
