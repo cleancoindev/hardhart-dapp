@@ -15,14 +15,8 @@ import {
     urlSource,
 } from 'ipfs-http-client';
 import { PbNFTModel } from '../NFTs/NFT';
-import { useParams } from "react-router-dom";
 import { CurrentAddressContext, ProviderContext, PbNFTContext } from '../../hardhat/SymfoniContext';
 import all from 'it-all';
-
-
-
-
-
 
 
 
@@ -123,7 +117,7 @@ const ViewNft: React.FunctionComponent<IProps> = (props) => {
     // check if ipfs file is video
     useEffect(() => {
 
-        loadMetadata(_url);
+        // loadMetadata(_url);
         // fetch();
     }, [_url, isVideo]);
 
