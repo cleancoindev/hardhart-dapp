@@ -53,6 +53,8 @@ import { truncateHash } from "../../lib/truncatehash";
 const network = "maticmum";
 const CS_USERNAME = process.env.CS_USERNAME;
 const CS_PASSWORD = process.env.CS_PASSWORD;
+const CS_MAIN_USERNAME = process.env.CS_MAIN_USERNAME;
+const CS_MAIN_PASSWORD = process.env.CS_MAIN_PASSWORD;
 
 interface IProps {}
 
@@ -90,6 +92,7 @@ const handleWeb3ProviderConnect = (
     const getWeb3ModalProvider = async (): Promise<any> => {
 
         const providerOptions: IProviderOptions = {
+
             walletconnect: {
                 package: WalletConnectProvider, // required
                 options: {
@@ -105,6 +108,7 @@ const handleWeb3ProviderConnect = (
                     },
                     rpc: {
                         80001: `https://${CS_USERNAME}:${CS_PASSWORD}@nd-075-619-162.p2pify.com`,
+                        137: `https://${CS_MAIN_USERNAME}:${CS_MAIN_PASSWORD}@nd-211-935-416.p2pify.com`
                     },
                 },
             },
@@ -113,7 +117,7 @@ const handleWeb3ProviderConnect = (
         const web3Modal = new Web3Modal({
             network,
             cacheProvider: true,
-            disableInjectedProvider: true,
+            disableInjectedProvider: false,
             providerOptions,
             theme: "dark",
         });
@@ -125,6 +129,7 @@ const handleWeb3ProviderConnect = (
 
     };
     
+
     
     const provider = await getWeb3ModalProvider();
     console.log('provider:', provider);
@@ -390,7 +395,7 @@ const Navbar: React.FunctionComponent<IProps> = (props) => {
                                 </PopoverBody>
 
 
-                                <PopoverFooter as="kbd" fontSize="x-small">deployed on polygon/matic mumbai testnet</PopoverFooter>
+                                <PopoverFooter as="kbd" fontSize="x-small">deployed on polygon/matic mainnet</PopoverFooter>
                                 <PopoverFooter as="kbd" fontSize="x-small" >version 0.0.3 pre-release alpha</PopoverFooter>
                                 <PopoverFooter as="kbd" fontSize="x-small" >
                                     <Link href='https://github.com/bretth18/hardhart-dapp'>

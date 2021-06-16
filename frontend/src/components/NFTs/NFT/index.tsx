@@ -113,7 +113,7 @@ const NFT: React.FunctionComponent<PbNFTModel> = (props) => {
             <VStack spacing={10} width="auto" boxShadow="0px opx 24px rgba(27, 39, 70, 0.1)" cursor="pointer" border="2px">
 
                 {isVideo ? (
-
+                    <Box border="2px" m="5" borderColor={bgColor} >
                     <video
                         src={assetURL}
                         autoPlay
@@ -124,6 +124,7 @@ const NFT: React.FunctionComponent<PbNFTModel> = (props) => {
                         width="220px"
                         style={{ borderRadius: "0px"}}
                     />
+                    </Box>
                 ) : (
                     <Image width="220px" height="auto" src={assetURL} borderRadius="0px" border="2px"  ml="5" mr="5" my="5" borderColor={bgColor}></Image>
                 )}

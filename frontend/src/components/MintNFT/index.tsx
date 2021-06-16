@@ -15,7 +15,7 @@ import { useMintNFTFormManagement } from './useMintNFTFormManagement';
 import { Form, useFormik } from 'formik';
 import { BigNumber, ethers } from 'ethers';
 
-import PbNFTDeployment from '../../hardhat/deployments/chainstack/PbNFT.json';
+import PbNFTDeployment from '../../hardhat/deployments/matic/PbNFT.json';
 
 import { CurrentAddressContext, ProviderContext, SignerContext } from '../../hardhat/SymfoniContext';
 import all from 'it-all';

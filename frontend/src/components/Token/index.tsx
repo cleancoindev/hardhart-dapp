@@ -191,7 +191,7 @@ const Content: React.FC<IContentProps> = (props) => {
 };
 
 const Token: React.FunctionComponent<IProps> = (props) => (
-  <HStack spacing={[0, 10]} px={[5, 10, 10]} flexDirection={["column", "column", "column", "row"]}>
+  <HStack spacing={[0, 10]} px={[5, 10, 10]} pb={5} flexDirection={["column", "column", "column", "row"]}>
     <Content></Content>
   </HStack>
 );

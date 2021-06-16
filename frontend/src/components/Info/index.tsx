@@ -1,9 +1,9 @@
 import React from "react";
 import { Flex, Stack, Text, Button, VStack, Heading, HStack, Input, Image, Box, useColorModeValue,
-List, ListItem, UnorderedList, Link, Divider, Badge } from "@chakra-ui/react";
+List, ListItem, UnorderedList, Link as Clink, Divider, Badge } from "@chakra-ui/react";
 import { ExternalLinkIcon } from '@chakra-ui/icons';
 
-import PbNFTDeployment from '../../hardhat/deployments/chainstack/PbNFT.json';
+import PbNFTDeployment from '../../hardhat/deployments/matic/PbNFT.json';
 
 
 interface IProps {}
@@ -80,10 +80,10 @@ const Content: React.FC<IContentProps> = (props) => {
             <Text fontWeight="bold">
                 contract address:  
                 <Text as="kbd" fontWeight="normal">
-                    {contractAddress}
+                <Clink  href={`https://polygonscan.com/address/${contractAddress}`} isExternal={true} >{contractAddress}<ExternalLinkIcon mx="2px" /></Clink>
                 </Text>
             </Text>
-            <Badge colorScheme="green" variant="outline">deployed-testnet</Badge>
+            <Badge colorScheme="green" variant="outline">deployed</Badge>
 
         </Box>
 
@@ -127,15 +127,15 @@ const Content: React.FC<IContentProps> = (props) => {
                     <ListItem>computer data (brett h.) 
                         <Box>
 
-                            <Link href="https://github.com/bretth18" isExternal>
+                            <Clink href="https://github.com/bretth18" isExternal>
                                 github <ExternalLinkIcon mx="2px" />
-                            </Link>
-                            <Link href="https://twitter.com/computrdata" isExternal>
+                            </Clink>
+                            <Clink href="https://twitter.com/computrdata" isExternal>
                                 twitter <ExternalLinkIcon mx="2px" />
-                            </Link>
-                            <Link href="https://discordapp.com/users/128005496182407168/" isExternal>
+                            </Clink>
+                            <Clink href="https://discordapp.com/users/128005496182407168/" isExternal>
                                 discord <ExternalLinkIcon mx="2px" />
-                            </Link>
+                            </Clink>
   
                         </Box>
                     </ListItem>
@@ -161,7 +161,7 @@ const Content: React.FC<IContentProps> = (props) => {
 };
 
 const Info: React.FunctionComponent<IProps> = (props) => (
-  <HStack spacing={[0, 10]} px={[5, 10, 10]} flexDirection={["column", "column", "column", "row"]}>
+  <HStack spacing={[0, 10]} px={[5, 10, 10]} pb={5} flexDirection={["column", "column", "column", "row"]}>
     <Content></Content>
   </HStack>
 );
