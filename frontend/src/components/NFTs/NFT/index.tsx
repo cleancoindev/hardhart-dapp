@@ -1,6 +1,6 @@
 
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { Flex, Stack, Text, Button, Image, VStack, Heading, useColorModeValue, Box, Divider } from '@chakra-ui/react';
 import fileType from 'file-type';
 import { BigNumber, ethers } from 'ethers';
@@ -12,6 +12,7 @@ import {
     urlSource,
 } from 'ipfs-http-client';
 import { borderColor } from 'polished';
+import { CurrentAddressContext } from '../../../hardhat/SymfoniContext';
 
 
 
@@ -39,6 +40,7 @@ const NFT: React.FunctionComponent<PbNFTModel> = (props) => {
     const [isVideo, setIsVideo] = useState<boolean>(false);
     const [metadata, setMetadata] = useState<metadataModel>();
     const [assetURL, setAssetURL] = useState("");
+    const currentAddress = useContext(CurrentAddressContext);
 
     const bgColor = useColorModeValue("black.500", "black.200");
     const textColor = useColorModeValue("white.500", "black.500");
@@ -135,10 +137,10 @@ const NFT: React.FunctionComponent<PbNFTModel> = (props) => {
 
 
                 <VStack p={2} width="100%" spacing={1} alignItems="flex-start" >
-                    <Box border="2px" borderColor={bgColor}>
+                    <Box border="2px" borderColor={bgColor} padding={2}>
 
                         <Text fontFamily="Helvetica" fontSize="md" fontWeight="bold" color={textColor}>
-                            <Text as="kbd" fontSize="xs">tokenID: </Text>{props?.id}
+                            <Text as="kbd" fontSize={["xx-small", "xs"]}>tokenID: </Text>{props?.id}
                         </Text>
 
                         <Divider />
@@ -152,7 +154,7 @@ const NFT: React.FunctionComponent<PbNFTModel> = (props) => {
                         </Text>
 
                         <Text fontFamily="Helvetica" fontSize="md" fontWeight="bold" color={textColor}>
-                            <Text as="kbd" fontSize="xs">creator: </Text>
+                            <Text as="kbd" fontSize="xs">creator: {currentAddress}</Text>
                         </Text>
 
 

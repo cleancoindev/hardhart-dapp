@@ -199,7 +199,7 @@ const OurLink = (props: any) => {
                 onClick={handleWeb3ProviderConnect(setProvider, setSigner, setCurrentAddress, setPbNFT, setERC721, setBread)}
                 href={"#"}
                 {...props}
-                fontSize={["4xs", "2xs", "xs","sm", "md"]}
+                fontSize={["xx-small", "xs","sm", "md"]}
                 px={2}
                 py={1}
                 {...{
@@ -239,6 +239,7 @@ const Links = () => (
             <OurLink href="/nfts">COLLECTION</OurLink>
             <OurLink href="/info">INFO</OurLink>
             <OurLink href="/token">TOKEN</OurLink>
+            <OurLink href="/dao">DAO</OurLink>
         </HStack>
     </Center>
 );

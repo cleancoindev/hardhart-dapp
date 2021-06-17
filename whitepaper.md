@@ -10,16 +10,17 @@ brett henderson (@bretth18 || @computerdata)
 
 The PolyBread organization is composed of three main components:
     *PolyBread DAO
-    *PolyBread Token
+    *PolyBread Token (BREAD)
     *PolyBread NFT (PbNFT)
 
+Working Titles: (Bread DAO, bröt DAO, PolyBread DAO)
 
 prototyping(unf - 5/26/21): PolyBread NFT (PbNFT)
 The PolyBread NFT (PbNFT) is an ERC721 contract on the Polygon/Matic blockchain. This "NFT" is minted by users of the PolyBread dApp and contains metadata for the ipfs pin to the artwork + artist data. 
 
 
 prototyping(unf - 5/26/21): PolyBread Token
-The PolyBread Token ("PYBD") is a ERC20 "token" contract on the Polygon/Matic blockchain. It serves as a governance token for the PolyBread DAO and offers other utility within the PolyBread dApp ecosystem, such as NFT airdrops to holders, and access to enhanced features within the dApp. Voting rights are granted to holders of the PYBD token, delegated by routine snapshots. There is a maximum total supply of 10,000 PYBD tokens minted when the contract is deployed on mainnet. 5% of the original supply will be distributed to a select few members of our internal community of artists. LP delegation and other tokenomics will be decided upon by the DAO.
+The PolyBread Token ("BREAD") is a ERC20 "token" contract on the Polygon/Matic blockchain. It serves as a governance token for the PolyBread DAO and offers other utility within the PolyBread dApp ecosystem, such as NFT airdrops to holders, and access to enhanced features within the dApp. Voting rights are granted to holders of the PYBD token, delegated by routine snapshots. There is a maximum total supply of 100,000 PYBD tokens minted when the contract is deployed on mainnet. 5% of the original supply will be distributed to a select few members of our internal community of artists. LP delegation and other tokenomics will be decided upon by the DAO.
 
 
 
