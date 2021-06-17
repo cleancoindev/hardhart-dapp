@@ -109,7 +109,11 @@ const NFT: React.FunctionComponent<PbNFTModel> = (props) => {
 
 
     return (
-        <Link href={`/nft/${props.id}`}>
+        <Link href={{
+            pathname: '/nft/[nftId]',
+            query: {nftId: props.id, nftUri: props[0]}
+            }}
+        >
             <VStack spacing={10} width="auto" boxShadow="0px opx 24px rgba(27, 39, 70, 0.1)" cursor="pointer" border="2px">
 
                 {isVideo ? (

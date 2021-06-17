@@ -1,9 +1,12 @@
-// import { BigNumber, ethers } from 'ethers';
-
+import { BigNumber, ethers } from 'ethers';
+import { GetStaticPaths, GetStaticProps } from 'next';
+import { useContext } from 'react';
 import { ViewNft } from '../../components/ViewNft';
-// import { SymfoniPbNFT } from '../../hardhat/SymfoniContext';
+import { useRouter } from 'next/router'
+import queryString from 'querystring';
+import { PbNFTContext } from '../../hardhat/SymfoniContext';
 
-// import PbNFTDeployment from '../../hardhat/deployments/chainstack/PbNFT.json';
+import PbNFTDeployment from '../../hardhat/deployments/matic/PbNFT.json';
 
 
 
@@ -18,9 +21,77 @@ import { PbNFTModel } from '../../components/NFTs/NFT';
 // const INFURA_SECRET = process.env.INFURA_SECRET;
 
 
-export default function NftPage({ nft, createdBy, ownedBy, id }: { nft: PbNFTModel; createdBy: string, ownedBy: string; id: string }) {
-    return <ViewNft ownedBy={ownedBy} nft={nft} id={id}></ViewNft>;
+export default function NftPage({ uri, id }: { nft: string;  id: string }) {
+    const router = useRouter();
+
+    const pid = router.query;
+    console.log('pid', pid);
+
+    return <ViewNft  uri={pid.nftUri} id={pid.nftId}></ViewNft>;
 }
+
+
+// export const getStaticPaths: GetStaticPaths = async () => {
+
+//     const PbNFT = useContext(PbNFTContext);
+
+//     if (PbNFT.instance) {
+//         const totalNFT = PbNFT.instance?.totalSupply();
+
+//         const index = (await totalNFT).toNumber();
+
+
+//         const ids = Array.from({length: index}, (_, i) => i + 1)
+
+//         const paths = ids.map((id) => ({
+//             params: { id: id},
+//         }));
+
+//         return { paths, fallback: 'blocking'};
+//     } else {
+
+//         // grab contract data
+//         const nft = PbNFT.factory?.attach(PbNFTDeployment.address);
+//         const index = await nft?.totalSupply();
+        
+
+//         const ids = Array.from({length: Number(index)}, (_, i) => i + 1)
+
+//         const paths = ids.map((id) => ({
+//             params: { id: id},
+//         }));
+
+//         return { paths, fallback: 'blocking'};
+
+
+//     }
+// }
+
+// export const getStaticProps: GetStaticProps = async (context) => {
+//     const router = useRouter();
+
+//     const {pid} = router.query;
+//     console.log('pid', pid);
+
+//     return {
+//         props: {
+//             pid,
+//         },
+//     }
+
+
+// }
+
+// const NftPage = (pid) => {
+
+
+//     return (<ViewNft pid={pid}></ViewNft>);
+// }
+
+
+
+
+
 
 
 // async function getInitialProps(context: NextPageContext) {
@@ -43,7 +114,6 @@ export default function NftPage({ nft, createdBy, ownedBy, id }: { nft: PbNFTMod
 //     //     factory: undefined,
 //     // };
 
-//     // const nftId = String(context.query.nftId);
 
 //     // // should grab the instance from quering the tokenByIndex based on our passed Id.
 //     // let nft = await PbNFT.instance?.tokenByIndex(nftId);

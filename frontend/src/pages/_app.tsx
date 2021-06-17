@@ -43,7 +43,7 @@ function MyApp({ Component, pageProps, router }: AppProps) {
 
   return (
     <ChakraProvider theme={breadTheme}>
-      <Symfoni autoInit={true}>
+      <Symfoni autoInit={true} showLoading={true}>
 
         <Layout>
           <ErrorBoundary key={router.asPath}>

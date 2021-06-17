@@ -17,14 +17,14 @@ import {
 import { PbNFTModel } from '../NFTs/NFT';
 import { CurrentAddressContext, ProviderContext, PbNFTContext } from '../../hardhat/SymfoniContext';
 import all from 'it-all';
-
+import { ParsedUrlQuery } from 'querystring';
+import { BigNumber, utils } from 'ethers';
 
 
 
 interface IProps {
-    id: string;
-    nft: PbNFTModel;
-    ownedBy: string;
+    id: any;
+    uri: string;
 }
 
 type metadataModel = {
@@ -37,7 +37,6 @@ type metadataModel = {
 
 const ViewNft: React.FunctionComponent<IProps> = (props) => {
 
-    const { nft, ownedBy, } = props;
     const { id } = props;
 
     const [isSmallMobileBreakpoint] = useMediaQuery(`(max-width: 430px)`);
@@ -49,12 +48,31 @@ const ViewNft: React.FunctionComponent<IProps> = (props) => {
     const [isVideo, setIsVideo] = useState<boolean>(false);
     const [metadata, setMetadata] = useState<metadataModel>();
     const [assetURL, setAssetURL] = useState("");
-
-    const _url = nft?.metadataURI;
-
-    console.log(props);
+    const [owner, setOwner] = useState("");
 
 
+
+    const getOwner = async (nftId: string) => {
+
+        if (!nftId) {
+
+            return;
+        }
+
+        else if (PbNFT.instance) {
+
+            // check ownerOf index converted to hex
+            const owner = await PbNFT.instance.ownerOf(nftId);
+            console.log('owner', owner)
+
+
+
+            setOwner(String(owner));
+
+
+        }
+    }
+  
 
     const loadMetadata = async (metaURL: string) => {
         // add gateway to resolve
@@ -116,34 +134,32 @@ const ViewNft: React.FunctionComponent<IProps> = (props) => {
 
     // check if ipfs file is video
     useEffect(() => {
-
-        // loadMetadata(_url);
+        loadMetadata(props.uri);
+        getOwner(props.id);
         // fetch();
-    }, [_url, isVideo]);
+    }, [props.uri, isVideo]);
 
 
 
-    const isRecipient = currentAddress == ownedBy;
 
-    if (nft) {
+    if (props) {
         return (
             <VStack
-                minHeight={"884px"}
+                minHeight={"auto"}
                 width={["auto", "auto", "auto", "920px"]}
                 mb={8}
                 border={"2px"}
             >
     
                 <HStack
-                    boxShadow="0px 0px 24px rgba(27, 39, 70, 0.1)"
-                    borderRadius="16px"
+                    borderRadius="0px"
                     pb={2}
-                    spacing={["0", "32px"]}
+                    spacing={["0", "auto"]}
                     flexDirection={["column", "row"]}
                     alignItems="flex-start"
                 >
     
-                    <Box cursor="pointer" alignSelf={isSmallMobileBreakpoint ? "center" : "inherit"}>
+                    <Box  p={10} cursor="pointer" alignSelf={isSmallMobileBreakpoint ? "center" : "inherit"}>
                         {isVideo ? (
                             <video
                             src={assetURL}
@@ -153,12 +169,13 @@ const ViewNft: React.FunctionComponent<IProps> = (props) => {
                             playsInline
                             height="auto"
                             width="400px"
-                            style={{ borderRadius: "16px" }}
+                            style={{ borderRadius: "0px" }}
                             />
                         ) : (
     
                             <Image
-                            borderRadius={"16px"}
+                            borderRadius={"0px"}
+                            border="2px"
                             height="auto"
                             width={["auto", "auto", "auto", "400px"]}
                             src={assetURL}
@@ -170,29 +187,60 @@ const ViewNft: React.FunctionComponent<IProps> = (props) => {
     
                     <VStack
                         height="100%"
-                        width={["auto", "auto", "auto", "520px"]}
+                        width={["auto", "auto", "auto", "auto"]}
                         alignItems="flex-start"
-                        p={4}
-                        spacing={"24px"}
+                        p={10}
+                        spacing={10}
                     >
-                        {/*  */}
-                        <HStack width="100%">
+                        {/* section */}
+                        <HStack width="auto%" border="2px" p={4}>
                             <Heading
                                 {...{
-                                fontFamily: "Roboto",
+                                fontFamily: "Helvetica",
                                 fontStyle: "normal",
                                 fontWeight: "bold",
-                                fontSize: "24px",
                                 lineHeight: "126.39%",
                                 }}
-                                color="#013A6D"
                                 mr="auto"
                             >
-                            {metadata?.name}
-                        </Heading>
+                                {metadata?.name}
+                            </Heading>
+                            <Text fontSize="x-small" as="kbd"> title</Text>
     
-                            </HStack>
-                        </VStack>
+                        </HStack>
+
+                        <HStack width="auto" border="2px" p={4}>
+                            <Heading
+                                {...{
+                                fontFamily: "Helvetica",
+                                fontStyle: "normal",
+                                }}
+                                fontSize={["x-small", "sm", "md"]}
+                                mr="auto"
+                            >
+                                {metadata?.description}
+                            </Heading>
+                            <Text fontSize="x-small" as="kbd"> desc</Text>
+                        </HStack>
+
+
+                        <HStack width="auto%" border="2px" p={4}>
+                            <Heading
+                                {...{
+                                fontFamily: "Helvetica",
+                                fontStyle: "normal",
+                                }}
+                                fontSize={["x-small", "sm", "md"]}
+                                mr="auto"
+                            >
+                                {owner}
+                            </Heading>
+                            <Text fontSize="x-small" as="kbd"> owner</Text>
+                        </HStack>
+
+
+
+                     </VStack>
                 </HStack>
     
             </VStack>

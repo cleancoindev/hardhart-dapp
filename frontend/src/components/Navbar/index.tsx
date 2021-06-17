@@ -86,10 +86,12 @@ const handleWeb3ProviderConnect = (
     setCurrentAddress: Function,
     setPbNFT: Function,
     setERC721: Function,
-    setBread: Function
+    setBread: Function,
+
     
 ) => async () => {
     const getWeb3ModalProvider = async (): Promise<any> => {
+
 
         const providerOptions: IProviderOptions = {
 
@@ -129,8 +131,9 @@ const handleWeb3ProviderConnect = (
 
     };
     
+    // const initiation = init('web3modal');
+    // await initiation;
 
-    
     const provider = await getWeb3ModalProvider();
     console.log('provider:', provider);
 
@@ -147,7 +150,7 @@ const handleWeb3ProviderConnect = (
 
     console.log("address", address);
 
-    setCurrentAddress(address);
+    setCurrentAddress(await address);
 
     const pbNFT = useContext(PbNFTContext);
     const erc721 = useContext(ERC721Context);
@@ -187,6 +190,7 @@ const OurLink = (props: any) => {
 
     const Router = useRouter();
     const isActive = Router.pathname == props.href;
+
 
 
     if (!currentAddress) {
@@ -259,7 +263,7 @@ const Navbar: React.FunctionComponent<IProps> = (props) => {
     const { networkName } = networkResolver();
     const { breadBalance, loading } = breadBalanceResolver();
 
-
+    const {  init, messages } = useContext(SymfoniContext);
 
     // Chakra color mode
     const { colorMode, toggleColorMode } = useColorMode();
