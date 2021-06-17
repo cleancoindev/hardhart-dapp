@@ -24,7 +24,7 @@ import { BigNumber, utils } from 'ethers';
 
 interface IProps {
     id: any;
-    uri: string;
+    uri: any;
 }
 
 type metadataModel = {

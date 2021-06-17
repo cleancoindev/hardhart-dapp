@@ -21,7 +21,7 @@ import { PbNFTModel } from '../../components/NFTs/NFT';
 // const INFURA_SECRET = process.env.INFURA_SECRET;
 
 
-export default function NftPage({ uri, id }: { nft: string;  id: string }) {
+export default function NftPage({ uri, id }: { uri: string;  id: string }) {
     const router = useRouter();
 
     const pid = router.query;
