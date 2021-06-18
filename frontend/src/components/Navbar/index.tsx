@@ -239,7 +239,7 @@ const Links = () => (
             <OurLink href="/nfts">COLLECTION</OurLink>
             <OurLink href="/info">INFO</OurLink>
             <OurLink href="/token">TOKEN</OurLink>
-            <OurLink href="/dao">DAO</OurLink>
+            {/* <OurLink href="/dao">DAO</OurLink> */}
         </HStack>
     </Center>
 );
@@ -427,7 +427,7 @@ const Navbar: React.FunctionComponent<IProps> = (props) => {
 
 
                                 <PopoverFooter as="kbd" fontSize="x-small">deployed on polygon/matic mainnet</PopoverFooter>
-                                <PopoverFooter as="kbd" fontSize="x-small" >version 0.0.3 pre-release alpha</PopoverFooter>
+                                <PopoverFooter as="kbd" fontSize="x-small" >version 0.0.4 pre-release alpha</PopoverFooter>
                                 <PopoverFooter as="kbd" fontSize="x-small" >
                                     <Link href='https://github.com/bretth18/hardhart-dapp'>
                                         <Icon as={DiGithubBadge} fontSize="xl"></Icon>

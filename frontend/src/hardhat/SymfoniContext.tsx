@@ -187,7 +187,8 @@ export const Symfoni: React.FC<SymfoniProps> = ({
         const web3Modal = new Web3Modal({
             // network: "mainnet",
             cacheProvider: false,
-            providerOptions, // required
+            providerOptions,
+            theme: "dark", // required
         });
         return await web3Modal.connect();
     };

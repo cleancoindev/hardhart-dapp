@@ -30,7 +30,7 @@ const Content: React.FC<IContentProps> = (props) => {
 
   return (
 
-    <VStack spacing={4} textAlign="left" width={["auto", "auto", "auto", "543px"]}>
+    <VStack spacing={4} textAlign="left" width={["auto", "auto", "auto", "543px"]} px={4}>
       <Heading
         as="kbd"
         fontSize={["4xl", "58px"]}
@@ -126,7 +126,7 @@ const Content: React.FC<IContentProps> = (props) => {
             </Box>
 
             <Divider />
-            <Badge colorScheme="yellow" variant="outline">not publicly available yet</Badge>
+            <Badge colorScheme="yellow" variant="outline">PRIVATE</Badge>
 
 
 

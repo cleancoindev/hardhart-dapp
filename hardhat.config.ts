@@ -11,6 +11,7 @@ import 'tsconfig-paths/register'; // adds support for typescript paths mappings
 import 'hardhat-abi-exporter';
 import 'hardhat-spdx-license-identifier';
 import 'hardhat-log-remover';
+import '@tenderly/hardhat-tenderly';
 
 import { HardhatUserConfig, task } from "hardhat/config";
 import * as chainstack from './chainstack.json';
@@ -117,9 +118,15 @@ const config: HardhatUserConfig = {
     clear: true,
     spacing: 2
   },
+
   spdxLicenseIdentifier: {
     overwrite: false,
     runOnCompile: true,
+  },
+
+  tenderly: {
+    project: "project",
+    username:"computerdata",
   },
 
 

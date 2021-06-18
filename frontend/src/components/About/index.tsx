@@ -11,7 +11,7 @@ const Content: React.FC<IContentProps> = (props) => {
   // const history = useHistory();
   return (
 
-    <VStack spacing={4} textAlign="left" width={["auto", "auto", "auto", "543px"]}>
+    <VStack spacing={4} textAlign="left" width={["auto", "auto", "auto", "543px"]} px={4}>
       <Heading
         as="h2"
         fontSize={["4xl", "58px"]}
