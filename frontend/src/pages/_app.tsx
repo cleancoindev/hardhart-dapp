@@ -5,7 +5,7 @@ import type { AppProps /*, app context */ } from 'next/app';
 
 // import '../../styles/globals.css'
 import { Layout } from '../components/Layout';
-import { Symfoni, SymfoniContext } from '../hardhat/SymfoniContext';
+import { Symfoni, SymfoniContext, Hardhat } from '../hardhat/SymfoniContext';
 
 import  breadTheme  from '../../styles/breadtheme';
 
@@ -43,7 +43,7 @@ function MyApp({ Component, pageProps, router }: AppProps) {
 
   return (
     <ChakraProvider theme={breadTheme}>
-      <Symfoni autoInit={true} showLoading={true}>
+      <Symfoni autoInit={true} showLoading={true} >
 
         <Layout>
           <ErrorBoundary key={router.asPath}>

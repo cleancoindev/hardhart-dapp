@@ -49,7 +49,7 @@
       ]
     },
     "/Users/bretthenderson/Developer/eth/hardhart-dapp/node_modules/hardhat/console.sol": {
-      "lastModificationDate": 1623095556181,
+      "lastModificationDate": 1623972418581,
       "contentHash": "cc4777addd464ea56fa35b1c45df0591",
       "sourceName": "hardhat/console.sol",
       "solcConfig": {
@@ -91,8 +91,8 @@
       ]
     },
     "/Users/bretthenderson/Developer/eth/hardhart-dapp/node_modules/@openzeppelin/contracts/token/ERC721/ERC721.sol": {
-      "lastModificationDate": 1623095560322,
-      "contentHash": "2d9804eb2b6f41ea0a65115e154d90eb",
+      "lastModificationDate": 1623972422586,
+      "contentHash": "93e2b559842f0b5ad0535f28de7ebd91",
       "sourceName": "@openzeppelin/contracts/token/ERC721/ERC721.sol",
       "solcConfig": {
         "version": "0.7.0",
@@ -138,15 +138,15 @@
         "../../utils/Strings.sol"
       ],
       "versionPragmas": [
-        ">=0.6.0 <0.8.0"
+        "^0.7.0"
       ],
       "artifacts": [
         "ERC721"
       ]
     },
     "/Users/bretthenderson/Developer/eth/hardhart-dapp/node_modules/@openzeppelin/contracts/utils/Counters.sol": {
-      "lastModificationDate": 1623095557690,
-      "contentHash": "304a56eb1322144704fb39f8c7e6d722",
+      "lastModificationDate": 1623972420035,
+      "contentHash": "ebd32d219072a0232add3f1bb610731f",
       "sourceName": "@openzeppelin/contracts/utils/Counters.sol",
       "solcConfig": {
         "version": "0.7.0",
@@ -182,15 +182,15 @@
         "../math/SafeMath.sol"
       ],
       "versionPragmas": [
-        ">=0.6.0 <0.8.0"
+        "^0.7.0"
       ],
       "artifacts": [
         "Counters"
       ]
     },
     "/Users/bretthenderson/Developer/eth/hardhart-dapp/node_modules/@openzeppelin/contracts/access/Ownable.sol": {
-      "lastModificationDate": 1623095557689,
-      "contentHash": "6748815a5b45c4aeeda56819f41190e0",
+      "lastModificationDate": 1623972420031,
+      "contentHash": "4f17c0de1f7da8f37ab37794d3ca89d4",
       "sourceName": "@openzeppelin/contracts/access/Ownable.sol",
       "solcConfig": {
         "version": "0.7.0",
@@ -226,14 +226,14 @@
         "../utils/Context.sol"
       ],
       "versionPragmas": [
-        ">=0.6.0 <0.8.0"
+        "^0.7.0"
       ],
       "artifacts": [
         "Ownable"
       ]
     },
     "/Users/bretthenderson/Developer/eth/hardhart-dapp/node_modules/@openzeppelin/contracts/utils/Context.sol": {
-      "lastModificationDate": 1623095557690,
+      "lastModificationDate": 1623972420034,
       "contentHash": "2adbd82f6d055a4751566d4671512b03",
       "sourceName": "@openzeppelin/contracts/utils/Context.sol",
       "solcConfig": {
@@ -275,8 +275,8 @@
       ]
     },
     "/Users/bretthenderson/Developer/eth/hardhart-dapp/node_modules/@openzeppelin/contracts/token/ERC721/IERC721.sol": {
-      "lastModificationDate": 1623095560322,
-      "contentHash": "e82621b83943f11c44988c60e83d6ebc",
+      "lastModificationDate": 1623972422589,
+      "contentHash": "1607fe9cc333c6de30f5098d45061a0b",
       "sourceName": "@openzeppelin/contracts/token/ERC721/IERC721.sol",
       "solcConfig": {
         "version": "0.7.0",
@@ -312,15 +312,15 @@
         "../../introspection/IERC165.sol"
       ],
       "versionPragmas": [
-        ">=0.6.2 <0.8.0"
+        "^0.7.0"
       ],
       "artifacts": [
         "IERC721"
       ]
     },
     "/Users/bretthenderson/Developer/eth/hardhart-dapp/node_modules/@openzeppelin/contracts/token/ERC721/IERC721Metadata.sol": {
-      "lastModificationDate": 1623095560322,
-      "contentHash": "370e7a48f316401b5063bcb604843e1b",
+      "lastModificationDate": 1623972422589,
+      "contentHash": "7fe751b35ebe8466b56415cce55a7074",
       "sourceName": "@openzeppelin/contracts/token/ERC721/IERC721Metadata.sol",
       "solcConfig": {
         "version": "0.7.0",
@@ -356,15 +356,15 @@
         "./IERC721.sol"
       ],
       "versionPragmas": [
-        ">=0.6.2 <0.8.0"
+        "^0.7.0"
       ],
       "artifacts": [
         "IERC721Metadata"
       ]
     },
     "/Users/bretthenderson/Developer/eth/hardhart-dapp/node_modules/@openzeppelin/contracts/token/ERC721/IERC721Enumerable.sol": {
-      "lastModificationDate": 1623095560322,
-      "contentHash": "eaebc3874248c26f6ea0b13b9a140a94",
+      "lastModificationDate": 1623972422590,
+      "contentHash": "889ec04fca4214581eef408fff230efa",
       "sourceName": "@openzeppelin/contracts/token/ERC721/IERC721Enumerable.sol",
       "solcConfig": {
         "version": "0.7.0",
@@ -400,15 +400,15 @@
         "./IERC721.sol"
       ],
       "versionPragmas": [
-        ">=0.6.2 <0.8.0"
+        "^0.7.0"
       ],
       "artifacts": [
         "IERC721Enumerable"
       ]
     },
     "/Users/bretthenderson/Developer/eth/hardhart-dapp/node_modules/@openzeppelin/contracts/token/ERC721/IERC721Receiver.sol": {
-      "lastModificationDate": 1623095560322,
-      "contentHash": "fad0b3f4424bdbb4b35467b29ea8d334",
+      "lastModificationDate": 1623972422589,
+      "contentHash": "b00bb215c82f73f87e6fed90b74f67d6",
       "sourceName": "@openzeppelin/contracts/token/ERC721/IERC721Receiver.sol",
       "solcConfig": {
         "version": "0.7.0",
@@ -442,15 +442,15 @@
       },
       "imports": [],
       "versionPragmas": [
-        ">=0.6.0 <0.8.0"
+        "^0.7.0"
       ],
       "artifacts": [
         "IERC721Receiver"
       ]
     },
     "/Users/bretthenderson/Developer/eth/hardhart-dapp/node_modules/@openzeppelin/contracts/introspection/ERC165.sol": {
-      "lastModificationDate": 1623095557691,
-      "contentHash": "08f854e2dd3c262845bba38c9b48e4e0",
+      "lastModificationDate": 1623972420032,
+      "contentHash": "674a2137d8125c497b9dc83b82235171",
       "sourceName": "@openzeppelin/contracts/introspection/ERC165.sol",
       "solcConfig": {
         "version": "0.7.0",
@@ -486,15 +486,15 @@
         "./IERC165.sol"
       ],
       "versionPragmas": [
-        ">=0.6.0 <0.8.0"
+        "^0.7.0"
       ],
       "artifacts": [
         "ERC165"
       ]
     },
     "/Users/bretthenderson/Developer/eth/hardhart-dapp/node_modules/@openzeppelin/contracts/math/SafeMath.sol": {
-      "lastModificationDate": 1623095557689,
-      "contentHash": "e03e12206057e809eb76c5f681170c32",
+      "lastModificationDate": 1623972420032,
+      "contentHash": "871a094d6b6b4c3714946e86329f2fa2",
       "sourceName": "@openzeppelin/contracts/math/SafeMath.sol",
       "solcConfig": {
         "version": "0.7.0",
@@ -528,15 +528,15 @@
       },
       "imports": [],
       "versionPragmas": [
-        ">=0.6.0 <0.8.0"
+        "^0.7.0"
       ],
       "artifacts": [
         "SafeMath"
       ]
     },
     "/Users/bretthenderson/Developer/eth/hardhart-dapp/node_modules/@openzeppelin/contracts/utils/Address.sol": {
-      "lastModificationDate": 1623095557690,
-      "contentHash": "7aa46886ff5abe7515496208a5e2ce5a",
+      "lastModificationDate": 1623972420034,
+      "contentHash": "fc7c67d7b17cde979a685143a26b2bc8",
       "sourceName": "@openzeppelin/contracts/utils/Address.sol",
       "solcConfig": {
         "version": "0.7.0",
@@ -570,15 +570,15 @@
       },
       "imports": [],
       "versionPragmas": [
-        ">=0.6.2 <0.8.0"
+        "^0.7.0"
       ],
       "artifacts": [
         "Address"
       ]
     },
     "/Users/bretthenderson/Developer/eth/hardhart-dapp/node_modules/@openzeppelin/contracts/utils/EnumerableSet.sol": {
-      "lastModificationDate": 1623095557691,
-      "contentHash": "db7b1afdb2c204e1e52100b79f0c847e",
+      "lastModificationDate": 1623972420035,
+      "contentHash": "67da1a55369b7665b43457144add6761",
       "sourceName": "@openzeppelin/contracts/utils/EnumerableSet.sol",
       "solcConfig": {
         "version": "0.7.0",
@@ -612,15 +612,15 @@
       },
       "imports": [],
       "versionPragmas": [
-        ">=0.6.0 <0.8.0"
+        "^0.7.0"
       ],
       "artifacts": [
         "EnumerableSet"
       ]
     },
     "/Users/bretthenderson/Developer/eth/hardhart-dapp/node_modules/@openzeppelin/contracts/utils/EnumerableMap.sol": {
-      "lastModificationDate": 1623095557690,
-      "contentHash": "b1bb8570824c668943149211d74d6c51",
+      "lastModificationDate": 1623972420035,
+      "contentHash": "d35f59d1f5a637f1c9d80319c401c779",
       "sourceName": "@openzeppelin/contracts/utils/EnumerableMap.sol",
       "solcConfig": {
         "version": "0.7.0",
@@ -654,15 +654,15 @@
       },
       "imports": [],
       "versionPragmas": [
-        ">=0.6.0 <0.8.0"
+        "^0.7.0"
       ],
       "artifacts": [
         "EnumerableMap"
       ]
     },
     "/Users/bretthenderson/Developer/eth/hardhart-dapp/node_modules/@openzeppelin/contracts/utils/Strings.sol": {
-      "lastModificationDate": 1623095557691,
-      "contentHash": "c86a31bacf868d392eda08a0eccc4735",
+      "lastModificationDate": 1623972420035,
+      "contentHash": "0a0b5402f31b9b60fdb741918c57247f",
       "sourceName": "@openzeppelin/contracts/utils/Strings.sol",
       "solcConfig": {
         "version": "0.7.0",
@@ -696,15 +696,15 @@
       },
       "imports": [],
       "versionPragmas": [
-        ">=0.6.0 <0.8.0"
+        "^0.7.0"
       ],
       "artifacts": [
         "Strings"
       ]
     },
     "/Users/bretthenderson/Developer/eth/hardhart-dapp/node_modules/@openzeppelin/contracts/introspection/IERC165.sol": {
-      "lastModificationDate": 1623095557692,
-      "contentHash": "0d62a8380952235f135dae91590f90a3",
+      "lastModificationDate": 1623972420032,
+      "contentHash": "253edeb099cfd6a3b0501d2620312e3e",
       "sourceName": "@openzeppelin/contracts/introspection/IERC165.sol",
       "solcConfig": {
         "version": "0.7.0",
@@ -738,7 +738,7 @@
       },
       "imports": [],
       "versionPragmas": [
-        ">=0.6.0 <0.8.0"
+        "^0.7.0"
       ],
       "artifacts": [
         "IERC165"
@@ -793,8 +793,8 @@
       ]
     },
     "/Users/bretthenderson/Developer/eth/hardhart-dapp/node_modules/@openzeppelin/contracts/token/ERC20/ERC20.sol": {
-      "lastModificationDate": 1623095560319,
-      "contentHash": "8065b340476f61365c076897199425f1",
+      "lastModificationDate": 1623972422583,
+      "contentHash": "52659a61e7fb46afdc3d0f00c3a87da6",
       "sourceName": "@openzeppelin/contracts/token/ERC20/ERC20.sol",
       "solcConfig": {
         "version": "0.7.0",
@@ -832,15 +832,15 @@
         "../../math/SafeMath.sol"
       ],
       "versionPragmas": [
-        ">=0.6.0 <0.8.0"
+        "^0.7.0"
       ],
       "artifacts": [
         "ERC20"
       ]
     },
     "/Users/bretthenderson/Developer/eth/hardhart-dapp/node_modules/@openzeppelin/contracts/token/ERC20/ERC20Burnable.sol": {
-      "lastModificationDate": 1623095560319,
-      "contentHash": "1603b7aab78c87467dde869fd19ec86b",
+      "lastModificationDate": 1623972422583,
+      "contentHash": "1f7a6465c50e33bb5edd4c01be41f50b",
       "sourceName": "@openzeppelin/contracts/token/ERC20/ERC20Burnable.sol",
       "solcConfig": {
         "version": "0.7.0",
@@ -877,15 +877,15 @@
         "./ERC20.sol"
       ],
       "versionPragmas": [
-        ">=0.6.0 <0.8.0"
+        "^0.7.0"
       ],
       "artifacts": [
         "ERC20Burnable"
       ]
     },
     "/Users/bretthenderson/Developer/eth/hardhart-dapp/node_modules/@openzeppelin/contracts/token/ERC20/ERC20Snapshot.sol": {
-      "lastModificationDate": 1623095560319,
-      "contentHash": "e18b83ebebe2ae229766f0b6bb0e9d28",
+      "lastModificationDate": 1623972422584,
+      "contentHash": "144bac56aa876647a3df42a06769c075",
       "sourceName": "@openzeppelin/contracts/token/ERC20/ERC20Snapshot.sol",
       "solcConfig": {
         "version": "0.7.0",
@@ -924,15 +924,15 @@
         "./ERC20.sol"
       ],
       "versionPragmas": [
-        ">=0.6.0 <0.8.0"
+        "^0.7.0"
       ],
       "artifacts": [
         "ERC20Snapshot"
       ]
     },
     "/Users/bretthenderson/Developer/eth/hardhart-dapp/node_modules/@openzeppelin/contracts/utils/Pausable.sol": {
-      "lastModificationDate": 1623095557691,
-      "contentHash": "6960b40911542e6004ab95031ef9c3b9",
+      "lastModificationDate": 1623972420035,
+      "contentHash": "76ded95f5a12004766ba82df351fe7de",
       "sourceName": "@openzeppelin/contracts/utils/Pausable.sol",
       "solcConfig": {
         "version": "0.7.0",
@@ -968,15 +968,15 @@
         "./Context.sol"
       ],
       "versionPragmas": [
-        ">=0.6.0 <0.8.0"
+        "^0.7.0"
       ],
       "artifacts": [
         "Pausable"
       ]
     },
     "/Users/bretthenderson/Developer/eth/hardhart-dapp/node_modules/@openzeppelin/contracts/token/ERC20/IERC20.sol": {
-      "lastModificationDate": 1623095560319,
-      "contentHash": "e0a41531d159d3a32f84b7a3ecf9fabb",
+      "lastModificationDate": 1623972422584,
+      "contentHash": "70ec621ea910798b6c590a0b402a5bb9",
       "sourceName": "@openzeppelin/contracts/token/ERC20/IERC20.sol",
       "solcConfig": {
         "version": "0.7.0",
@@ -1010,15 +1010,15 @@
       },
       "imports": [],
       "versionPragmas": [
-        ">=0.6.0 <0.8.0"
+        "^0.7.0"
       ],
       "artifacts": [
         "IERC20"
       ]
     },
     "/Users/bretthenderson/Developer/eth/hardhart-dapp/node_modules/@openzeppelin/contracts/utils/Arrays.sol": {
-      "lastModificationDate": 1623095557690,
-      "contentHash": "1dbebf76b7e090e7b226ed3fcc29058b",
+      "lastModificationDate": 1623972420034,
+      "contentHash": "b32b6362763392a7a9f6edada92ef6cd",
       "sourceName": "@openzeppelin/contracts/utils/Arrays.sol",
       "solcConfig": {
         "version": "0.7.0",
@@ -1054,15 +1054,15 @@
         "../math/Math.sol"
       ],
       "versionPragmas": [
-        ">=0.6.0 <0.8.0"
+        "^0.7.0"
       ],
       "artifacts": [
         "Arrays"
       ]
     },
     "/Users/bretthenderson/Developer/eth/hardhart-dapp/node_modules/@openzeppelin/contracts/math/Math.sol": {
-      "lastModificationDate": 1623095557689,
-      "contentHash": "e5c844515b04deabacef7eb872abc384",
+      "lastModificationDate": 1623972420032,
+      "contentHash": "1b2b41cf411fe29db7d5774de77e9d6d",
       "sourceName": "@openzeppelin/contracts/math/Math.sol",
       "solcConfig": {
         "version": "0.7.0",
@@ -1096,7 +1096,7 @@
       },
       "imports": [],
       "versionPragmas": [
-        ">=0.6.0 <0.8.0"
+        "^0.7.0"
       ],
       "artifacts": [
         "Math"

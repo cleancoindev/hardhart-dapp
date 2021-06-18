@@ -772,6 +772,13 @@
   dependencies:
     "@types/node" "*"
 
+"@types/chai-as-promised@^7.1.4":
+  version "7.1.4"
+  resolved "https://registry.yarnpkg.com/@types/chai-as-promised/-/chai-as-promised-7.1.4.tgz#caf64e76fb056b8c8ced4b761ed499272b737601"
+  integrity sha512-1y3L1cHePcIm5vXkh1DSGf/zQq5n5xDKG1fpCvf18+uOkpce0Z1ozNFPkyWsVswK7ntN1sZBw3oU6gmN+pDUcA==
+  dependencies:
+    "@types/chai" "*"
+
 "@types/chai@*", "@types/chai@^4.2.18":
   version "4.2.18"
   resolved "https://registry.npmjs.org/@types/chai/-/chai-4.2.18.tgz"
@@ -3990,6 +3997,11 @@ hardhat-deploy@^0.7.7:
     match-all "^1.2.6"
     murmur-128 "^0.2.1"
     qs "^6.9.4"
+
+hardhat-log-remover@^2.0.2:
+  version "2.0.2"
+  resolved "https://registry.yarnpkg.com/hardhat-log-remover/-/hardhat-log-remover-2.0.2.tgz#6014fe2c515ced1e0eaa7a4d854e37695aaac61a"
+  integrity sha512-TvEWOisQmZUZ7Mlb7s4XYS/MxgZzjFJSjDI8v3uTcrD6aaXy1QtomW6D6WNsISEWtwwRlSntOGpHQwFjrz2MCw==
 
 hardhat-spdx-license-identifier@^2.0.3:
   version "2.0.3"

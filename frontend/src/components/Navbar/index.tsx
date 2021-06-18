@@ -48,7 +48,7 @@ import { nameResolver } from '../../lib/nameresolver';
 import { networkResolver } from '../../lib/networkresolver';
 import { breadBalanceResolver } from '../../lib/breadbalanceresolver';
 import { truncateHash } from "../../lib/truncatehash";
-
+import { blockResolver } from "../../lib/blockresolver";
 
 const network = "maticmum";
 const CS_USERNAME = process.env.CS_USERNAME;
@@ -269,6 +269,12 @@ const Navbar: React.FunctionComponent<IProps> = (props) => {
     // Chakra color mode
     const { colorMode, toggleColorMode } = useColorMode();
 
+
+    const [show, setShow] = useState(false);
+    const handleMenuToggle = () => setShow(!show);
+
+    const { blockNumber } = blockResolver();
+
     
 
  
@@ -302,11 +308,24 @@ const Navbar: React.FunctionComponent<IProps> = (props) => {
 
 
 
+
+
     const bgColor = useColorModeValue("black.500", "black.200");
     const textColor = useColorModeValue("white.500", "black.500");
 
     return (
-        <Flex width="100%" px={[2,10]} py={4} borderColor={bgColor} border="2px" as="nav">
+        <Flex 
+            as="nav"
+            justify="space-between" 
+            wrap="wrap"
+            padding="1.5rem"
+            width="100%" 
+            // px={[2,10]} 
+            // py={4} 
+            borderColor={bgColor} 
+            border="2px" 
+            
+        >
 
             <Box>
                 <Logo></Logo>
@@ -397,7 +416,14 @@ const Navbar: React.FunctionComponent<IProps> = (props) => {
                                         <Text as="kbd" fontSize="sm">network-name: {networkName}</Text>
                                     </Box>
 
+                                    <Box>
+                                    <Text as="kbd" fontSize="sm">block:</Text>   <Badge variant="outline" colorScheme="green">{blockNumber}</Badge>
+                                    </Box>
+
                                 </PopoverBody>
+
+                                
+     
 
 
                                 <PopoverFooter as="kbd" fontSize="x-small">deployed on polygon/matic mainnet</PopoverFooter>

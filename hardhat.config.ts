@@ -10,6 +10,7 @@ import "typechain-target-ethers-v5";
 import 'tsconfig-paths/register'; // adds support for typescript paths mappings
 import 'hardhat-abi-exporter';
 import 'hardhat-spdx-license-identifier';
+import 'hardhat-log-remover';
 
 import { HardhatUserConfig, task } from "hardhat/config";
 import * as chainstack from './chainstack.json';
@@ -39,11 +40,12 @@ const config: HardhatUserConfig = {
   defaultNetwork: "hardhat",
 
   "react": {
-    "providerPriority": ["web3modal", "hardhat"],
-    "providerOptions": {
-      "walletconnect": {
-        "options": {
-          "infuraId": "c229331f1d044c8f95e03f54b0ea2f26",
+    providerPriority: ["web3modal", "hardhat"],
+    fallbackProvider: "web3modal",
+    providerOptions: {
+      walletconnect: {
+        options: {
+          infuraId: "c229331f1d044c8f95e03f54b0ea2f26",
 
         },
       },

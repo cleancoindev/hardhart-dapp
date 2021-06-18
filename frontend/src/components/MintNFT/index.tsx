@@ -139,19 +139,7 @@ export const Submitted: React.FC<ISubmittedProps> = (props) => {
                             your work here is greatly appreciated.
                         </Text>
 
-                        <Text
-                            {...{
-                                fontFamily: "Helvetica",
-                                fontStyle: "normal",
-                                fontWeight: "bold",
-                                fontSize: "18px",
-                                width: "400px",
-                                textAlign: "center",
-                                color: textColor,
-                            }}
-                            >
-                                Share the image and URL 
-                        </Text>
+ 
                 </VStack>
 
 
